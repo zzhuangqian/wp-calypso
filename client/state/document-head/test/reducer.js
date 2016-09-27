@@ -12,9 +12,11 @@ import {
 	DOCUMENT_HEAD_META_ADD,
 	DOCUMENT_HEAD_TITLE_SET,
 	DOCUMENT_HEAD_UNREAD_COUNT_SET,
+	ROUTE_SET
 } from 'state/action-types';
 
 import {
+	DEFAULT_META_STATE,
 	link,
 	meta,
 	title,
@@ -34,6 +36,13 @@ describe( 'reducer', () => {
 
 			expect( newState ).to.equal( 'new title' );
 		} );
+
+		it( 'should return initial state on route set action', () => {
+			const original = 'new title';
+			const state = title( original, { type: ROUTE_SET } );
+
+			expect( state ).to.equal( '' );
+		} );
 	} );
 
 	describe( '#unreadCount()', () => {
@@ -48,13 +57,20 @@ describe( 'reducer', () => {
 
 			expect( newState ).to.equal( 123 );
 		} );
+
+		it( 'should return initial state on route set action', () => {
+			const original = 123;
+			const state = unreadCount( original, { type: ROUTE_SET } );
+
+			expect( state ).to.equal( 0 );
+		} );
 	} );
 
 	describe( '#meta()', () => {
 		it( 'should default to "og:site_name" set to "WordPress.com" array', () => {
 			const state = meta( undefined, {} );
 
-			expect( state ).to.eql( [ { property: 'og:site_name', content: 'WordPress.com' } ] );
+			expect( state ).to.eql( DEFAULT_META_STATE );
 		} );
 
 		it( 'should add a new meta tag', () => {
@@ -73,6 +89,13 @@ describe( 'reducer', () => {
 			];
 
 			expect( newState ).to.eql( expectedState );
+		} );
+
+		it( 'should return initial state on route set action', () => {
+			const original = deepFreeze( [ { content: 'some content', type: 'some type' } ] );
+			const state = meta( original, { type: ROUTE_SET } );
+
+			expect( state ).to.eql( DEFAULT_META_STATE );
 		} );
 	} );
 
@@ -99,6 +122,13 @@ describe( 'reducer', () => {
 			];
 
 			expect( newState ).to.eql( expectedState );
+		} );
+
+		it( 'should return initial state on route set action', () => {
+			const original = deepFreeze( [ { rel: 'some-rel', href: 'https://wordpress.org' } ] );
+			const state = link( original, { type: ROUTE_SET } );
+
+			expect( state ).to.eql( [] );
 		} );
 	} );
 } );
