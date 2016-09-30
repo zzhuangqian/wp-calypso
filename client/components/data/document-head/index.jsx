@@ -5,8 +5,7 @@
  */
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import each from 'lodash/each';
-import isEqual from 'lodash/isEqual';
+import { each, isEqual, debounce } from 'lodash';
 
 /**
  * Internal dependencies.
@@ -44,8 +43,7 @@ class DocumentHead extends Component {
 	}
 
 	componentDidMount() {
-		const { formattedTitle } = this.props;
-		document.title = formattedTitle;
+		this.setFormattedTitle( this.props.formattedTitle );
 	}
 
 	componentWillReceiveProps( nextProps ) {
@@ -70,9 +68,13 @@ class DocumentHead extends Component {
 		}
 
 		if ( nextProps.formattedTitle !== this.props.formattedTitle ) {
-			document.title = nextProps.formattedTitle;
+			this.setFormattedTitle( nextProps.formattedTitle );
 		}
 	}
+
+	setFormattedTitle = debounce( ( title ) => {
+		document.title = title;
+	} )
 
 	render() {
 		return null;
