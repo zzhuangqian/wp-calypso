@@ -72,6 +72,10 @@ class DocumentHead extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		this.setFormattedTitle.cancel();
+	}
+
 	setFormattedTitle = debounce( ( title ) => {
 		document.title = title;
 	} )
