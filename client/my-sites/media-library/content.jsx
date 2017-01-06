@@ -37,7 +37,8 @@ const MediaLibraryContent = React.createClass( {
 		scrollable: React.PropTypes.bool,
 		onAddMedia: React.PropTypes.func,
 		onMediaScaleChange: React.PropTypes.func,
-		onEditItem: React.PropTypes.func
+		onEditItem: React.PropTypes.func,
+		postId: React.PropTypes.number
 	},
 
 	getDefaultProps: function() {
@@ -166,7 +167,11 @@ const MediaLibraryContent = React.createClass( {
 		}
 
 		return (
-			<MediaListData siteId={ this.props.site.ID } filter={ this.props.filter } search={ this.props.search }>
+			<MediaListData
+				siteId={ this.props.site.ID }
+				postId={ this.props.postId }
+				filter={ this.props.filter }
+				search={ this.props.search }>
 				<MediaLibrarySelectedData siteId={ this.props.site.ID }>
 					<MediaLibraryList
 						key={ 'list-' + ( [ this.props.site.ID, this.props.search, this.props.filter ].join() ) }

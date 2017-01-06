@@ -5,6 +5,8 @@ var React = require( 'react' ),
 	includes = require( 'lodash/includes' ),
 	noop = require( 'lodash/noop' );
 
+import { pull } from 'lodash';
+
 /**
  * Internal dependencies
  */
@@ -24,7 +26,8 @@ module.exports = React.createClass( {
 		enabledFilters: React.PropTypes.arrayOf( React.PropTypes.string ),
 		search: React.PropTypes.string,
 		onFilterChange: React.PropTypes.func,
-		onSearch: React.PropTypes.func
+		onSearch: React.PropTypes.func,
+		post: React.PropTypes.bool
 	},
 
 	getDefaultProps: function() {
@@ -40,6 +43,9 @@ module.exports = React.createClass( {
 		var placeholderText;
 
 		switch ( this.props.filter ) {
+			case 'this-post':
+				placeholderText = this.translate( 'Search media uploaded to this post…', { textOnly: true } );
+				break;
 			case 'images':
 				placeholderText = this.translate( 'Search images…', { textOnly: true } );
 				break;
@@ -64,6 +70,9 @@ module.exports = React.createClass( {
 		var label;
 
 		switch ( filter ) {
+			case 'this-post':
+				label = this.translate( 'This Post', { comment: 'Filter label for media list', textOnly: true } );
+				break;
 			case 'images':
 				label = this.translate( 'Images', { comment: 'Filter label for media list', textOnly: true } );
 				break;
@@ -89,7 +98,11 @@ module.exports = React.createClass( {
 	},
 
 	renderTabItems: function() {
-		const tabs = [ '', 'images', 'documents', 'videos', 'audio' ];
+		const tabs = [ '', 'this-post', 'images', 'documents', 'videos', 'audio' ];
+
+		if ( ! this.props.post ) {
+			pull( tabs, 'this-post' );
+		}
 
 		return tabs.map( function( filter ) {
 			return (
