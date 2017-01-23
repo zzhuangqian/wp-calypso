@@ -13,6 +13,7 @@ import NavItem from 'components/section-nav/item';
 import FollowersCount from 'blocks/followers-count';
 import SegmentedControl from 'components/segmented-control';
 import QueryJetpackPlugins from 'components/data/query-jetpack-plugins';
+import { getSelectedSiteSlug } from 'state/ui/selectors';
 import config from 'config';
 
 const StatsNavigation = ( props ) => {
@@ -23,7 +24,8 @@ const StatsNavigation = ( props ) => {
 		day: translate( 'Days' ),
 		week: translate( 'Weeks' ),
 		month: translate( 'Months' ),
-		year: translate( 'Years' )
+		year: translate( 'Years' ),
+		activity: translate( 'Activity' )
 	};
 	let statsControl;
 
@@ -48,6 +50,11 @@ const StatsNavigation = ( props ) => {
 			);
 		}
 	}
+	const ActivityTab = config.isEnabled( 'jetpack/activity-log' )
+		? <NavItem path={ '/stats/activity' + siteFragment } selected={ section === 'activity' }>
+			{ sectionTitles.activity }
+		</NavItem>
+		: null;
 
 	return (
 		<SectionNav selectedText={ sectionTitles[ section ] }>
@@ -68,6 +75,7 @@ const StatsNavigation = ( props ) => {
 				<NavItem path={ '/stats/year' + siteFragment } selected={ section === 'year' }>
 					{ sectionTitles.year }
 				</NavItem>
+				{ ActivityTab }
 			</NavTabs>
 			{ statsControl }
 			<FollowersCount />
