@@ -71,7 +71,6 @@ import EditorHtmlToolbar from 'post-editor/editor-html-toolbar';
  */
 const user = require( 'lib/user' )(),
 	i18n = require( './i18n' ),
-	viewport = require( 'lib/viewport' ),
 	config = require( 'config' );
 import { decodeEntities, wpautop, removep } from 'lib/formatting';
 
@@ -216,10 +215,7 @@ module.exports = React.createClass( {
 
 			this.bindEditorEvents();
 			editor.on( 'SetTextAreaContent', ( event ) => this.setTextAreaContent( event.content ) );
-
-			if ( ! viewport.isMobile() ) {
-				editor.once( 'PostRender', this.toggleEditor.bind( this, { autofocus: ! this.props.isNew } ) );
-			}
+			editor.once( 'PostRender', this.toggleEditor.bind( this, { autofocus: ! this.props.isNew } ) );
 		}.bind( this );
 
 		this.localize();
