@@ -24,15 +24,17 @@ const StandardPost = ( { post, children, isDiscover } )=> {
 
 	return (
 		<div className="reader-post-card__post" >
-			{ featuredAsset }
+			<AutoDirection>
+				<h1 className="reader-post-card__title">
+					<a className="reader-post-card__title-link" href={ post.URL }>{ post.title }</a>
+				</h1>
+			</AutoDirection>
 			<div className="reader-post-card__post-details">
-				<AutoDirection>
-					<h1 className="reader-post-card__title">
-						<a className="reader-post-card__title-link" href={ post.URL }>{ post.title }</a>
-					</h1>
-				</AutoDirection>
-				<ReaderPostCardExcerpt post={ post } isDiscover={ isDiscover } />
-				{ children }
+				{ featuredAsset }
+				<div className="reader-post-card__post-text">
+					<ReaderPostCardExcerpt post={ post } isDiscover={ isDiscover } />
+					{ children }
+				</div>
 			</div>
 		</div> );
 };
