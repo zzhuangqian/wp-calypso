@@ -169,7 +169,8 @@ const ManagePurchase = React.createClass( {
 					args: {
 						purchaseName: getName( purchase ),
 						expiry: this.moment( purchase.expiryMoment ).fromNow()
-					}
+					},
+					comment: '%(expiry)s will be a localized phrase like "in 8 months"',
 				}
 			);
 		}
@@ -182,7 +183,8 @@ const ManagePurchase = React.createClass( {
 					args: {
 						purchaseName: getName( purchase ),
 						expiry: daysToExpiry
-					}
+					},
+					comment: '%(expiry)s will be a plain number, like 25',
 				}
 			);
 		}
@@ -192,7 +194,8 @@ const ManagePurchase = React.createClass( {
 				args: {
 					purchaseName: getName( purchase ),
 					expiry: this.moment( purchase.expiryMoment ).fromNow()
-				}
+				},
+				comment: '%(expiry)s will be a localized phrase like "in a month"',
 			}
 		);
 	},
@@ -259,7 +262,8 @@ const ManagePurchase = React.createClass( {
 									a: canEditPaymentDetails( purchase )
 										? <a href={ getEditCardDetailsPath( selectedSite, purchase ) } />
 										: <span />
-								}
+								},
+								comment: '%(cardExpiry)s will be a localized date like "September 2018"',
 							}
 						)
 					}
@@ -366,6 +370,7 @@ const ManagePurchase = React.createClass( {
 					args: {
 						cardExpiry: purchase.payment.expiryMoment.format( 'MMMM YYYY' )
 					},
+					comment: '%(cardExpiry)s will be a localized date like "September 2018"',
 				} );
 			}
 
