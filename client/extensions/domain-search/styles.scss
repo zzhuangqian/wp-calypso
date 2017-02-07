@@ -1,8 +1,22 @@
 .background {
+	max-width: 960px;
+	margin: 0 auto;
+	min-height: 100vh;
+}
+
+.background::before {
 	background-image: url( '/calypso/images/domain-search-background.jpg' );
 	background-size: cover;
+	content: '';
 	margin: -24px;
+	opacity: .1;
 	padding: 24px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	z-index: -1;
 }
 
 .title {
@@ -14,9 +28,62 @@
 .tagline {
 	color: #6A7B85;
 	font-size: 18px;
+	margin-bottom: 1rem;
 }
 
 .searchInput {
-	background: rgba(135,166,188, .5);
+	background: rgba(135,166,188, .2);
 	padding: 10px;
+}
+
+.ideas {
+	color: #3D596D;
+	font-size: 14px;
+	padding-top: 1rem;
+}
+
+.suggestion {
+	background: #fff;
+	border: 1px solid rgba(135,166,188, .5);
+	border-radius: 5px;
+	color: #3D596D;
+	padding: 3px 5px;
+}
+
+.result {
+	clear: both;
+	color: #87A6BC;
+	font-size: 16px;
+}
+
+.see-more {
+	background: rgba( 135, 166, 188, .2 );
+	box-shadow: 0 0 0 1px rgba(200, 215, 225, 0.5), 0 1px 2px #e9eff3;
+	color: #2E4453;
+	font-size: 14px;
+	line-height: 40px;
+	text-align: center;
+}
+
+%tag {
+	border-radius: 3px;
+	display: inline-block;
+	font-size: 12px;
+	line-height: 2;
+	margin-left: 10px;
+	padding: 0 5px;
+}
+
+.recommended {
+	@extend %tag;
+
+	background: #4ab866;
+	color: #fff;
+}
+
+.best-alternative {
+	@extend %tag;
+
+	background: #E9EFF3;
+	color: #3D596D;
 }

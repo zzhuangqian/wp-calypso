@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import React, { Component } from 'react';
@@ -64,7 +65,7 @@ class Suggestion extends Component {
 
 	render() {
 		return (
-			<span><a style={ { borderRadius: '5px' } } onClick={ this.selectSuggestion }>{ this.props.domainName }</a>, </span>
+			<span><a className={ style.suggestion } onClick={ this.selectSuggestion }>{ this.props.domainName }</a> </span>
 		);
 	}
 }
@@ -149,46 +150,51 @@ class DomanSearch extends Component {
 	}
 
 	getResults( searchQuery, tld ) {
-		const styles = { width: '80px' };
-
 		if ( this.state.searchResults[ searchQuery ] ) {
 			if ( this.state.searchResults[ searchQuery ][ tld ] ) {
 				const details = this.state.searchResults[ searchQuery ][ tld ];
 				return (
 					<div>
-						<span style={ { fontSize: '1.2rem', paddingRight: '1em' } }>{ details[ 2 ] }/year</span>
-						<Button primary style={ styles }>Buy</Button>
+						<span style={ { fontSize: '16px' } }>{ details[ 2 ] }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
 					</div>
 				);
 			}
 
-			return <Button disabled style={ styles }>Taken</Button>;
+			return <div>Taken</div>;
 		}
 
-		return <Button disabled style={ styles }>&nbsp;</Button>;
+		return null;
 	}
 
 	getTLD( tld, index ) {
-		const styles = { clear: 'both', lineHeight: '40px', fontSize: '24px', padding: '10px' };
-		let color = '#000';
+		const styles = {};
+		let color = '#2E4453',
+			recommended,
+			href;
 		if ( ! this.state.searchResults[ this.state.searchQuery ] ) {
 			styles.animation = 'loading-fade 1.6s ease-in-out infinite';
-			color = '#aaa';
+			color = '#87A6BC';
 		} else if ( ! this.isDomainAvailable( this.state.searchQuery, tld ) ) {
-			color = '#caa';
+			color = '#87A6BC';
 		} else if ( this.state.searchResults[ this.state.searchQuery ][ tld ] &&
 			this.state.searchResults[ this.state.searchQuery ][ tld ].bestMatch ) {
-			styles.backgroundColor = '#4ab866';
+			recommended = ( <span className={ style.recommended }>Recommended</span> );
+			href = '/start/domain-first?new=' + this.state.searchQuery + '.' + tld;
+		} else {
+			href = '/start/domain-first?new=' + this.state.searchQuery + '.' + tld;
 		}
 
 		styles.color = color;
+		const className = classnames( style.result, 'is-compact' );
+
 		return (
-			<div key={ index } style={ styles }>
+			<Card key={ index } className={ className } style={ styles } href={ href }>
 				{ this.state.searchQuery + '.' + tld }
+				{ recommended }
 				<div style={ { 'float': 'right' } }>
 					{ this.getResults( this.state.searchQuery, tld ) }
 				</div>
-			</div>
+			</Card>
 		);
 	}
 
@@ -253,46 +259,51 @@ class DomanSearch extends Component {
 				);
 			} );
 			return (
-				<div style={ { paddingTop: '5px' } }>
+				<div className={ style.ideas }>
 					More ideas: { ideas }
 				</div>
 			);
 		}
 
-		return (
-			<div>
-				&nbsp;
-			</div>
-		);
+		return null;
 	}
 
 	getSuggestions() {
-		const styles = { clear: 'both', color: '#000', lineHeight: '40px', fontSize: '24px', padding: '10px' };
-
 		if ( ! this.state.suggestions[ this.state.mostRecentSearchQuery ] ) {
 			return null;
 		}
 
+		const className = classnames( style.result, 'is-compact' );
 		const suggestions = this.state.suggestions[ this.state.mostRecentSearchQuery ].map( ( suggestion, index ) => {
+			const href = '/start/domain-first?new=' + suggestion.domain_name;
+			let bestAlternative;
+			if ( index === 0 ) {
+				bestAlternative = ( <span className={ style.bestAlternative }>Best Alternative</span> );
+			}
 			return (
-				<div key={ index } style={ styles }>
-					{ suggestion.domain_name }
+				<Card key={ index } className={ className } href={ href } style={ { color: '#2E4453' } }>
+					{ suggestion.domain_name } { bestAlternative }
 					<div style={ { 'float': 'right' } }>
 						<div>
-							<span style={ { fontSize: '1.2rem', paddingRight: '1em' } }>{ suggestion.cost }/year</span>
-							<Button primary style={ { width: '80px' } }>Buy</Button>
+							<span style={ { fontSize: '16px' } }>{ suggestion.cost }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
 						</div>
 					</div>
-				</div>
+				</Card>
 			);
 		} );
 
 		return (
 			<div>
-				<h2 style={ { marginTop: '2em', fontSize: '2rem', textAlign: 'center' } }>Alternative suggestions</h2>
 				{ suggestions }
+				<Card className="is-compact" style={ { textAlign: 'center' } }>
+					<a href="#" onClick={ this.showMoreSuggestions }>Show more alternative suggestions</a>
+				</Card>
 			</div>
 		);
+	}
+
+	showMoreSuggestions( event ) {
+		event.preventDefault();
 	}
 
 	loadMore = () => {
@@ -316,24 +327,22 @@ class DomanSearch extends Component {
 					<div>{ this.ideas() }</div>
 				</div>
 
-				<Card>
-					<div>
-						{ this.state.searchQuery && toptlds.map( ( tld, index ) => ( this.getTLD( tld, index ) ) ) }
-						{ this.state.searchQuery && prefixes.map( ( prefix, index ) => ( this.getPrefix( prefix, index ) ) ) }
-						{ this.state.searchQuery && sufixes.map( ( sufix, index ) => ( this.getSufix( sufix, index ) ) ) }
-						{
-							this.state.searchQuery &&
-							! this.state.loadMore &&
-							( <div style={ { textAlign: 'center' } }><a onClick={ this.loadMore }>See more</a></div> )
-						}
-						{
-							this.state.loadMore &&
-							this.state.searchQuery && othertlds.map( ( tld, index ) => ( this.getTLD( tld, index ) ) )
-						}
+				<div>
+					{ this.state.searchQuery && toptlds.map( ( tld, index ) => ( this.getTLD( tld, index ) ) ) }
+					{ this.state.searchQuery && prefixes.map( ( prefix, index ) => ( this.getPrefix( prefix, index ) ) ) }
+					{ this.state.searchQuery && sufixes.map( ( sufix, index ) => ( this.getSufix( sufix, index ) ) ) }
+					{
+						this.state.searchQuery &&
+						! this.state.loadMore &&
+						( <div className={ style.seeMore }>Looking for a specific domain? <a onClick={ this.loadMore }>Show more exact matches</a></div> )
+					}
+					{
+						this.state.loadMore &&
+						this.state.searchQuery && othertlds.map( ( tld, index ) => ( this.getTLD( tld, index ) ) )
+					}
 
-						{ this.getSuggestions() }
-					</div>
-				</Card>
+					{ this.getSuggestions() }
+				</div>
 			</div>
 		);
 	}
