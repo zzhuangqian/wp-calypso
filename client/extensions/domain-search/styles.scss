@@ -1,39 +1,66 @@
 .background {
 	max-width: 960px;
 	margin: 0 auto;
-	min-height: 100vh;
-}
+	min-height: calc( 100vh - 95px ); // 95px = top+bottom padding on desktop
+	padding-top: calc( 50vh/2 );
+	transition: padding 0.3s;
 
-.background::before {
-	background-image: url( '/calypso/images/domain-search-background.jpg' );
-	background-size: cover;
-	content: '';
-	margin: -24px;
-	opacity: .1;
-	padding: 24px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	top: 0;
-	z-index: -1;
+	&::before {
+		background-image: url( '/calypso/images/domain-search-background.jpg' );
+		background-size: cover;
+		content: '';
+		margin: -24px;
+		opacity: 1;
+		padding: 24px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+		transition: opacity 0.3s;
+		z-index: -1;
+	}
 }
 
 .title {
 	color: #2E4453;
 	font-size: 36px;
 	font-weight: 300;
+	transform-origin: left bottom;
+	transition: transform 0.2s;
 }
 
 .tagline {
 	color: #6A7B85;
 	font-size: 18px;
 	margin-bottom: 1rem;
+	transform-origin: left top;
+	transition: transform 0.2s;
 }
 
 .searchInput {
 	background: rgba(135,166,188, .2);
 	padding: 10px;
+
+	input[type="search"] {
+		padding: 12px 20px;
+	}
+}
+
+.with-query {
+	padding-top: 0;
+
+	&::before {
+		opacity: 0.1;
+	}
+
+	.title {
+		transform: scale( 0.8 );
+	}
+
+	.tagline {
+		transform: scale( 0.9 );
+	}
 }
 
 .ideas {

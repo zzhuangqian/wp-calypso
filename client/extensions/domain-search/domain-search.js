@@ -311,8 +311,10 @@ class DomanSearch extends Component {
 	}
 
 	render() {
+		const backgroundClassName = this.state.searchQuery !== '' ? classnames( style.background, style.withQuery ) : classnames( style.background );
+
 		return (
-			<div className={ style.background }>
+			<div className={ backgroundClassName }>
 				<div className={ style.title }>Your next big idea starts here</div>
 				<div className={ style.tagline }>Find the domain that defines you</div>
 				<div className={ style.searchInput }>
