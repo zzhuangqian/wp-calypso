@@ -155,12 +155,15 @@ class DomanSearch extends Component {
 				const details = this.state.searchResults[ searchQuery ][ tld ];
 				return (
 					<div>
-						<span style={ { fontSize: '16px' } }>{ details[ 2 ] }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
+						<div className={ style.resultPrice }>
+							{ details[ 2 ] }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
+						</div>
+						<span className={ style.resultAction }>Buy Domain</span>
 					</div>
 				);
 			}
 
-			return <div>Taken</div>;
+			return <div className={ style.resultPrice }>Taken</div>;
 		}
 
 		return null;
@@ -189,9 +192,11 @@ class DomanSearch extends Component {
 
 		return (
 			<Card key={ index } className={ className } style={ styles } href={ href }>
-				{ this.state.searchQuery + '.' + tld }
-				{ recommended }
-				<div style={ { 'float': 'right' } }>
+				<div className={ style.resultDomain }>
+					{ this.state.searchQuery + '.' + tld }
+					{ recommended }
+				</div>
+				<div className={ style.resultPriceAction }>
 					{ this.getResults( this.state.searchQuery, tld ) }
 				</div>
 			</Card>
@@ -282,11 +287,14 @@ class DomanSearch extends Component {
 			}
 			return (
 				<Card key={ index } className={ className } href={ href } style={ { color: '#2E4453' } }>
-					{ suggestion.domain_name } { bestAlternative }
-					<div style={ { 'float': 'right' } }>
-						<div>
-							<span style={ { fontSize: '16px' } }>{ suggestion.cost }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
+					<div className={ style.resultDomain }>
+						{ suggestion.domain_name } { bestAlternative }
+					</div>
+					<div className={ style.resultPriceAction }>
+						<div className={ style.resultPrice}>
+							{ suggestion.cost }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
 						</div>
+						<span className={ style.resultAction }>Buy Domain</span>
 					</div>
 				</Card>
 			);
