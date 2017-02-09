@@ -204,7 +204,10 @@ class DomanSearch extends Component {
 				const details = this.state.searchResults[ searchQuery ][ tld ];
 				return (
 					<div>
-						<span style={ { fontSize: '16px' } }>{ details[ 2 ] }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
+						<div className={ style.resultPrice }>
+							{ details[ 2 ] }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
+						</div>
+						<span className={ style.resultAction }>Buy Domain</span>
 					</div>
 				);
 			}
@@ -243,11 +246,13 @@ class DomanSearch extends Component {
 
 		return (
 			<Card key={ index } className={ className } style={ styles } href={ href }>
-				{ domainName }
-				{ recommended }
-				<div style={ { 'float': 'right' } }>
-					{ this.getPrice( this.state.searchQuery, tld ) }
-					{ this.state.domainrResults[ this.state.searchQuery ] && ! this.getDomainrAvailability( this.state.searchQuery, tld ) && 'Taken' }
+				<div className={ style.resultDomain }>
+					{ domainName }
+					{ recommended }
+					<div className={ style.resultPriceAction }>
+						{ this.getPrice( this.state.searchQuery, tld ) }
+						{ this.state.domainrResults[ this.state.searchQuery ] && ! this.getDomainrAvailability( this.state.searchQuery, tld ) && 'Taken' }
+					</div>
 				</div>
 			</Card>
 		);
@@ -337,11 +342,14 @@ class DomanSearch extends Component {
 			}
 			return (
 				<Card key={ index } className={ className } href={ href } style={ { color: '#2E4453' } }>
-					{ suggestion.domain_name } { bestAlternative }
-					<div style={ { 'float': 'right' } }>
-						<div>
-							<span style={ { fontSize: '16px' } }>{ suggestion.cost }</span><span style={ { color: '#87A6BC', fontSize: '14px' } }>/year</span>
+					<div className={ style.resultDomain }>
+						{ suggestion.domain_name } { bestAlternative }
+					</div>
+					<div className={ style.resultPriceAction }>
+						<div className={ style.resultPrice}>
+							{ suggestion.cost }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
 						</div>
+						<span className={ style.resultAction }>Buy Domain</span>
 					</div>
 				</Card>
 			);
@@ -366,8 +374,10 @@ class DomanSearch extends Component {
 	}
 
 	render() {
+		const backgroundClassName = this.state.searchQuery !== '' ? classnames( style.background, style.withQuery ) : classnames( style.background );
+
 		return (
-			<div className={ style.background }>
+			<div className={ backgroundClassName }>
 				<div className={ style.title }>Your next big idea starts here</div>
 				<div className={ style.tagline }>Find the domain that defines you</div>
 				<div className={ style.searchInput }>
