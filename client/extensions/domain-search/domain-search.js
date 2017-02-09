@@ -3,6 +3,7 @@
  */
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import intersection from 'lodash/intersection';
 import React, { Component } from 'react';
 import i18n from 'i18n-calypso';
@@ -75,6 +76,7 @@ class DomanSearch extends Component {
 		super( props );
 		this.state = {
 			domainSearch: [],
+			domainrResults: [],
 			searchResults: {},
 			suggestions: {},
 			loadMore: false,
@@ -87,11 +89,51 @@ class DomanSearch extends Component {
 
 	onSearchChange = ( event ) => {
 		const searchQuery = event.target.value;
+		const self = this;
 
 		this.setState( {
 			searchQuery: searchQuery,
 			loadMore: false
 		} );
+
+
+		const domainrResults = this.state.domainrResults;
+		if ( ! domainrResults[ searchQuery ] ) {
+			const xhr = new XMLHttpRequest();
+
+			const params = tlds.map( ( tld ) => {
+				return searchQuery + '.' + tld;
+			} ).join( ',' );
+
+
+			const url = encodeURI( 'https://api.domainr.com/v2/status?client_id=09a9bd1f5a01482f806a5f3b5ca4aa46&domain=' + params );
+			xhr.open( 'GET', url, true );
+			xhr.onload = function ( event ) {
+				// Request finished. Do processing here.
+				const responseText = JSON.parse( event.target.responseText );
+				const domainrResults = self.state.domainrResults;
+				const results = responseText.status;
+
+				tlds.some( ( tld ) => {
+					const bestMatchResult = find( results, ( result ) => {
+						return result.zone === tld && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed';
+					} );
+
+					if ( bestMatchResult ) {
+						bestMatchResult.bestMatch = true;
+
+						return true;
+					}
+				} );
+
+				domainrResults[ searchQuery ] = results;
+				self.setState( {
+					domainrResults: domainrResults
+				} )
+			};
+
+			xhr.send( null );
+		}
 
 		this.onSearchDebounced();
 	}
@@ -149,7 +191,14 @@ class DomanSearch extends Component {
 		return false;
 	}
 
-	getResults( searchQuery, tld ) {
+	getDomainrAvailability( searchQuery, tld ) {
+		const domainName = searchQuery + '.' + tld;
+		return this.state.domainrResults[ searchQuery ] && this.state.domainrResults[ searchQuery ].some( ( result ) => {
+			return result.domain === domainName && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed' && result.summary ;
+		} );
+	}
+
+	getPrice( searchQuery, tld ) {
 		if ( this.state.searchResults[ searchQuery ] ) {
 			if ( this.state.searchResults[ searchQuery ][ tld ] ) {
 				const details = this.state.searchResults[ searchQuery ][ tld ];
@@ -159,40 +208,46 @@ class DomanSearch extends Component {
 					</div>
 				);
 			}
-
-			return <div>Taken</div>;
 		}
 
 		return null;
 	}
 
+	isBestMatch( searchQuery, tld ) {
+		const domainName = searchQuery + '.' + tld;
+		return find( this.state.domainrResults[ this.state.searchQuery ], ( result ) => {
+			return result.domain === domainName && result.bestMatch;
+		} );
+	}
+
 	getTLD( tld, index ) {
 		const styles = {};
-		let color = '#2E4453',
+		let color = '#87A6BC',
 			recommended,
 			href;
-		if ( ! this.state.searchResults[ this.state.searchQuery ] ) {
+
+		if ( ! this.state.domainrResults[ this.state.searchQuery ] ) {
 			styles.animation = 'loading-fade 1.6s ease-in-out infinite';
-			color = '#87A6BC';
-		} else if ( ! this.isDomainAvailable( this.state.searchQuery, tld ) ) {
-			color = '#87A6BC';
-		} else if ( this.state.searchResults[ this.state.searchQuery ][ tld ] &&
-			this.state.searchResults[ this.state.searchQuery ][ tld ].bestMatch ) {
+		} else if ( this.getDomainrAvailability( this.state.searchQuery, tld ) ) {
+			color = '#2E4453',
+			href = '/start/domain-first?new=' + this.state.searchQuery + '.' + tld;
+		}
+
+		if ( this.isBestMatch( this.state.searchQuery, tld ) ) {
 			recommended = ( <span className={ style.recommended }>Recommended</span> );
-			href = '/start/domain-first?new=' + this.state.searchQuery + '.' + tld;
-		} else {
-			href = '/start/domain-first?new=' + this.state.searchQuery + '.' + tld;
 		}
 
 		styles.color = color;
 		const className = classnames( style.result, 'is-compact' );
+		const domainName = this.state.searchQuery + '.' + tld;
 
 		return (
 			<Card key={ index } className={ className } style={ styles } href={ href }>
-				{ this.state.searchQuery + '.' + tld }
+				{ domainName }
 				{ recommended }
 				<div style={ { 'float': 'right' } }>
-					{ this.getResults( this.state.searchQuery, tld ) }
+					{ this.getPrice( this.state.searchQuery, tld ) }
+					{ this.state.domainrResults[ this.state.searchQuery ] && ! this.getDomainrAvailability( this.state.searchQuery, tld ) && 'Taken' }
 				</div>
 			</Card>
 		);
