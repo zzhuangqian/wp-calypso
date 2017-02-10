@@ -118,7 +118,7 @@ class DomanSearch extends Component {
 
 				tlds.some( ( tld ) => {
 					const bestMatchResult = find( results, ( result ) => {
-						return result.zone === tld && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed';
+						return result.zone === tld && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed'  && result.summary !== 'unknown';
 					} );
 
 					if ( bestMatchResult ) {
@@ -163,7 +163,7 @@ class DomanSearch extends Component {
 	getDomainrAvailability( searchQuery, tld ) {
 		const domainName = searchQuery + '.' + tld;
 		return this.state.domainrResults[ searchQuery ] && this.state.domainrResults[ searchQuery ].some( ( result ) => {
-			return result.domain === domainName && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed' && result.summary ;
+			return result.domain === domainName && result.summary !== 'active' && result.summary !== 'priced' && result.summary !== 'marketed' && result.summary !== 'unknown';
 		} );
 	}
 
