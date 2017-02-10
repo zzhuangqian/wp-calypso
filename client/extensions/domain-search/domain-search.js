@@ -7,7 +7,6 @@ import find from 'lodash/find';
 import intersection from 'lodash/intersection';
 import React, { Component } from 'react';
 import i18n from 'i18n-calypso';
-import inherits from 'inherits';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 /**
@@ -15,34 +14,13 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
  */
 import Button from 'components/button';
 import Card from 'components/card';
+import productsListFactory from 'lib/products-list';
 import style from './styles';
 import wpcom from 'lib/wp';
 
 const domains = wpcom.domains();
 
-function ValidationError( code ) {
-	this.code = code;
-	this.message = code;
-}
-
-inherits( ValidationError, Error );
-
-function canRegister( domainName, onComplete ) {
-	if ( ! domainName ) {
-		onComplete( new ValidationError( 'empty_query' ) );
-		return;
-	}
-
-	wpcom.undocumented().isDomainAllTLDsAvailable( domainName, function( serverError, data ) {
-		if ( serverError ) {
-			onComplete( new ValidationError( serverError.error ) );
-			return;
-		}
-
-		onComplete( null, data );
-		return;
-	} );
-}
+const productsList = productsListFactory();
 
 const toptlds = [ // Sorted by gTLD, then popularity https://w3techs.com/technologies/overview/top_level_domain/all
 	'com', 'org', 'net', 'info', 'co'
@@ -57,6 +35,31 @@ const tlds = toptlds.concat( othertlds );
 const prefixes = [ 'my', 'the', 'web', 'go' ];
 
 const sufixes = [ 'online', 'web', 'media', 'world', 'net' ];
+
+const tldSlugs = {
+	'com': 'domain_reg',
+	'org': 'domain_reg',
+	'net': 'domain_reg',
+	'info': 'dotinfo_domain',
+	'co': 'dotco_domain',
+	'tv': 'dottv_domain',
+	'me': 'dotme_domain',
+	'biz': 'dotbiz_domain',
+	'blog': 'dotblog_domain',
+	'coffee': 'dotcoffee_domain',
+	'fm': 'dotfm_domain',
+	'mx': 'dotmx_domain',
+	'live': 'dotlive_domain',
+	'mobi': 'dotmobi_domain',
+	'wtf': 'dotwtf_domain',
+	'in': 'dotin_domain',
+	'nl': 'dotnl_domain',
+	'es': 'dotes_domain',
+	'be': 'dotbe_domain',
+	'com.br': 'dotcomdotbr_domain',
+	'net.br': 'dotnetdotbr_domain',
+	'wales': 'dotwales_domain'
+};
 
 class Suggestion extends Component {
 	selectSuggestion = () => {
@@ -77,7 +80,6 @@ class DomanSearch extends Component {
 		this.state = {
 			domainSearch: [],
 			domainrResults: [],
-			searchResults: {},
 			suggestions: {},
 			loadMore: false,
 			searchQuery: '',
@@ -141,27 +143,6 @@ class DomanSearch extends Component {
 	onSearch = () => {
 		const searchQuery = this.state.searchQuery;
 
-		if ( this.state.searchResults[ searchQuery ] ) {
-			return; // we already have results
-		}
-
-		canRegister( searchQuery, ( error, result ) => {
-			const searchResults = this.state.searchResults;
-
-			tlds.some( ( tld ) => {
-				if ( result && result[ tld ] ) {
-					result[ tld ].bestMatch = true;
-					return true;
-				}
-			} );
-
-			searchResults[ searchQuery ] = result;
-
-			this.setState( {
-				searchResults: searchResults
-			} );
-		} );
-
 		domains.suggestions( {
 			query: searchQuery,
 			quantity: 10,
@@ -177,18 +158,6 @@ class DomanSearch extends Component {
 				mostRecentSearchQuery: searchQuery
 			} );
 		} );
-	}
-
-	isDomainAvailable( searchQuery, tld ) {
-		if ( this.state.searchResults[ searchQuery ] ) {
-			if ( this.state.searchResults[ searchQuery ][ tld ] ) {
-				return true;
-			}
-
-			return false;
-		}
-
-		return false;
 	}
 
 	getDomainrAvailability( searchQuery, tld ) {
@@ -210,6 +179,14 @@ class DomanSearch extends Component {
 		return null;
 	}
 
+	getCostFromAPI( tld ) {
+		const tldProduct = find( productsList.data, ( product ) => {
+			return product.product_slug === tldSlugs[ tld ];
+		} );
+
+		return tldProduct.cost_display;
+	}
+
 	getPrice( searchQuery, tld ) {
 		if ( ! this.state.domainrResults[ this.state.searchQuery ] ) {
 			return null;
@@ -222,7 +199,7 @@ class DomanSearch extends Component {
 		return (
 			<div className={ style.resultPriceAction }>
 				<div className={ style.resultPrice}>
-					{ this.getSummary( searchQuery, tld ) }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
+					{ this.getCostFromAPI( tld ) }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
 				</div>
 				<span className={ style.resultAction }>Buy Domain</span>
 			</div>
