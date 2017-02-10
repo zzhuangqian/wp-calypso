@@ -198,22 +198,35 @@ class DomanSearch extends Component {
 		} );
 	}
 
-	getPrice( searchQuery, tld ) {
-		if ( this.state.searchResults[ searchQuery ] ) {
-			if ( this.state.searchResults[ searchQuery ][ tld ] ) {
-				const details = this.state.searchResults[ searchQuery ][ tld ];
-				return (
-					<div>
-						<div className={ style.resultPrice }>
-							{ details[ 2 ] }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
-						</div>
-						<span className={ style.resultAction }>Buy Domain</span>
-					</div>
-				);
-			}
+	getSummary( searchQuery, tld ) {
+		if ( this.state.domainrResults[ searchQuery ] ) {
+			const domainrResult = find( this.state.domainrResults[ searchQuery ], ( result ) => {
+				return result.domain === searchQuery + '.' + tld;
+			} );
+
+			return domainrResult.summary;
 		}
 
 		return null;
+	}
+
+	getPrice( searchQuery, tld ) {
+		if ( ! this.state.domainrResults[ this.state.searchQuery ] ) {
+			return null;
+		}
+
+		if ( ! this.getDomainrAvailability( this.state.searchQuery, tld ) ) {
+			return 'Taken';
+		}
+
+		return (
+			<div className={ style.resultPriceAction }>
+				<div className={ style.resultPrice}>
+					{ this.getSummary( searchQuery, tld ) }<span className={ style.resultPriceTerm }>&nbsp;/year</span>
+				</div>
+				<span className={ style.resultAction }>Buy Domain</span>
+			</div>
+		);
 	}
 
 	isBestMatch( searchQuery, tld ) {
@@ -249,11 +262,8 @@ class DomanSearch extends Component {
 				<div className={ style.resultDomain }>
 					{ domainName }
 					{ recommended }
-					<div className={ style.resultPriceAction }>
-						{ this.getPrice( this.state.searchQuery, tld ) }
-						{ this.state.domainrResults[ this.state.searchQuery ] && ! this.getDomainrAvailability( this.state.searchQuery, tld ) && 'Taken' }
-					</div>
 				</div>
+				{ this.getPrice( this.state.searchQuery, tld ) }
 			</Card>
 		);
 	}
