@@ -55,7 +55,8 @@ export function getSourceData( post ) {
 	if ( sourceData ) {
 		return {
 			blogId: get( sourceData, 'blog_id' ),
-			postId: get( sourceData, 'post_id' )
+			postId: get( sourceData, 'post_id' ),
+			feedId: get( sourceData, 'feed_id' ),
 		};
 	}
 	return {};

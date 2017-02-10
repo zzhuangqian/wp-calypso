@@ -57,14 +57,16 @@ class ReaderPostCardAdapter extends React.Component {
 			feed_ID: feedId,
 			site_ID: siteId,
 			is_external: isExternal,
-			is_discover: isDiscover,
 		} = this.props.post;
 
-		// if this is a discover pick query for the discover pick site
+		// if this is the discover stream query for the discover pick site or feed
+		const isDiscoverStream = this.props.isDiscoverStream;
 		let discoverPickSiteId;
-		if ( isDiscover ) {
-			const { blogId } = getDiscoverSourceData( this.props.post );
+		let discoverPickFeedId;
+		if ( isDiscoverStream ) {
+			const { blogId, feedId: pickFeedId } = getDiscoverSourceData( this.props.post );
 			discoverPickSiteId = blogId;
+			discoverPickFeedId = pickFeedId;
 		}
 
 		// only query the site if the feed id is missing. feed queries end up fetching site info
@@ -85,6 +87,7 @@ class ReaderPostCardAdapter extends React.Component {
 				{ feedId && <QueryReaderFeed feedId={ feedId } includeMeta={ false } /> }
 				{ ! isExternal && siteId && <QueryReaderSite siteId={ +siteId } includeMeta={ false } /> }
 				{ discoverPickSiteId && <QueryReaderSite siteId={ discoverPickSiteId } includeMeta={ false } /> }
+				{ ! discoverPickSiteId && discoverPickFeedId && <QueryReaderFeed feedId={ discoverPickFeedId } includeMeat={ false } /> }
 			</ReaderPostCard>
 		);
 	}
@@ -102,22 +105,22 @@ const ConnectedReaderPostCardAdapter = connect(
 			// copy discoverPick from feed store
 			const discoverPickPost = get( ownProps, 'discoverPick.post' );
 
-			// limit discover pick site to discover stream
 			if ( ownProps.isDiscoverStream ) {
-				// add discoverPick site from state
-				const { blogId } = getDiscoverSourceData( ownProps.post );
+				// add discoverPick site or feed from state
+				const { blogId, feedId: pickFeedId } = getDiscoverSourceData( ownProps.post );
 				const discoverPickSite = blogId ? getSite( state, blogId ) : null;
+				const discoverPickFeed = pickFeedId ? getFeed( state, pickFeedId ) : null;
 
-				if ( discoverPickPost || discoverPickSite ) {
+				if ( discoverPickSite ) {
 					discoverPick = {
 						post: discoverPickPost,
 						site: discoverPickSite,
 					};
+				} else if ( discoverPickFeed ) {
+					discoverPick = {
+						feed: discoverPickFeed
+					};
 				}
-			} else if ( discoverPickPost ) {
-				discoverPick = {
-					post: discoverPickPost
-				};
 			}
 		}
 		return {
