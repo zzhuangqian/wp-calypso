@@ -32,7 +32,6 @@
 		"boosted-post-survey": true,
 		"catch-js-errors": false,
 		"code-splitting": true,
-		"community-translator": true,
 		"desktop-promo": true,
 		"devdocs": true,
 		"devdocs/redirect-loggedout-homepage": true,
