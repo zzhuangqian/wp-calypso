@@ -28,12 +28,12 @@ class PostByline extends React.Component {
 		post: React.PropTypes.object.isRequired,
 		site: React.PropTypes.object,
 		feed: React.PropTypes.object,
-		isDiscoverPost: React.PropTypes.bool,
-		showSiteName: React.PropTypes.bool
+		showSiteName: React.PropTypes.bool,
+		showAuthorName: React.PropTypes.bool,
 	}
 
 	static defaultProps = {
-		isDiscoverPost: false,
+		showAuthorName: true,
 	}
 
 	recordTagClick = () => {
@@ -49,14 +49,14 @@ class PostByline extends React.Component {
 	}
 
 	render() {
-		const { post, site, feed, isDiscoverPost, showSiteName } = this.props;
+		const { post, site, feed, showSiteName, showAuthorName } = this.props;
 		const feedId = get( post, 'feed_ID' );
 		const siteId = get( site, 'ID' );
 		const primaryTag = post && post.primary_tag;
 		const siteName = siteNameFromSiteAndPost( site, post );
 		const hasAuthorName = has( post, 'author.name' );
 		const hasMatchingAuthorAndSiteNames = hasAuthorName && areEqualIgnoringWhitespaceAndCase( siteName, post.author.name );
-		const shouldDisplayAuthor = ! isDiscoverPost && hasAuthorName && ( ! hasMatchingAuthorAndSiteNames || ! showSiteName );
+		const shouldDisplayAuthor = showAuthorName && hasAuthorName && ( ! hasMatchingAuthorAndSiteNames || ! showSiteName );
 		const streamUrl = getStreamUrl( feedId, siteId );
 		const siteIcon = get( site, 'icon.img' );
 		const feedIcon = get( feed, 'image' );

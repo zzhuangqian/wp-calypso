@@ -166,15 +166,41 @@ export default class ReaderPostCard extends React.Component {
 		let postByline;
 
 		if ( isDiscoverStream && ! isEmpty( discoverPick ) ) {
-			// create a post like object with some props from the discover post
-			const postForByline = Object.assign( {},
-				discoverPick.post || {},
-				{
-					date: post.date,
-					URL: post.URL,
-					primary_tag: post.primary_tag,
-				} );
-			postByline = <PostByline post={ postForByline } site={ discoverPick.site } showSiteName={ true } />;
+			if ( discoverPick.feed ) {
+				const attribution = get( post, 'discover_metadata.attribution' );
+				const postForByline = Object.assign( {},
+					discoverPick.feed,
+					{
+						date: post.date,
+						URL: post.URL,
+						primary_tag: post.primary_tag,
+						site_name: attribution.blog_name || feed.name,
+
+						author: {
+							name: attribution.author_name,
+							URL: attribution.author_url,
+							avatar_URL: attribution.avatar_url,
+							has_avatar: !! attribution.avatar_url,
+						}
+
+					}
+				);
+				const showAuthorName = 'site-pick' !== post.discover_format;
+				postByline = <PostByline post={ postForByline }
+					feed={ discoverPick.feed }
+					showSiteName={ true }
+					showAuthorName={ showAuthorName } />;
+			} else {
+				// create a post like object with some props from the discover post
+				const postForByline = Object.assign( {},
+					discoverPick.post || {},
+					{
+						date: post.date,
+						URL: post.URL,
+						primary_tag: post.primary_tag,
+					} );
+				postByline = <PostByline post={ postForByline } site={ discoverPick.site } showSiteName={ true } />;
+			}
 		} else {
 			postByline = <PostByline post={ post } site={ site } feed={ feed } showSiteName={ showSiteName || isDiscover } />;
 		}
