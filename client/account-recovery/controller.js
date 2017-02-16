@@ -15,6 +15,7 @@ import ResetPasswordForm from 'account-recovery/reset-password/reset-password-fo
 import ResetPasswordEmailForm from 'account-recovery/reset-password/reset-password-email-form';
 import ResetPasswordSmsForm from 'account-recovery/reset-password/reset-password-sms-form';
 import TransactionIdForm from 'account-recovery/reset-password/transaction-id-form';
+import ResetPasswordConfirmForm from 'account-recovery/reset-password/reset-password-confirm-form';
 import { getCurrentUser } from 'state/current-user/selectors';
 
 const createTransitCallback = ( route ) => {
@@ -72,6 +73,16 @@ export function resetPasswordByTransactionId( context, next ) {
 	context.primary = (
 		<ResetPasswordPage basePath={ context.path }>
 			<TransactionIdForm />
+		</ResetPasswordPage>
+	);
+
+	next();
+}
+
+export function resetPasswordConfirmForm( context, next ) {
+	context.primary = (
+		<ResetPasswordPage basePath={ context.path }>
+			<ResetPasswordConfirmForm />
 		</ResetPasswordPage>
 	);
 
