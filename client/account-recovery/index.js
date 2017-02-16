@@ -6,6 +6,7 @@ import {
 	forgotUsername,
 	resetPassword,
 	resetPasswordEmailForm,
+	resetPasswordSmsForm,
 	resetPasswordByTransactionId,
 	redirectLoggedIn
 } from './controller';
@@ -15,6 +16,7 @@ const routes = {
 	FORGOT_USERNAME: '/account-recovery/forgot-username',
 	RESET_PASSWORD: '/account-recovery/reset-password',
 	RESET_PASSWORD_EMAIL_SENT: '/account-recovery/reset-password/email-sent',
+	RESET_PASSWORD_SMS_FORM: '/account-recovery/reset-password/sms-form',
 	RESET_PASSWORD_TRANSACTION_ID: '/account-recovery/reset-password/transaction-id',
 };
 
@@ -24,5 +26,6 @@ export default function( router ) {
 	router( routes.FORGOT_USERNAME, redirectLoggedIn, forgotUsername );
 	router( routes.RESET_PASSWORD, redirectLoggedIn, resetPassword );
 	router( routes.RESET_PASSWORD_EMAIL_SENT, redirectLoggedIn, resetPasswordEmailForm );
+	router( routes.RESET_PASSWORD_SMS_FORM, redirectLoggedIn, resetPasswordSmsForm );
 	router( routes.RESET_PASSWORD_TRANSACTION_ID, redirectLoggedIn, resetPasswordByTransactionId );
 }
