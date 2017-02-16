@@ -5,7 +5,7 @@ import {
 	lostPassword,
 	forgotUsername,
 	resetPassword,
-	resetPasswordEmailSent,
+	resetPasswordEmailForm,
 	resetPasswordByTransactionId,
 	redirectLoggedIn
 } from './controller';
@@ -23,6 +23,6 @@ export default function( router ) {
 	router( routes.ACCOUNT_RECOVERY, redirectLoggedIn, lostPassword( routes ) );
 	router( routes.FORGOT_USERNAME, redirectLoggedIn, forgotUsername );
 	router( routes.RESET_PASSWORD, redirectLoggedIn, resetPassword );
-	router( routes.RESET_PASSWORD_EMAIL_SENT, redirectLoggedIn, resetPasswordEmailSent );
+	router( routes.RESET_PASSWORD_EMAIL_SENT, redirectLoggedIn, resetPasswordEmailForm );
 	router( routes.RESET_PASSWORD_TRANSACTION_ID, redirectLoggedIn, resetPasswordByTransactionId );
 }
