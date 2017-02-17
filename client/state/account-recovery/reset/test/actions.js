@@ -100,10 +100,12 @@ describe( '#fetchResetOptions', () => {
 						{
 							email: response.primary_email,
 							sms: response.primary_sms,
+							name: 'primary',
 						},
 						{
 							email: response.secondary_email,
 							sms: response.secondary_sms,
+							name: 'secondary',
 						},
 					],
 				} ) )

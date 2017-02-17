@@ -28,10 +28,12 @@ const fromApi = ( data ) => ( [
 	{
 		email: data.primary_email,
 		sms: data.primary_sms,
+		name: 'primary',
 	},
 	{
 		email: data.secondary_email,
 		sms: data.secondary_sms,
+		name: 'secondary',
 	},
 ] );
 

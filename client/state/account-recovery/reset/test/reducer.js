@@ -50,10 +50,12 @@ describe( '#account-recovery/reset reducer', () => {
 			{
 				email: 'primary@example.com',
 				sms: '123456789',
+				name: 'primary',
 			},
 			{
 				email: 'secondary@example.com',
 				sms: '123456789',
+				name: 'secondary',
 			},
 		];
 		const state = reducer( undefined, {
