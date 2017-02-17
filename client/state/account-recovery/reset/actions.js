@@ -37,6 +37,7 @@ const fromApi = ( data ) => ( [
 	},
 ] );
 
+// The userData can either be { user } or { firstName, lastName, url }
 export const fetchResetOptions = ( userData ) => ( dispatch ) => {
 	dispatch( {
 		type: ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
@@ -63,6 +64,7 @@ export const requestPasswordResetError = ( error ) => ( {
 	error,
 } );
 
+// The `request` can be { user, method } or { firstName, lastName, url, method }
 export const requestPasswordReset = ( request ) => ( dispatch ) => {
 	dispatch( {
 		type: ACCOUNT_RECOVERY_RESET_REQUEST,
