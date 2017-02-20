@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { find, get } from 'lodash';
+import { find, get, isEmpty } from 'lodash';
 import url from 'url';
 import config from 'config';
 import Debug from 'debug';
@@ -88,4 +88,41 @@ export function getSourceFollowUrl( post ) {
 	}
 
 	return followUrl || '';
+}
+
+
+/** Create a post like object to render the card byline. If the discoverPick is empty
+	the post is returned.
+	@param {Object} post - the post on discover.wordpress.com
+	@param {Object} discoverPick - has the pick site or feed object
+	@return {Object}  - a post like object
+**/
+export function getDiscoverBylinePost( post, discoverPick ) {
+
+	if ( isEmpty( discoverPick ) ) {
+		return post;
+	}
+
+	const { site, feed } = discoverPick;
+	const attribution = get( post, 'discover_metadata.attribution' );
+
+	const bylinePost = Object.assign( {},
+		feed || site || {},
+		{
+			date: post.date,
+			URL: post.URL,
+			primary_tag: post.primary_tag,
+			site_name: attribution.blog_name || feed.name || site.name,
+		}
+	);
+
+	if ( feed ) {
+		bylinePost.author = {
+			name:  attribution.author_name,
+			URL: attribution.author_url,
+			avatar_URL: attribution.avatar_url,
+			has_avatar: !! attribution.avatar_url,
+		};
+	}
+	return bylinePost;
 }
