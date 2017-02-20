@@ -39,7 +39,7 @@ const resetOptions = combineReducers( {
 } );
 
 const userDataFieldReducer = ( expectedField ) => createReducer( '', {
-	[ ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA ]: ( state, { field, value } ) => expectedField === field ? value : state,
+	[ ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA ]: ( state, action ) => null != action[ expectedField ] ? action[ expectedField ] : state,
 } );
 
 const userData = combineReducers( {
