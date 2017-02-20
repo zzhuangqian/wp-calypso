@@ -20,6 +20,7 @@ export editedPostHasContent from './edited-post-has-content';
 export eligibleForFreeToPaidUpsell from './eligible-for-free-to-paid-upsell';
 export getAccountRecoveryResetOptions from './get-account-recovery-reset-options';
 export getAccountRecoveryResetUserLogin from './get-account-recovery-reset-user-login';
+export getAccountRecoveryResetPickedOption from './get-account-recovery-reset-picked-option';
 export getBlockedSites from './get-blocked-sites';
 export getBillingTransactions from './get-billing-transactions';
 export getFollowCount from './get-follow-count';
