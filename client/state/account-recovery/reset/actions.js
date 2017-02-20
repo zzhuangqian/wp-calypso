@@ -12,6 +12,7 @@ import {
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST,
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST_SUCCESS,
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST_ERROR,
+	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
 } from 'state/action-types';
 
 export const fetchResetOptionsSuccess = ( items ) => ( {
@@ -99,3 +100,16 @@ export const validatePasswordResetRequest = ( request ) => ( dispatch ) => {
 	} ).then( () => dispatch( validatePasswordResetRequestSuccess() ) )
 	.catch( ( error ) => dispatch( validatePasswordResetRequestError( error ) ) );
 };
+
+const updatePasswordResetUserData = ( userData ) => ( {
+	type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+	...userData,
+} );
+
+export const updatePasswordResetUserLogin = ( user ) => updatePasswordResetUserData( { user } );
+
+export const updatePasswordResetUserFirstname = ( firstName ) => updatePasswordResetUserData( { firstName } );
+
+export const updatePasswordResetUserLastname = ( lastName ) => updatePasswordResetUserData( { lastName } );
+
+export const updatePasswordResetUserSiteUrl = ( url ) => updatePasswordResetUserData( { url } );

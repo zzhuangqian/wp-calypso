@@ -16,6 +16,10 @@ import {
 	requestPasswordReset,
 	requestPasswordResetSuccess,
 	requestPasswordResetError,
+	updatePasswordResetUserLogin,
+	updatePasswordResetUserFirstname,
+	updatePasswordResetUserLastname,
+	updatePasswordResetUserSiteUrl,
 } from '../actions';
 
 import { ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
@@ -24,6 +28,7 @@ import { ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
 	ACCOUNT_RECOVERY_RESET_REQUEST,
 	ACCOUNT_RECOVERY_RESET_REQUEST_SUCCESS,
 	ACCOUNT_RECOVERY_RESET_REQUEST_ERROR,
+	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
 } from 'state/action-types';
 
 describe( '#fetchResetOptionsSuccess', () => {
@@ -218,6 +223,54 @@ describe( '#requestPasswordReset', () => {
 						error: errorResponse,
 					} ) )
 				);
+		} );
+	} );
+} );
+
+describe( '#updatePasswordResetUserLogin', () => {
+	it( 'should return ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA action with user field', () => {
+		const user = 'foo';
+		const action = updatePasswordResetUserLogin( user );
+
+		assert.deepEqual( action, {
+			type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+			user,
+		} );
+	} );
+} );
+
+describe( '#updatePasswordResetUserFirstname', () => {
+	it( 'should return ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA action with firstName field', () => {
+		const firstName = 'Jack';
+		const action = updatePasswordResetUserFirstname( firstName );
+
+		assert.deepEqual( action, {
+			type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+			firstName,
+		} );
+	} );
+} );
+
+describe( '#updatePasswordResetUserLastname', () => {
+	it( 'should return ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA action with lastName field', () => {
+		const lastName = 'Torrence';
+		const action = updatePasswordResetUserLastname( lastName );
+
+		assert.deepEqual( action, {
+			type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+			lastName,
+		} );
+	} );
+} );
+
+describe( '#updatePasswordResetUserSiteUrl', () => {
+	it( 'should return ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA action with url field', () => {
+		const url = 'foo.example.com';
+		const action = updatePasswordResetUserSiteUrl( url );
+
+		assert.deepEqual( action, {
+			type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+			url,
 		} );
 	} );
 } );
