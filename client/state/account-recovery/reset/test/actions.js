@@ -20,15 +20,18 @@ import {
 	updatePasswordResetUserFirstname,
 	updatePasswordResetUserLastname,
 	updatePasswordResetUserSiteUrl,
+	pickPasswordResetOption,
 } from '../actions';
 
-import { ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
+import {
+	ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
 	ACCOUNT_RECOVERY_RESET_OPTIONS_ERROR,
 	ACCOUNT_RECOVERY_RESET_OPTIONS_RECEIVE,
 	ACCOUNT_RECOVERY_RESET_REQUEST,
 	ACCOUNT_RECOVERY_RESET_REQUEST_SUCCESS,
 	ACCOUNT_RECOVERY_RESET_REQUEST_ERROR,
 	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+	ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
 } from 'state/action-types';
 
 describe( '#fetchResetOptionsSuccess', () => {
@@ -271,6 +274,18 @@ describe( '#updatePasswordResetUserSiteUrl', () => {
 		assert.deepEqual( action, {
 			type: ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
 			url,
+		} );
+	} );
+} );
+
+describe( '#pickPasswordResetOption', () => {
+	it( 'should return ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION', () => {
+		const method = 'primary-email';
+		const action = pickPasswordResetOption( method );
+
+		assert.deepEqual( action, {
+			type: ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
+			method,
 		} );
 	} );
 } );

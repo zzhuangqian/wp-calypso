@@ -8,6 +8,7 @@ import { assert } from 'chai';
  */
 import {
 	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+	ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
 	ACCOUNT_RECOVERY_RESET_OPTIONS_ERROR,
 	ACCOUNT_RECOVERY_RESET_OPTIONS_RECEIVE,
 	ACCOUNT_RECOVERY_RESET_OPTIONS_REQUEST,
@@ -129,5 +130,15 @@ describe( '#account-recovery/reset reducer', () => {
 			lastName: '',
 			url: '',
 		} );
+	} );
+
+	it( 'ACCOUNT_RECOVERY_RESET_PICK_OPTION action should populate the method field.', () => {
+		const method = 'primary-email';
+		const state = reducer( undefined, {
+			type: ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
+			method,
+		} );
+
+		assert.equal( state.method, method );
 	} );
 } );

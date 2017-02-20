@@ -13,6 +13,7 @@ import {
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST_SUCCESS,
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST_ERROR,
 	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
+	ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
 } from 'state/action-types';
 
 export const fetchResetOptionsSuccess = ( items ) => ( {
@@ -113,3 +114,8 @@ export const updatePasswordResetUserFirstname = ( firstName ) => updatePasswordR
 export const updatePasswordResetUserLastname = ( lastName ) => updatePasswordResetUserData( { lastName } );
 
 export const updatePasswordResetUserSiteUrl = ( url ) => updatePasswordResetUserData( { url } );
+
+export const pickPasswordResetOption = ( method ) => ( {
+	type: ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
+	method,
+} );
