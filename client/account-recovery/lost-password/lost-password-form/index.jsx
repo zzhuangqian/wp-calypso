@@ -14,27 +14,23 @@ import Card from 'components/card';
 import Button from 'components/button';
 import FormLabel from 'components/forms/form-label';
 import FormInput from 'components/forms/form-text-input';
-import { fetchResetOptionsByLogin } from 'state/account-recovery/reset/actions';
+import {
+	fetchResetOptionsByLogin,
+	updatePasswordResetUserLogin,
+} from 'state/account-recovery/reset/actions';
 import {
 	isAccountRecoveryResetOptionsReady,
 	isRequestingAccountRecoveryResetOptions,
+	getAccountRecoveryResetUserLogin,
 } from 'state/selectors';
 
 export class LostPasswordFormComponent extends Component {
-	constructor() {
-		super( ...arguments );
-
-		this.state = {
-			userLogin: '',
-		};
-	}
-
 	submitForm = () => {
-		this.props.fetchResetOptionsByLogin( this.state.userLogin );
+		this.props.fetchResetOptionsByLogin( this.props.userLogin );
 	};
 
 	onUserLoginChanged = ( event ) => {
-		this.setState( { userLogin: event.target.value } );
+		this.props.updatePasswordResetUserLogin( event.target.value );
 	};
 
 	componentWillReceiveProps = ( nextProps ) => {
@@ -47,9 +43,8 @@ export class LostPasswordFormComponent extends Component {
 		const {
 			isRequesting,
 			translate,
+			userLogin,
 		} = this.props;
-
-		const { userLogin } = this.state;
 
 		const isPrimaryButtonDisabled = ! userLogin || isRequesting;
 
@@ -122,6 +117,10 @@ export default connect(
 	( state ) => ( {
 		isResetOptionsReady: isAccountRecoveryResetOptionsReady( state ),
 		isRequesting: isRequestingAccountRecoveryResetOptions( state ),
+		userLogin: getAccountRecoveryResetUserLogin( state ),
 	} ),
-	{ fetchResetOptionsByLogin }
+	{
+		fetchResetOptionsByLogin,
+		updatePasswordResetUserLogin,
+	}
 )( localize( LostPasswordFormComponent ) );
