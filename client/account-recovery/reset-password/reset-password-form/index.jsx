@@ -15,7 +15,14 @@ import FormFieldset from 'components/forms/form-fieldset';
 import FormLegend from 'components/forms/form-legend';
 import ResetOptionSet from './reset-option-set';
 
-import { getAccountRecoveryResetOptions } from 'state/selectors';
+import {
+	pickPasswordResetOption,
+} from 'state/account-recovery/reset/actions';
+
+import {
+	getAccountRecoveryResetOptions,
+	getAccountRecoveryResetPickedOption,
+} from 'state/selectors';
 
 export class ResetPasswordFormComponent extends Component {
 	static defaultProps = {
@@ -25,6 +32,7 @@ export class ResetPasswordFormComponent extends Component {
 	static propTypes = {
 		translate: PropTypes.func.isRequired,
 		resetOptions: PropTypes.array.isRequired,
+		pickedOption: PropTypes.string.isRequired,
 	};
 
 	state = {
@@ -39,17 +47,18 @@ export class ResetPasswordFormComponent extends Component {
 	};
 
 	onResetOptionChanged = ( event ) => {
-		this.setState( { selectedResetOption: event.currentTarget.value } );
+		this.props.pickPasswordResetOption( event.currentTarget.value );
 	};
 
 	render() {
 		const {
 			resetOptions,
-			translate
+			pickedOption,
+			translate,
 		} = this.props;
 
-		const { isSubmitting, selectedResetOption } = this.state;
-		const isPrimaryButtonEnabled = selectedResetOption && ! isSubmitting;
+		const { isSubmitting } = this.state;
+		const isPrimaryButtonEnabled = pickedOption && ! isSubmitting;
 
 		return (
 			<div className="reset-password-form">
@@ -74,7 +83,7 @@ export class ResetPasswordFormComponent extends Component {
 								sms={ sms }
 								name={ name }
 								onOptionChanged={ this.onResetOptionChanged }
-								selectedResetOption={ selectedResetOption }
+								selectedResetOption={ pickedOption }
 							/>
 						) ) }
 					</FormFieldset>
@@ -94,5 +103,9 @@ export class ResetPasswordFormComponent extends Component {
 export default connect(
 	( state ) => ( {
 		resetOptions: getAccountRecoveryResetOptions( state ),
-	} )
+		pickedOption: getAccountRecoveryResetPickedOption( state ),
+	} ),
+	{
+		pickPasswordResetOption,
+	}
 )( localize( ResetPasswordFormComponent ) );
