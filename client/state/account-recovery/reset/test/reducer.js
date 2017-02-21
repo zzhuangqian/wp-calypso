@@ -34,6 +34,7 @@ describe( '#account-recovery/reset reducer', () => {
 	it( 'ACCOUNT_RECOVERY_RESET_OPTIONS_RECEIVE action should unset isRequesting flag.', () => {
 		const state = reducer( requestingState, {
 			type: ACCOUNT_RECOVERY_RESET_OPTIONS_RECEIVE,
+			items: [],
 		} );
 
 		assert.isFalse( state.options.isRequesting );
@@ -42,6 +43,10 @@ describe( '#account-recovery/reset reducer', () => {
 	it( 'ACCOUNT_RECOVERY_RESET_OPTIONS_ERROR action should unset isRequesting flag.', () => {
 		const state = reducer( requestingState, {
 			type: ACCOUNT_RECOVERY_RESET_OPTIONS_ERROR,
+			error: {
+				status: 400,
+				message: 'Boom!',
+			},
 		} );
 
 		assert.isFalse( state.options.isRequesting );
