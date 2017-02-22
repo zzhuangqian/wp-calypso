@@ -20,8 +20,8 @@ const ResetOptionSet = ( props ) => {
 		selectedResetOption,
 	} = props;
 
-	const emailFieldValue = name + '-email';
-	const smsFieldValue = name + '-sms';
+	const emailFieldValue = name + '_email';
+	const smsFieldValue = name + '_sms';
 
 	return (
 		<div>
