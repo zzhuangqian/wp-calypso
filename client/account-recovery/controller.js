@@ -18,21 +18,15 @@ import TransactionIdForm from 'account-recovery/reset-password/transaction-id-fo
 import ResetPasswordConfirmForm from 'account-recovery/reset-password/reset-password-confirm-form';
 import { getCurrentUser } from 'state/current-user/selectors';
 
-const createTransitCallback = ( route ) => {
-	return () => page( route );
-};
-
-export const lostPassword = ( routes ) => ( context, next ) => {
+export function lostPassword( context, next ) {
 	context.primary = (
 		<LostPasswordPage basePath={ context.path }>
-			<LostPasswordForm
-				toResetPassword={ createTransitCallback( routes.RESET_PASSWORD ) }
-				toForgotUsername={ createTransitCallback( routes.FORGOT_USERNAME ) }
-			/>
+			<LostPasswordForm />
 		</LostPasswordPage>
 	);
+
 	next();
-};
+}
 
 export function forgotUsername( context, next ) {
 	context.primary = <ForgotUsernamePage basePath={ context.path } />;

@@ -17,11 +17,13 @@ import ResetOptionSet from './reset-option-set';
 
 import {
 	pickPasswordResetOption,
+	requestPasswordReset,
 } from 'state/account-recovery/reset/actions';
 
 import {
 	getAccountRecoveryResetOptions,
 	getAccountRecoveryResetPickedOption,
+	getAccountRecoveryResetUserData,
 } from 'state/selectors';
 
 export class ResetPasswordFormComponent extends Component {
@@ -32,18 +34,20 @@ export class ResetPasswordFormComponent extends Component {
 	static propTypes = {
 		translate: PropTypes.func.isRequired,
 		resetOptions: PropTypes.array.isRequired,
-		pickedOption: PropTypes.string.isRequired,
 	};
 
 	state = {
 		isSubmitting: false,
-		selectedResetOption: null,
 	};
 
 	submitForm = () => {
-		// TODO:
-		// This is going to be replaced by corresponding redux actions.
 		this.setState( { isSubmitting: true } );
+
+		this.props.requestPasswordReset( {
+			method: this.props.pickedOption,
+			user: this.props.userData.user,
+			// ...this.props.userData,
+		} );
 	};
 
 	onResetOptionChanged = ( event ) => {
@@ -104,8 +108,10 @@ export default connect(
 	( state ) => ( {
 		resetOptions: getAccountRecoveryResetOptions( state ),
 		pickedOption: getAccountRecoveryResetPickedOption( state ),
+		userData: getAccountRecoveryResetUserData( state ),
 	} ),
 	{
 		pickPasswordResetOption,
+		requestPasswordReset,
 	}
 )( localize( ResetPasswordFormComponent ) );

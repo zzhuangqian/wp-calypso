@@ -33,12 +33,6 @@ export class LostPasswordFormComponent extends Component {
 		this.props.updatePasswordResetUserLogin( event.target.value );
 	};
 
-	componentWillReceiveProps = ( nextProps ) => {
-		if ( nextProps.isResetOptionsReady ) {
-			this.props.toResetPassword();
-		}
-	}
-
 	render() {
 		const {
 			isRequesting,

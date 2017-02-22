@@ -55,7 +55,10 @@ export const fetchResetOptions = ( userData ) => ( dispatch ) => {
 		body: userData,
 		apiNamespace: 'wpcom/v2',
 		path: '/account-recovery/lookup',
-	} ).then( data => dispatch( fetchResetOptionsSuccess( fromApi( data ) ) ) )
+	} ).then( data => {
+		dispatch( fetchResetOptionsSuccess( fromApi( data ) ) );
+		dispatch( transitToAccountRecoveryRoute( '/account-recovery/reset-password' ) );
+	} )
 	.catch( error => dispatch( fetchResetOptionsError( error ) ) );
 };
 
@@ -72,6 +75,20 @@ export const requestPasswordResetError = ( error ) => ( {
 	error,
 } );
 
+const getAfterResetRequestRoute = ( method ) => {
+	if ( 'primary_email' === method || 'secondary_email' === method ) {
+		return transitToAccountRecoveryRoute( '/account-recovery/reset-password/email-sent' );
+	}
+
+	if ( 'primary_sms' === method || 'secondary_email' === method ) {
+		return transitToAccountRecoveryRoute( '/account-recovery/reset-password/sms-form' );
+	}
+
+	return requestPasswordResetError( {
+		message: 'Unknown reset method has been given',
+	} );
+};
+
 // The `request` can be { user, method } or { firstName, lastName, url, method }
 export const requestPasswordReset = ( request ) => ( dispatch ) => {
 	dispatch( {
@@ -82,7 +99,10 @@ export const requestPasswordReset = ( request ) => ( dispatch ) => {
 		body: request,
 		apiNamespace: 'wpcom/v2',
 		path: '/account-recovery/request-reset',
-	} ).then( () => dispatch( requestPasswordResetSuccess() ) )
+	} ).then( () => {
+		dispatch( requestPasswordResetSuccess() );
+		dispatch( getAfterResetRequestRoute( request.method ) );
+	} )
 	.catch( ( error ) => dispatch( requestPasswordResetError( error ) ) );
 };
 

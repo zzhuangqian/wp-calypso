@@ -11,11 +11,12 @@ import classnames from 'classnames';
 import PageViewTracker from 'lib/analytics/page-view-tracker';
 import Main from 'components/main';
 import DocumentHead from 'components/data/document-head';
+import transit from 'account-recovery/page-transit';
 
-export default localize( ( { className, translate, basePath, children } ) => (
+export default transit( localize( ( { className, translate, basePath, children } ) => (
 	<Main className={ classnames( 'reset-password', className ) }>
 		<PageViewTracker path={ basePath } title="Account Recovery > Reset Password" />
 		<DocumentHead title={ translate( 'Reset Password ‹ Account Recovery' ) } />
 		{ children }
 	</Main>
-) );
+) ) );
