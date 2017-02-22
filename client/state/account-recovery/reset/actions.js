@@ -14,7 +14,13 @@ import {
 	ACCOUNT_RECOVERY_RESET_VALIDATE_RESET_REQUEST_ERROR,
 	ACCOUNT_RECOVERY_RESET_UPDATE_USER_DATA,
 	ACCOUNT_RECOVERY_RESET_PICK_RESET_OPTION,
+	ACCOUNT_RECOVERY_RESET_TRANSIT_TO_ROUTE,
 } from 'state/action-types';
+
+export const transitToAccountRecoveryRoute = ( route ) => ( {
+	type: ACCOUNT_RECOVERY_RESET_TRANSIT_TO_ROUTE,
+	route,
+} );
 
 export const fetchResetOptionsSuccess = ( items ) => ( {
 	type: ACCOUNT_RECOVERY_RESET_OPTIONS_RECEIVE,
