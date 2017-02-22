@@ -239,6 +239,19 @@ const MediaUtils = {
 	},
 
 	/**
+	 * Return true if file title matches embed link format. Embed links are URLs
+	 * offered by services like cloudup and droplr to point directly to a file
+	 * rather than the containing page. In this case fall back to server validation
+	 * to confirm the file is acceptable.
+	 *
+	 * @param {Object} item Item object
+	 * @return {Boolean} Item title matches embed link pattern
+	 */
+	isEmbedLink: function( item ) {
+		return typeof item.title === 'string' && item.title.match( /^\w+\+/i );
+	},
+
+	/**
 	 * Returns an array of supported file extensions for the specified site.
 	 *
 	 * @param  {Object} site Site object
@@ -289,6 +302,10 @@ const MediaUtils = {
 		}
 
 		if ( ! MediaUtils.isSiteAllowedFileTypesToBeTrusted( site ) ) {
+			return true;
+		}
+
+		if ( MediaUtils.isEmbedLink( item ) ) {
 			return true;
 		}
 
