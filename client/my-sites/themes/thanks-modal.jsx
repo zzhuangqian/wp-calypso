@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import page from 'page';
 import { translate } from 'i18n-calypso';
@@ -11,7 +11,7 @@ import { translate } from 'i18n-calypso';
  */
 import Dialog from 'components/dialog';
 import PulsingDot from 'components/pulsing-dot';
-import { trackClick } from './helpers';
+import { trackClick as trackClickHelper } from './helpers';
 import {
 	getActiveTheme,
 	getCanonicalTheme,
@@ -24,43 +24,43 @@ import {
 } from 'state/themes/selectors';
 import { clearActivated } from 'state/themes/actions';
 
-const ThanksModal = React.createClass( {
-	trackClick: trackClick.bind( null, 'current theme' ),
-
-	propTypes: {
+class ThanksModal extends Component {
+	static propTypes = {
 		// Where is the modal being used?
-		source: React.PropTypes.oneOf( [ 'details', 'list', 'upload' ] ).isRequired,
+		source: PropTypes.oneOf( [ 'details', 'list', 'upload' ] ).isRequired,
 		// Connected props
-		isActivating: React.PropTypes.bool.isRequired,
-		hasActivated: React.PropTypes.bool.isRequired,
-		currentTheme: React.PropTypes.shape( {
-			name: React.PropTypes.string,
-			id: React.PropTypes.string
+		isActivating: PropTypes.bool.isRequired,
+		hasActivated: PropTypes.bool.isRequired,
+		currentTheme: PropTypes.shape( {
+			name: PropTypes.string,
+			id: PropTypes.string
 		} ),
-		clearActivated: React.PropTypes.func.isRequired,
-	},
+		clearActivated: PropTypes.func.isRequired,
+	}
+
+	trackClick = () => trackClickHelper( 'current theme' )
 
 	onCloseModal() {
 		this.props.clearActivated( this.props.site.ID );
 		this.setState( { show: false } );
-	},
+	}
 
-	visitSite() {
+	visitSite = () => {
 		this.trackClick( 'visit site' );
 		page( this.props.site.URL );
-	},
+	}
 
-	goBack() {
+	goBack = () => {
 		this.trackClick( 'go back' );
 		this.onCloseModal();
-	},
+	}
 
 	onLinkClick( link ) {
 		return () => {
 			this.onCloseModal();
 			this.trackClick( link, 'click' );
 		};
-	},
+	}
 
 	renderBody() {
 		return (
@@ -73,7 +73,7 @@ const ThanksModal = React.createClass( {
 			</li>
 			</ul>
 		);
-	},
+	}
 
 	renderThemeInfo() {
 		return translate( '{{a}}Learn more about{{/a}} this theme.', {
@@ -82,7 +82,7 @@ const ThanksModal = React.createClass( {
 					onClick={ this.onLinkClick( 'theme info' ) } />
 			}
 		} );
-	},
+	}
 
 	renderCustomizeInfo() {
 		return translate( '{{a}}Customize{{/a}} this design.', {
@@ -91,7 +91,7 @@ const ThanksModal = React.createClass( {
 					onClick={ this.onLinkClick( 'customize' ) } />
 			}
 		} );
-	},
+	}
 
 	renderSupportInfo() {
 		const { author_uri: authorUri } = this.props.currentTheme;
@@ -115,7 +115,7 @@ const ThanksModal = React.createClass( {
 		}
 
 		return null;
-	},
+	}
 
 	renderContent() {
 		const {
@@ -136,7 +136,7 @@ const ThanksModal = React.createClass( {
 				{ this.renderBody() }
 			</div>
 		);
-	},
+	}
 
 	renderLoading() {
 		return (
@@ -144,7 +144,7 @@ const ThanksModal = React.createClass( {
 				<PulsingDot active={ true } />
 			</div>
 		);
-	},
+	}
 
 	render() {
 		const { currentTheme, hasActivated, isActivating } = this.props;
@@ -162,8 +162,8 @@ const ThanksModal = React.createClass( {
 				{ hasActivated && currentTheme ? this.renderContent() : this.renderLoading() }
 			</Dialog>
 		);
-	},
-} );
+	}
+}
 
 export default connect(
 	( state, { site } ) => {
