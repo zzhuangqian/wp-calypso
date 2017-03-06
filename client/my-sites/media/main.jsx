@@ -13,6 +13,7 @@ import observe from 'lib/mixins/data-observe';
 import Dialog from 'components/dialog';
 import { EditorMediaModalDetail } from 'post-editor/media-modal/detail';
 import ImageEditor from 'blocks/image-editor';
+import VideoEditor from 'blocks/video-editor';
 import MediaActions from 'lib/media/actions';
 import MediaUtils from 'lib/media/utils';
 import MediaLibrarySelectedData from 'components/data/media-library-selected-data';
@@ -30,8 +31,9 @@ export default React.createClass( {
 
 	getInitialState: function() {
 		return {
-			editedItem: null,
 			currentDetail: null,
+			editedImageItem: null,
+			editedVideoItem: null,
 			selectedImages: [],
 		};
 	},
@@ -74,16 +76,20 @@ export default React.createClass( {
 	},
 
 	closeDetailsModal() {
-		this.setState( { editedItem: null, currentDetail: null, selectedImages: [] } );
+		this.setState( { editedImageItem: null, editedVideoItem: null, currentDetail: null, selectedImages: [] } );
 	},
 
 	editImage() {
-		this.setState( { currentDetail: null, editedItem: this.state.currentDetail } );
+		this.setState( { currentDetail: null, editedImageItem: this.state.currentDetail } );
+	},
+
+	editVideo() {
+		this.setState( { currentDetail: null, editedVideoItem: this.state.currentDetail } );
 	},
 
 	onImageEditorCancel: function( imageEditorProps ) {
 		const {	resetAllImageEditorState } = imageEditorProps;
-		this.setState( { currentDetail: this.state.editedItem, editedItem: null } );
+		this.setState( { currentDetail: this.state.editedImageItem, editedImageItem: null } );
 
 		resetAllImageEditorState();
 	},
@@ -115,12 +121,12 @@ export default React.createClass( {
 
 		MediaActions.update( site.ID, item, true );
 		resetAllImageEditorState();
-		this.setState( { currentDetail: null, editedItem: null, selectedImages: [] } );
+		this.setState( { currentDetail: null, editedImageItem: null, selectedImages: [] } );
 	},
 
 	getModalButtons() {
 		// do not render buttons if the media image editor is opened
-		if ( this.state.editedItem !== null ) {
+		if ( this.state.editedImageItem !== null ) {
 			return null;
 		}
 
@@ -143,12 +149,33 @@ export default React.createClass( {
 		];
 	},
 
+	onVideoEditorCancel: function() {
+		this.setState( { currentDetail: this.state.editedVideoItem, editedVideoItem: null } );
+	},
+
+	onVideoEditorUpdatePoster( { ID, poster } ) {
+		const site = this.props.sites.getSelectedSite();
+
+		if ( site ) {
+			MediaActions.edit( site.ID, {
+				ID,
+				thumbnails: {
+					fmt_hd: poster,
+					fmt_dvd: poster,
+					fmt_std: poster,
+				}
+			} );
+		}
+
+		this.setState( { currentDetail: null, editedVideoItem: null } );
+	},
+
 	restoreOriginalMedia: function( siteId, item ) {
 		if ( ! siteId || ! item ) {
 			return;
 		}
 		MediaActions.update( siteId, { ID: item.ID, media_url: item.guid }, true );
-		this.setState( { currentDetail: null, editedItem: null, selectedImages: [] } );
+		this.setState( { currentDetail: null, editedImageItem: null, selectedImages: [] } );
 	},
 
 	setDetailSelectedIndex: function( index ) {
@@ -211,7 +238,7 @@ export default React.createClass( {
 		return (
 			<div ref="container" className="main main-column media" role="main">
 				<SidebarNavigation />
-				{ ( this.state.editedItem !== null || this.state.currentDetail !== null ) &&
+				{ ( this.state.editedImageItem !== null || this.state.editedVideoItem !== null || this.state.currentDetail !== null ) &&
 					<Dialog
 						isVisible={ true }
 						additionalClassNames="editor-media-modal media__item-dialog"
@@ -224,17 +251,25 @@ export default React.createClass( {
 							items={ this.state.selectedImages }
 							selectedIndex={ this.state.currentDetail }
 							onReturnToList={ this.closeDetailsModal }
-							onEditItem={ this.editImage }
+							onEditImageItem={ this.editImage }
+							onEditVideoItem={ this.editVideo }
 							onRestoreItem={ this.restoreOriginalMedia }
 							onSelectedIndexChange={ this.setDetailSelectedIndex }
 						/>
 					}
-					{ this.state.editedItem !== null &&
+					{ this.state.editedImageItem !== null &&
 						<ImageEditor
 							siteId={ site && site.ID }
-							media={ this.state.selectedImages[ this.state.editedItem ] }
+							media={ this.state.selectedImages[ this.state.editedImageItem ] }
 							onDone={ this.onImageEditorDone }
 							onCancel={ this.onImageEditorCancel }
+						/>
+					}
+					{ this.state.editedVideoItem &&
+						<VideoEditor
+							media={ this.state.editedVideoItem }
+							onCancel={ this.onVideoEditorCancel }
+							onUpdatePoster={ this.onVideoEditorUpdatePoster }
 						/>
 					}
 					</Dialog>
