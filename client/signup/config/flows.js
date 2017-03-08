@@ -215,8 +215,8 @@ const flows = {
 	},
 
 	social: {
-		steps: [ 'user-social', 'design-type', 'themes', 'domains', 'plans' ],
-		destination: getSiteDestination,
+		steps: [ 'user-social', 'verify' ],
+		destination: '/',
 		description: 'User-first signup flow',
 		lastModified: '2016-01-18',
 	}

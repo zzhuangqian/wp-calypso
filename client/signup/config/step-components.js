@@ -14,6 +14,8 @@ var config = require( 'config' ),
 	ThemeSelectionComponent = require( 'signup/steps/theme-selection' );
 import UserSignupComponent from 'signup/steps/user';
 import PlansStepWithoutFreePlan from 'signup/steps/plans-without-free';
+import SocialSignupComponent from 'signup/steps/social';
+import VerifySignupComponent from 'signup/steps/verify';
 
 module.exports = {
 	'design-type': DesignTypeComponent,
@@ -35,5 +37,6 @@ module.exports = {
 	themes: ThemeSelectionComponent,
 	'themes-site-selected': ThemeSelectionComponent,
 	user: UserSignupComponent,
-	'user-social': UserSignupComponent
+	'user-social': SocialSignupComponent,
+	verify: VerifySignupComponent
 };

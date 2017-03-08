@@ -100,6 +100,7 @@ assign( SignupFlowController.prototype, {
 
 			const dependenciesFound = pick( SignupDependencyStore.get(), step.dependencies );
 			const dependenciesNotProvided = difference( step.dependencies, keys( dependenciesFound ), this._getFlowProvidesDependencies() );
+
 			if ( ! isEmpty( dependenciesNotProvided ) ) {
 
 				if ( this._flowName !== flows.defaultFlowName ) {

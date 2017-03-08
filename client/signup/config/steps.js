@@ -65,13 +65,17 @@ module.exports = {
 	},
 
 	'user-social': {
-		stepName: 'user',
-		apiRequestFunction: stepActions.createAccount,
-		props: {
-			social: true
-		},
+		stepName: 'user-social',
+		apiRequestFunction: stepActions.createPasswordlessAccount,
 		providesToken: true,
-		providesDependencies: [ 'bearer_token', 'username' ]
+		providesDependencies: [ 'email' ]
+	},
+
+	verify: {
+		stepName: 'verify',
+		apiRequestFunction: stepActions.verifyPasswordlessAccount,
+		providesToken: true,
+		providesDependencies: [ 'bearer_token' ]
 	},
 
 	'site-title': {
