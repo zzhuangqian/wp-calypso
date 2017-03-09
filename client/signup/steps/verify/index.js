@@ -123,21 +123,21 @@ export class SocialStep extends Component {
 
 	changeCode = ( event ) => {
 		this.setState( {
-			code: event.target.value
+			password: event.target.value
 		} );
 	};
 
-	codeField() {
+	passwordField() {
 		return (
-			<input type="text" name="code" onChange={ this.changeCode } />
+			<input type="password" name="password" onChange={ this.changePassword } />
 		);
 	}
 
 	renderSignupForm() {
 		return (
 			<div>
+				<p>We sent a verification code to your email address. You can ignore this.</p>
 				<form onSubmit={ this.submitForm }>
-					{ this.codeField() }
 				</form>
 			</div>
 		);
@@ -151,7 +151,7 @@ export class SocialStep extends Component {
 				headerText="Verify your email address"
 				subHeaderText="Enter the code sent to your email address"
 				positionInFlow={ this.props.positionInFlow }
-				fallbackHeaderText={ this.props.translate( 'Create your account.' ) }
+				fallbackHeaderText={ this.props.translate( 'Thanks for being part of this test.' ) }
 				signupProgress={ this.props.signupProgress }
 				stepContent={ this.renderSignupForm() }
 			/>

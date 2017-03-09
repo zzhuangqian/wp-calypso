@@ -19,6 +19,16 @@
 	}
 }
 
+.passwordless-form {
+	margin: 0 auto;
+	width: 320px;
+}
+
+.social-submit {
+	margin: 10px 0;
+	width: 100%
+}
+
 .facebook-login-wrapper {
 	text-align: center;
 }
@@ -35,4 +45,26 @@
 	margin-top: 1em;
 	padding: 10px 10px 10px 25px;
 	width: 100%;
+}
+
+.continue-with {
+	color: grey;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+}
+.continue-with:before, .continue-with:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 43%;
+    height: 1px;
+    content: '\a0';
+    background-color: lightgrey;
+    margin-left: 2%;
+}
+.continue-with:before {
+    margin-left: -45%;
+    text-align: right;
 }

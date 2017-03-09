@@ -9,6 +9,7 @@ import { identity } from 'lodash';
 /**
  * Internal dependencies
  */
+import Button from 'components/button';
 import StepWrapper from 'signup/step-wrapper';
 import signupUtils from 'signup/utils';
 import SignupActions from 'lib/signup/actions';
@@ -74,7 +75,9 @@ export class SocialStep extends Component {
 	};
 
 	submitForm = ( event ) => {
-		event.preventDefault();
+		if ( event ) {
+			event.preventDefault();
+		}
 
 		SignupActions.submitSignupStep( {
 			stepName: this.props.stepName,
@@ -82,7 +85,7 @@ export class SocialStep extends Component {
 		} );
 
 		this.props.goToNextStep();
-	}
+	};
 
 	userCreationComplete() {
 		return this.props.step && 'completed' === this.props.step.status;
@@ -130,21 +133,25 @@ export class SocialStep extends Component {
 		} );
 	};
 
+	responseFacebook = ( response ) => {
+		var self = this;
+
+		FB.api( '/me', { access_token: response.accessToken, fields: 'id,email,name,first_name,last_name,token_for_business' }, function( meResponse ) {
+			self.setState( {
+				email: meResponse.email
+			}, () => {
+				self.submitForm()
+			} );
+		} );
+	};
+
 	emailField() {
 		return (
-			<input type="email" name="email" onChange={ this.changeEmail } />
+			<div>
+				<label for="email">Enter Yourour email address</label>
+				<input type="email" name="email" onChange={ this.changeEmail } />
+			</div>
 		);
-	}
-
-	responseFacebook (response) {
-		//anything else you want to do(save to localStorage)...
-		FB.api('/me', { access_token: response.accessToken, fields: 'id,email,name,first_name,last_name,name,token_for_business' }, function() {
-			//console.log( response2 );
-		} );
-
-		FB.api('/me/accounts', { access_token: response.accessToken }, function() {
-			//console.log( response3 );
-		} );
 	}
 
 	socialConnect() {
@@ -157,17 +164,21 @@ export class SocialStep extends Component {
 					xfbml={true}
 					version="v2.5"
 					class="facebook-login"
-					buttonText="Sign up with Facebook" />
+					buttonText="Facebook" />
 			</div>
 		);
 	}
 
 	renderSignupForm() {
 		return (
-			<div>
+			<div className="passwordless-form">
 				<form onSubmit={ this.submitForm }>
 					{ this.emailField() }
+					<Button type="submit" primary className="social-submit">Continue with WordPress.com</Button>
 				</form>
+				<div className="continue-with-wrapper">
+					<div className="continue-with">or continue with</div>
+				</div>
 				{ this.socialConnect() }
 			</div>
 		);
