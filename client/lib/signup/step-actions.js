@@ -266,18 +266,9 @@ module.exports = {
 	createPasswordlessAccount( callback, dependencies, { email } ) {
 		wpcom.undocumented().usersEmailNew( { email: email }, ( error, response ) => {
 			var errors = error && error.error ? [ { error: error.error, message: error.message } ] : undefined,
-				bearerToken = error && error.error ? {} : { bearer_token: response.bearer_token };
+				bearerToken = error && error.error ? {} : { bearer_token: response.token.access_token };
 
-			callback( errors, assign( {}, { email: email }, bearerToken ) );
-		} );
-	},
-
-	verifyPasswordlessAccount( callback, dependencies, { code } ) {
-		wpcom.undocumented().usersEmailVerification( { email: dependencies.email, code: code }, ( error, response ) => {
-			var errors = error && error.error ? [ { error: error.error, message: error.message } ] : undefined,
-				bearerToken = error && error.error ? {} : { bearer_token: response.bearer_token };
-
-			callback( errors, assign( {}, {}, bearerToken ) );
+			callback( errors, assign( {}, { username: response.user_name }, bearerToken ) );
 		} );
 	},
 

@@ -68,14 +68,7 @@ module.exports = {
 		stepName: 'user-social',
 		apiRequestFunction: stepActions.createPasswordlessAccount,
 		providesToken: true,
-		providesDependencies: [ 'email' ]
-	},
-
-	verify: {
-		stepName: 'verify',
-		apiRequestFunction: stepActions.verifyPasswordlessAccount,
-		providesToken: true,
-		providesDependencies: [ 'bearer_token' ]
+		providesDependencies: [ 'bearer_token', 'username' ]
 	},
 
 	'site-title': {

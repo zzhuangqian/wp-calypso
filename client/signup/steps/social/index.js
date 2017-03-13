@@ -10,6 +10,7 @@ import { identity } from 'lodash';
  * Internal dependencies
  */
 import Button from 'components/button';
+import Card from 'components/card';
 import StepWrapper from 'signup/step-wrapper';
 import signupUtils from 'signup/utils';
 import SignupActions from 'lib/signup/actions';
@@ -17,7 +18,7 @@ import { getSuggestedUsername } from 'state/signup/optional-dependencies/selecto
 
 import { recordTracksEvent } from 'state/analytics/actions';
 
-let FB;
+var FB;
 import { FacebookLogin } from 'react-facebook-login-component';
 
 export class SocialStep extends Component {
@@ -148,7 +149,7 @@ export class SocialStep extends Component {
 	emailField() {
 		return (
 			<div>
-				<label for="email">Enter Yourour email address</label>
+				<label htmlFor="email">Your email address</label>
 				<input type="email" name="email" onChange={ this.changeEmail } />
 			</div>
 		);
@@ -171,7 +172,7 @@ export class SocialStep extends Component {
 
 	renderSignupForm() {
 		return (
-			<div className="passwordless-form">
+			<Card className="passwordless-form">
 				<form onSubmit={ this.submitForm }>
 					{ this.emailField() }
 					<Button type="submit" primary className="social-submit">Continue with WordPress.com</Button>
@@ -180,7 +181,10 @@ export class SocialStep extends Component {
 					<div className="continue-with">or continue with</div>
 				</div>
 				{ this.socialConnect() }
-			</div>
+				<p style={ { color: 'grey', fontSize: '0.8em', marginTop: '1em', textAlign: 'center' } }>
+					Connect to your exisiting profile and get started faster. We'll never post without your permission
+				</p>
+			</Card>
 		);
 	}
 

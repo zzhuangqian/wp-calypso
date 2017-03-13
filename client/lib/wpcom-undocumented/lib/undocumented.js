@@ -1531,6 +1531,7 @@ Undocumented.prototype.usersEmailNew = function( query, fn ) {
 
 	args = {
 		path: '/users/email/new',
+		apiVersion: '1.1',
 		body: mapKeysRecursively( query, snakeCase )
 	};
 	return this.wpcom.req.post( args, fn );

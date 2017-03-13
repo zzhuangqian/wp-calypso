@@ -215,9 +215,9 @@ const flows = {
 	},
 
 	social: {
-		steps: [ 'user-social', 'verify' ],
+		steps: [ 'user-social' ],
 		destination: '/',
-		description: 'User-first signup flow',
+		description: 'Passwordless signup flow',
 		lastModified: '2016-01-18',
 	}
 
