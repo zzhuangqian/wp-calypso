@@ -45,6 +45,34 @@ export function updateSiteSettings( siteId, settings ) {
 }
 
 /**
+ * Returns an action object to be used in signalling that some site settings request has failed.
+ *
+ * @param  {Number} siteId Site ID
+ * @param  {Object} error The error coming from the API
+ * @return {Object}        Action object
+ */
+export function siteSettingsRequestFailure( siteId, error ) {
+	return {
+		type: SITE_SETTINGS_REQUEST_FAILURE,
+		siteId,
+		error
+	};
+}
+
+/**
+ * Returns an action object to be used in signalling that some site settings request has succeeded.
+ *
+ * @param  {Number} siteId Site ID
+ * @return {Object}        Action object
+ */
+export function siteSettingsRequestSuccess( siteId ) {
+	return {
+		type: SITE_SETTINGS_REQUEST_SUCCESS,
+		siteId
+	};
+}
+
+/**
  * Returns an action thunk which, when invoked, triggers a network request to
  * retrieve site settings
  *
@@ -67,17 +95,10 @@ export function requestSiteSettings( siteId ) {
 				};
 
 				dispatch( receiveSiteSettings( siteId, savedSettings ) );
-				dispatch( {
-					type: SITE_SETTINGS_REQUEST_SUCCESS,
-					siteId
-				} );
+				dispatch( siteSettingsRequestSuccess( siteId ) );
 			} )
 			.catch( error => {
-				dispatch( {
-					type: SITE_SETTINGS_REQUEST_FAILURE,
-					siteId,
-					error
-				} );
+				dispatch( siteSettingsRequestFailure( siteId, error ) );
 			} );
 	};
 }
