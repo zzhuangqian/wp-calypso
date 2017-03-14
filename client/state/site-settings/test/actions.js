@@ -23,6 +23,8 @@ import {
 	receiveSiteSettings,
 	requestSiteSettings,
 	saveSiteSettings,
+	siteSettingsRequestFailure,
+	siteSettingsRequestSuccess,
 	updateSiteSettings
 } from '../actions';
 
@@ -39,6 +41,30 @@ describe( 'actions', () => {
 				type: SITE_SETTINGS_RECEIVE,
 				siteId: 2916284,
 				settings
+			} );
+		} );
+	} );
+
+	describe( 'siteSettingsRequestSuccess()', () => {
+		it( 'should return an action object', () => {
+			const action = siteSettingsRequestSuccess( 2916284 );
+
+			expect( action ).to.eql( {
+				type: SITE_SETTINGS_REQUEST_SUCCESS,
+				siteId: 2916284
+			} );
+		} );
+	} );
+
+	describe( 'siteSettingsRequestFailure()', () => {
+		it( 'should return an action object', () => {
+			const error = sinon.match( { message: 'User cannot access this private blog.' } );
+			const action = siteSettingsRequestFailure( 2916284, error );
+
+			expect( action ).to.eql( {
+				type: SITE_SETTINGS_REQUEST_FAILURE,
+				siteId: 2916284,
+				error
 			} );
 		} );
 	} );
@@ -96,20 +122,14 @@ describe( 'actions', () => {
 
 		it( 'should dispatch request success action when request completes', () => {
 			return requestSiteSettings( 2916284 )( spy ).then( () => {
-				expect( spy ).to.have.been.calledWith( {
-					type: SITE_SETTINGS_REQUEST_SUCCESS,
-					siteId: 2916284
-				} );
+				expect( spy ).to.have.been.calledWith( siteSettingsRequestSuccess( 2916284 ) );
 			} );
 		} );
 
 		it( 'should dispatch fail action when request fails', () => {
 			return requestSiteSettings( 2916285 )( spy ).then( () => {
-				expect( spy ).to.have.been.calledWith( {
-					type: SITE_SETTINGS_REQUEST_FAILURE,
-					siteId: 2916285,
-					error: sinon.match( { message: 'User cannot access this private blog.' } )
-				} );
+				const error = sinon.match( { message: 'User cannot access this private blog.' } );
+				expect( spy ).to.have.been.calledWith( siteSettingsRequestFailure( 2916285, error ) );
 			} );
 		} );
 	} );
