@@ -5,11 +5,9 @@ import {
 	VIDEO_EDITOR_POSTER_UPDATE,
 	VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
 	VIDEO_EDITOR_POSTER_UPDATE_SUCCESS,
-	VIDEO_EDITOR_POSTER_UPDATING,
-	VIDEO_EDITOR_SCRIPT_LOAD_ERROR,
 	VIDEO_EDITOR_STATE_RESET,
 	VIDEO_EDITOR_STATE_RESET_POSTER,
-	VIDEO_EDITOR_VIDEO_HAS_LOADED,
+	VIDEO_SHOW_UPLOAD_PROGRESS,
 } from 'state/action-types';
 
 /**
@@ -35,28 +33,6 @@ export function resetVideoEditorPosterState() {
 }
 
 /**
- * Returns an action object to be used when there is an error loading the VideoPress script.
- *
- * @return {Object} Action object
- */
-export const setVideoEditorHasScriptLoadError = () => {
-	return {
-		type: VIDEO_EDITOR_SCRIPT_LOAD_ERROR,
-	};
-};
-
-/**
- * Returns an action object to be used when the video has loaded.
- *
- * @return {Object} Action object
- */
-export const setVideoEditorVideoHasLoaded = () => {
-	return {
-		type: VIDEO_EDITOR_VIDEO_HAS_LOADED,
-	};
-};
-
-/**
  * Returns an action object to indicate that a request has been made to update the video poster.
  *
  * @param {String} videoId  ID of the video
@@ -70,17 +46,6 @@ export const updateVideoEditorPoster = ( videoId, params ) => {
 		type: VIDEO_EDITOR_POSTER_UPDATE,
 		videoId,
 		params,
-	};
-};
-
-/**
- * Returns an action object to indicate that the poster for the video is updating.
- *
- * @return {Object} Action object
- */
-export const updatingVideoEditorPoster = () => {
-	return {
-		type: VIDEO_EDITOR_POSTER_UPDATING,
 	};
 };
 
@@ -105,5 +70,18 @@ export const updateVideoEditorPosterSuccess = poster => {
 export const updateVideoEditorPosterFailure = () => {
 	return {
 		type: VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
+	};
+};
+
+/**
+ * Returns an action object to indicate the poster upload progress.
+ *
+ * @param  {String} percentage  Upload progress percentage
+ * @return {Object} Action object
+ */
+export const updatePosterUploadProgress = percentage => {
+	return {
+		type: VIDEO_SHOW_UPLOAD_PROGRESS,
+		percentage,
 	};
 };

@@ -10,21 +10,17 @@ import {
 	VIDEO_EDITOR_POSTER_UPDATE,
 	VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
 	VIDEO_EDITOR_POSTER_UPDATE_SUCCESS,
-	VIDEO_EDITOR_POSTER_UPDATING,
-	VIDEO_EDITOR_SCRIPT_LOAD_ERROR,
 	VIDEO_EDITOR_STATE_RESET,
 	VIDEO_EDITOR_STATE_RESET_POSTER,
-	VIDEO_EDITOR_VIDEO_HAS_LOADED,
+	VIDEO_SHOW_UPLOAD_PROGRESS,
 } from 'state/action-types';
 import {
 	resetVideoEditorState,
 	resetVideoEditorPosterState,
-	setVideoEditorHasScriptLoadError,
-	setVideoEditorVideoHasLoaded,
+	updatePosterUploadProgress,
 	updateVideoEditorPoster,
 	updateVideoEditorPosterSuccess,
 	updateVideoEditorPosterFailure,
-	updatingVideoEditorPoster,
 } from '../actions';
 
 describe( 'actions', () => {
@@ -48,26 +44,6 @@ describe( 'actions', () => {
 		} );
 	} );
 
-	describe( '#setVideoEditorHasScriptLoadError()', () => {
-		it( 'should return an action object', () => {
-			const action = setVideoEditorHasScriptLoadError();
-
-			expect( action ).to.eql( {
-				type: VIDEO_EDITOR_SCRIPT_LOAD_ERROR,
-			} );
-		} );
-	} );
-
-	describe( '#setVideoEditorVideoHasLoaded()', () => {
-		it( 'should return an action object', () => {
-			const action = setVideoEditorVideoHasLoaded();
-
-			expect( action ).to.eql( {
-				type: VIDEO_EDITOR_VIDEO_HAS_LOADED,
-			} );
-		} );
-	} );
-
 	describe( '#updateVideoEditorPoster()', () => {
 		it( 'should return an action object', () => {
 			const videoId = 'dummy-videoId';
@@ -78,16 +54,6 @@ describe( 'actions', () => {
 				type: VIDEO_EDITOR_POSTER_UPDATE,
 				videoId,
 				params
-			} );
-		} );
-	} );
-
-	describe( '#updatingVideoEditorPoster()', () => {
-		it( 'should return an action object', () => {
-			const action = updatingVideoEditorPoster();
-
-			expect( action ).to.eql( {
-				type: VIDEO_EDITOR_POSTER_UPDATING,
 			} );
 		} );
 	} );
@@ -110,6 +76,18 @@ describe( 'actions', () => {
 
 			expect( action ).to.eql( {
 				type: VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
+			} );
+		} );
+	} );
+
+	describe( '#updatePosterUploadProgress()', () => {
+		it( 'should return an action object', () => {
+			const percentage = 50;
+			const action = updatePosterUploadProgress( percentage );
+
+			expect( action ).to.eql( {
+				type: VIDEO_SHOW_UPLOAD_PROGRESS,
+				percentage,
 			} );
 		} );
 	} );
