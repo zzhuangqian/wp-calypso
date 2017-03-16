@@ -10,9 +10,9 @@ import {
 	VIDEO_EDITOR_POSTER_UPDATE,
 	VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
 	VIDEO_EDITOR_POSTER_UPDATE_SUCCESS,
+	VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 	VIDEO_EDITOR_STATE_RESET,
 	VIDEO_EDITOR_STATE_RESET_POSTER,
-	VIDEO_SHOW_UPLOAD_PROGRESS,
 } from 'state/action-types';
 import {
 	resetVideoEditorState,
@@ -86,7 +86,7 @@ describe( 'actions', () => {
 			const action = updatePosterUploadProgress( percentage );
 
 			expect( action ).to.eql( {
-				type: VIDEO_SHOW_UPLOAD_PROGRESS,
+				type: VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 				percentage,
 			} );
 		} );

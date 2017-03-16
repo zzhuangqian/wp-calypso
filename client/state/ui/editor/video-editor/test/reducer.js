@@ -9,9 +9,9 @@ import { expect } from 'chai';
 import {
 	VIDEO_EDITOR_POSTER_UPDATE_FAILURE,
 	VIDEO_EDITOR_POSTER_UPDATE_SUCCESS,
+	VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 	VIDEO_EDITOR_STATE_RESET,
 	VIDEO_EDITOR_STATE_RESET_POSTER,
-	VIDEO_SHOW_UPLOAD_PROGRESS,
 } from 'state/action-types';
 
 import reducer, {
@@ -117,7 +117,7 @@ describe( 'reducer', () => {
 
 		it( 'should change to upload percentage on successful update', () => {
 			const state = uploadProgress( undefined, {
-				type: VIDEO_SHOW_UPLOAD_PROGRESS,
+				type: VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 				percentage,
 			} );
 
