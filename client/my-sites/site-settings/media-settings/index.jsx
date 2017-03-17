@@ -45,7 +45,7 @@ const MediaSettings = ( {
 
 			<FormFieldset>
 				<div className="media-settings__info-link-container site-settings__info-link-container">
-					<InfoPopover position={ 'left' }>
+					<InfoPopover className="media-settings__info-popover" position={ 'left' }>
 						<ExternalLink target="_blank" icon={ true } href={ 'https://jetpack.com/support/photon' } >
 							{ translate( 'Learn more about Photon.' ) }
 						</ExternalLink>
@@ -61,7 +61,7 @@ const MediaSettings = ( {
 			</FormFieldset>
 			<FormFieldset className="media-settings__formfieldset has-divider is-top-only">
 				<div className="media-settings__info-link-container site-settings__info-link-container">
-					<InfoPopover position={ 'left' }>
+					<InfoPopover className="media-settings__info-popover" position={ 'left' }>
 						<ExternalLink target="_blank" icon={ true } href={ 'https://jetpack.com/support/carousel' } >
 							{ translate( 'Learn more about Carousel.' ) }
 						</ExternalLink>
