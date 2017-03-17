@@ -7,7 +7,7 @@ import { VIDEO_EDITOR_UPDATE_POSTER } from 'state/action-types';
 import {
 	setPosterUrl,
 	showError,
-	updatePosterUploadProgress,
+	showUploadProgress,
 } from 'state/ui/editor/video-editor/actions';
 
 /**
@@ -57,7 +57,7 @@ export const updateUploadProgress = ( { dispatch }, action, next, progress ) => 
 		percentage = Math.min( Math.round( progress.loaded / progress.total * 100 ), 100 );
 	}
 
-	dispatch( updatePosterUploadProgress( percentage ) );
+	dispatch( showUploadProgress( percentage ) );
 };
 
 export const dispatchPosterRequest = dispatchRequest( updatePoster, updatePosterUrl, updatePosterError, updateUploadProgress );

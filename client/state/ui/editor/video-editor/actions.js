@@ -67,7 +67,7 @@ export const showError = () => {
  * @param  {String} percentage  Upload progress percentage
  * @return {Object} Action object
  */
-export const updatePosterUploadProgress = percentage => {
+export const showUploadProgress = percentage => {
 	return {
 		type: VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 		percentage,
