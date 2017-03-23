@@ -48,12 +48,10 @@ export const MediaBasicsTour = makeTour(
                 <Quit>Quit</Quit>
             </ButtonRow>
         </Step>
-    
+
         <Step
             name="drag-and-drop"
-            arrow="top-left"
-            target=".media-library__list .media-library__list-item:first-of-type"
-            placement="below"
+            placement="right"
             >
             <p>
                 You can also drag-and-drop new media directly into your library.
@@ -66,6 +64,6 @@ export const MediaBasicsTour = makeTour(
                 <Quit>Quit</Quit>
             </ButtonRow>
         </Step>
-        
+
     </Tour>
 );
