@@ -2073,18 +2073,7 @@
       "version": "9.17.0"
     },
     "globby": {
-      "version": "3.0.1",
-      "dependencies": {
-        "glob": {
-          "version": "5.0.15"
-        },
-        "pinkie": {
-          "version": "1.0.0"
-        },
-        "pinkie-promise": {
-          "version": "1.0.0"
-        }
-      }
+      "version": "6.1.0"
     },
     "globjoin": {
       "version": "0.1.4",
@@ -2317,19 +2306,13 @@
       "version": "0.0.0"
     },
     "i18n-calypso": {
-      "version": "1.7.1",
+      "version": "1.7.4",
       "dependencies": {
         "async": {
           "version": "1.5.2"
         },
         "commander": {
           "version": "2.9.0"
-        },
-        "glob": {
-          "version": "7.1.2"
-        },
-        "minimatch": {
-          "version": "3.0.4"
         }
       }
     },
@@ -3507,7 +3490,7 @@
       "version": "2.18.1"
     },
     "moment-timezone": {
-      "version": "0.4.0"
+      "version": "0.5.11"
     },
     "morgan": {
       "version": "1.2.0",
@@ -3943,7 +3926,21 @@
       }
     },
     "postcss-cli": {
-      "version": "2.5.1"
+      "version": "2.5.1",
+      "dependencies": {
+        "glob": {
+          "version": "5.0.15"
+        },
+        "globby": {
+          "version": "3.0.1"
+        },
+        "pinkie": {
+          "version": "1.0.0"
+        },
+        "pinkie-promise": {
+          "version": "1.0.0"
+        }
+      }
     },
     "postcss-less": {
       "version": "0.14.0",
