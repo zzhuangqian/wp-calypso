@@ -163,7 +163,7 @@ class PlanFeatures extends Component {
 						relatedMonthlyPlan={ relatedMonthlyPlan }
 					/>
 					<p className="plan-features__description">
-						{ planConstantObj.getDescription() }
+						{ planConstantObj.getDescription( abtest ) }
 					</p>
 					<PlanFeaturesActions
 						canPurchase={ canPurchase }
@@ -257,7 +257,7 @@ class PlanFeatures extends Component {
 					}
 
 					<p className="plan-features__description">
-						{ planConstantObj.getDescription() }
+						{ planConstantObj.getDescription( abtest ) }
 					</p>
 				</td>
 			);
@@ -326,15 +326,29 @@ class PlanFeatures extends Component {
 	}
 
 	renderFeatureItem( feature, index ) {
+		const description = feature.getDescription
+					? feature.getDescription( abtest )
+					: null;
+		const itemClasses = classNames(
+			'plan-features__item-title',
+			abtest( 'jetpackNewDescriptions' ) === 'showNew'
+			? 'plan-features__item-title-outlined'
+			: null
+		);
+
 		return (
 			<PlanFeaturesItem
 				key={ index }
-				description={ feature.getDescription
-					? feature.getDescription()
-					: null
-				}
+				description={ description }
+				hideInfoPopover={ abtest( 'jetpackNewDescriptions' ) === 'showNew' }
 			>
-				<span className="plan-features__item-title">{ feature.getTitle() }</span>
+				<span className="plan_features__item-info">
+					<span className={ itemClasses }>{ feature.getTitle() }</span>
+					{ abtest( 'jetpackNewDescriptions' ) === 'showNew'
+						? <span className="plan-features__item-description">{ description }</span>
+						: null
+					}
+				</span>
 			</PlanFeaturesItem>
 		);
 	}
