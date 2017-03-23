@@ -42,7 +42,7 @@ export const MediaBasicsTour = makeTour(
             placement="below"
             >
             <p>
-                Welcome to the Media Libary! Click here to add media to your site.
+                Welcome to the Media Libary! Click 'Add New' to add media to your site.
             </p>
             <ButtonRow>
                 <Next step="drag-and-drop">Continue</Next>
@@ -61,7 +61,7 @@ export const MediaBasicsTour = makeTour(
             style={ { marginBottom: '10px', border: '3px solid #00AADC', borderRadius: '4px' } }
             />
             <Continue click step="choose-image" target=".media-library__list-item-figure">
-                Next choose an image from the media library to continue.
+                Click an image in your media library to continue.
             </Continue>
         </Step>
         
@@ -72,7 +72,7 @@ export const MediaBasicsTour = makeTour(
             target=".editor-media-modal__secondary-action"
             >
             <Continue click step="launch-modal" target=".editor-media-modal__secondary-action">
-                Now that an item is selected you can click the Edit button to continue.
+                Click the Edit button that appears when an item is selected.
             </Continue>
         </Step>
         
