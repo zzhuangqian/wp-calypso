@@ -53,8 +53,6 @@ function stripHTML( string ) {
  * @return {string}             the widow-prevented string
  */
 function preventWidows( text, wordsToKeep = 2 ) {
-	let words, endWords;
-
 	if ( typeof text !== 'string' ) {
 		return text;
 	}
@@ -64,7 +62,7 @@ function preventWidows( text, wordsToKeep = 2 ) {
 		return text;
 	}
 
-	words = text.match( /\S+/g );
+	const words = text.match( /\S+/g );
 	if ( ! words || 1 === words.length ) {
 		return text;
 	}
@@ -73,7 +71,7 @@ function preventWidows( text, wordsToKeep = 2 ) {
 		return words.join( '\xA0' );
 	}
 
-	endWords = words.splice( -wordsToKeep, wordsToKeep );
+	const endWords = words.splice( -wordsToKeep, wordsToKeep );
 
 	return words.join( ' ' ) + ' ' + endWords.join( '\xA0' );
 }
@@ -415,5 +413,6 @@ module.exports = {
 	capitalPDangit: capitalPDangit,
 	parseHtml: parseHtml,
 	unescapeAndFormatSpaces: unescapeAndFormatSpaces,
+	phpToMomentMapping,
 	phpToMomentDatetimeFormat,
 };
