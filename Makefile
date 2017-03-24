@@ -15,7 +15,7 @@ BIN := $(THIS_DIR)/bin
 NODE_BIN := $(THIS_DIR)/node_modules/.bin
 
 # applications
-NODE ?= node
+NODE ?= `which node`
 NPM ?= npm
 BUNDLER ?= $(BIN)/bundler
 I18N_CALYPSO ?= $(NODE_BIN)/i18n-calypso
