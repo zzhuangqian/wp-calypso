@@ -60,6 +60,7 @@ export const MediaBasicsTour = makeTour(
             <img src="https://cldup.com/AnA1V5AnoE.gif"
             style={ { marginBottom: '10px', border: '3px solid #00AADC', borderRadius: '4px' } }
             />
+
             <Continue click step="choose-image" target=".media-library__list-item-figure">
                 Click an image in your media library to continue.
             </Continue>
@@ -76,5 +77,30 @@ export const MediaBasicsTour = makeTour(
             </Continue>
         </Step>
         
+        <Step name="launch-modal"
+            placement="beside"
+            arrow="right-top"
+            target=".editor-media-modal-detail__sidebar"
+            >
+            <p>You can edit the title, add a caption, find the media URL, and see other details about your media.
+            </p>
+            <ButtonRow>
+                <Next step="edit-image">Continue</Next>
+                <Quit>Quit</Quit>
+            </ButtonRow>
+        </Step>
+
+        <Step name="edit-image"
+            placement="beside"
+            arrow="left-top"
+            target=".editor-media-modal-detail__edit"
+            >
+            <p>You can click the Edit Image button to crop, rotate, and perform other basic edits to your images.
+            </p>
+            <ButtonRow>
+                <Next step="done">Continue</Next>
+                <Quit>Quit</Quit>
+            </ButtonRow>
+        </Step>
     </Tour>
 );
