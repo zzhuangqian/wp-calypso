@@ -7,31 +7,20 @@ import { combineReducers } from 'redux';
  * Internal dependencies
  */
 import {
-	VIDEO_EDITOR_RESET_STATE,
+	VIDEO_EDITOR_CLOSE_MODAL,
 	VIDEO_EDITOR_SET_POSTER_URL,
 	VIDEO_EDITOR_SHOW_ERROR,
 	VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS,
 } from 'state/action-types';
 
 /**
- * Tracks poster updated state.
+ * Tracks whether or not the modal should close.
  *
- * @param {Boolean} state Whether or not the video poster was already updated
+ * @param {Boolean} state Whether or not the modal was set to close
  * @param {Object} action Action object
- * @returns {Boolean} Whether or not the video poster is now updated
+ * @returns {Boolean} Whether or not the modal should now be closed
  */
-export const isPosterUpdated = ( state = false, action ) => {
-	switch ( action.type ) {
-		case VIDEO_EDITOR_SET_POSTER_URL:
-		case VIDEO_EDITOR_SHOW_ERROR:
-			return true;
-
-		case VIDEO_EDITOR_RESET_STATE:
-			return false;
-	}
-
-	return state;
-};
+export const closeModal = ( state = false, { type } ) => type === VIDEO_EDITOR_CLOSE_MODAL;
 
 /**
  * Tracks poster URL state.
@@ -40,17 +29,10 @@ export const isPosterUpdated = ( state = false, action ) => {
  * @param  {Object} action Action object
  * @return {String} Updated poster URL
  */
-export const posterUrl = ( state = '', action ) => {
-	switch ( action.type ) {
-		case VIDEO_EDITOR_SET_POSTER_URL:
-			return action.posterUrl;
-
-		case VIDEO_EDITOR_RESET_STATE:
-			return '';
-	}
-
-	return state;
-};
+export const url = ( state = null, { type, posterUrl } ) =>
+	VIDEO_EDITOR_SET_POSTER_URL === type
+		? posterUrl
+		: state;
 
 /**
  * Tracks poster upload progress state.
@@ -59,30 +41,30 @@ export const posterUrl = ( state = '', action ) => {
  * @param  {Object} action Action object
  * @return {Number} Updated upload progress of the poster
  */
-export const uploadProgress = ( state = 0, action ) => {
-	switch ( action.type ) {
-		case VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS:
-			return action.percentage;
+export const uploadProgress = ( state = null, { type, percentage } ) => {
+	if ( VIDEO_EDITOR_SHOW_UPLOAD_PROGRESS === type ) {
+		return percentage;
+	}
 
-		case VIDEO_EDITOR_RESET_STATE:
-			return 0;
+	if ( VIDEO_EDITOR_CLOSE_MODAL === type ) {
+		return null;
 	}
 
 	return state;
 };
 
 /**
- * Tracks poster error state.
+ * Tracks whether or not an error should be shown.
  *
- * @param  {Boolean} state Whether or not an error was previously encountered while updating the poster
+ * @param  {Boolean} state Whether or not an error was to be shown
  * @param  {Object} action Action object
- * @return {Boolean} Whether or not an error has now been encountered while updating the poster
+ * @return {Boolean} Whether or not an error should now be shown
  */
-export const hasPosterUpdateError = ( state = false, { type } ) => type === VIDEO_EDITOR_SHOW_ERROR;
+export const showError = ( state = false, { type } ) => type === VIDEO_EDITOR_SHOW_ERROR;
 
 export default combineReducers( {
-	hasPosterUpdateError,
-	isPosterUpdated,
-	posterUrl,
+	closeModal,
+	showError,
 	uploadProgress,
+	url,
 } );
