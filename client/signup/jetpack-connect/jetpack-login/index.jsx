@@ -3,13 +3,13 @@
  */
 import React from 'react';
 import Gridicon from 'gridicons';
+import { localize } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 import MainWrapper from '../main-wrapper';
 import Login from 'blocks/login';
-import { localize } from 'i18n-calypso';
 
 const JetpackLogin = ( { translate } ) => {
 	return (
@@ -23,8 +23,8 @@ const JetpackLogin = ( { translate } ) => {
 					<Login
 						title={ translate( 'Sign in to connect to WordPress.com' ) }
 						legalText={ translate( 'By connecting, you agree to share details between WordPress.com and ' ) }
-					>
-					</Login>
+						redirectLocation={ '/' }
+					/>
 				</div>
 			</div>
 		</MainWrapper>
