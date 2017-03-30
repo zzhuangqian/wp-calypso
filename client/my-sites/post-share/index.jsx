@@ -27,6 +27,7 @@ import { hasFeature } from 'state/sites/plans/selectors';
 import { FEATURE_REPUBLICIZE } from 'lib/plans/constants';
 import Banner from 'components/banner';
 import Connection from './connection';
+import SharingPreviewModal from './sharing-preview-modal';
 
 class PostShare extends Component {
 	static propTypes = {
@@ -42,7 +43,8 @@ class PostShare extends Component {
 
 	state = {
 		skipped: PostMetadata.publicizeSkipped( this.props.post ) || [],
-		message: PostMetadata.publicizeMessage( this.props.post ) || this.props.post.title
+		message: PostMetadata.publicizeMessage( this.props.post ) || this.props.post.title,
+		showSharingPreview: false,
 	};
 
 	hasConnections() {
@@ -84,6 +86,11 @@ class PostShare extends Component {
 	}
 
 	setMessage = message => this.setState( { message } );
+
+	toggleSharingPreview = () => {
+		const showSharingPreview = ! this.state.showSharingPreview;
+		this.setState( { showSharingPreview } );
+	}
 
 	renderMessage() {
 		if ( ! this.hasConnections() ) {
@@ -206,6 +213,11 @@ class PostShare extends Component {
 							<div className="post-share__main">
 								<div className="post-share__form">
 									{ this.renderMessage() }
+
+									<Button onClick={ this.toggleSharingPreview } className="post-share__show-preview-button" >
+										{ this.props.translate( 'Preview' ) }
+									</Button>
+
 									<Button
 										className="post-share__button"
 										primary={ true }
@@ -247,6 +259,13 @@ class PostShare extends Component {
 				</div>
 
 				{ this.props.site && <QueryPublicizeConnections siteId={ this.props.site.ID } /> }
+				<SharingPreviewModal
+					postId={ this.props.postId }
+					siteId={ this.props.siteId }
+					message={ this.state.message }
+					isVisible={ this.state.showSharingPreview }
+					onClose={ this.toggleSharingPreview }
+				/>
 			</div>
 		);
 	}
@@ -255,12 +274,14 @@ class PostShare extends Component {
 export default connect(
 	( state, props ) => {
 		const siteId = props.site.ID;
+		const postId = props.post.ID;
 		const userId = getCurrentUserId( state );
 
 		return {
 			planHasRepublicizeFeature: hasFeature( state, siteId, FEATURE_REPUBLICIZE ),
 			siteSlug: getSiteSlug( state, siteId ),
 			siteId,
+			postId,
 			isPublicizeEnabled: isPublicizeEnabled( state, siteId, props.post.type ),
 			connections: getSiteUserConnections( state, siteId, userId ),
 			hasFetchedConnections: hasFetchedConnections( state, siteId ),
