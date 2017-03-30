@@ -61,12 +61,25 @@ export const MediaBasicsTour = makeTour(
             style={ { marginBottom: '10px', border: '3px solid #00AADC', borderRadius: '4px' } }
             />
 
-            <Continue click step="choose-image" target=".media-library__list-item-figure">
-                Click an image in your media library to continue.
+            <ButtonRow>
+                <Next step="select-image">Continue</Next>
+                <Quit>Quit</Quit>
+            </ButtonRow>
+        </Step>
+
+         <Step
+            name="select-image"
+            placement="below"
+            arrow="top-left"
+            target=".media-library__list-item"
+            >
+
+            <Continue click step="click-to-edit" target=".media-library__list-item-figure">
+                Click this image in your media library to continue.
             </Continue>
         </Step>
         
-        <Step name="choose-image"
+        <Step name="click-to-edit"
             placement="below"
             arrow="top-left"
             //when={ and( isImageSelected ) }
@@ -98,8 +111,7 @@ export const MediaBasicsTour = makeTour(
             <p>You can click the Edit Image button to crop, rotate, and perform other basic edits to your images.
             </p>
             <ButtonRow>
-                <Next step="done">Continue</Next>
-                <Quit>Quit</Quit>
+                <Quit>Got it, I'm ready to explore</Quit>
             </ButtonRow>
         </Step>
     </Tour>
