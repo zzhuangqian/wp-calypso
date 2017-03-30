@@ -9,9 +9,11 @@ import { noop } from 'lodash';
 /**
  * Internal dependencies
  */
+import { isJetpackPlan } from 'lib/products-values';
 
 export class Demo extends Component {
 	static propTypes = {
+		product: PropTypes.object.isRequired,
 		translate: PropTypes.func.isRequired,
 	}
 
@@ -20,9 +22,9 @@ export class Demo extends Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, product } = this.props;
 
-		return <p>{ translate( 'content' ) }</p>;
+		return <p>{ isJetpackPlan( product ) ? translate( 'jetpack content' ) : translate( 'content' ) }</p>;
 	}
 }
 
