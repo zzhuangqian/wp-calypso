@@ -9,7 +9,7 @@ class StepOne extends React.Component {
 			<div>
 				<h1>Step Two</h1>
 
-				<a href="/set-up-site/one">Back</a>
+				<a href="/set-up-site">Back</a>
 			</div>
 		);
 	}

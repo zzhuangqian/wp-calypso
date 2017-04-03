@@ -333,7 +333,7 @@ sections.push( {
 	name: 'set-up-site',
 	paths: [ '/set-up-site' ],
 	module: 'set-up-site',
-	secondary: true,
+	secondary: false,
 	enableLoggedOut: true,
 } );
 

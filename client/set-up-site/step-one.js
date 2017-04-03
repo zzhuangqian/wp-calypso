@@ -8,12 +8,18 @@ class StepOne extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Step One</h1>
+				<h1 className="set-up-site__heading">
+					What kind of site are you creating?
+				</h1>
 
-				<div>
-					<CompactCard href="/set-up-site/two">Business</CompactCard>
-					<CompactCard>Leisure</CompactCard>
-					<CompactCard>Others</CompactCard>
+				<div className="set-up-site__site-types">
+					<CompactCard href="/set-up-site/two">Restaurant</CompactCard>
+					<CompactCard href="/set-up-site">Health & Wellness</CompactCard>
+					<CompactCard href="/set-up-site">Professional Service</CompactCard>
+					<CompactCard href="/set-up-site">Online Store</CompactCard>
+					<CompactCard href="/set-up-site">Other Business</CompactCard>
+					<CompactCard href="/set-up-site">Personal Site or Blog</CompactCard>
+					<CompactCard href="/set-up-site">Other</CompactCard>
 				</div>
 			</div>
 		);
