@@ -2,6 +2,7 @@
 import React from 'react';
 
 // Internal dependencies
+import Button from 'components/button';
 import Main from 'components/main';
 import StepOne from './step-one';
 import StepTwo from './step-two';
