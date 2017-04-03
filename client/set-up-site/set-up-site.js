@@ -4,6 +4,7 @@ import React from 'react';
 // Internal dependencies
 import Main from 'components/main';
 import StepOne from './step-one';
+import StepTwo from './step-two';
 
 class SetUpSite extends React.Component {
 	constructor( props ) {
@@ -12,13 +13,14 @@ class SetUpSite extends React.Component {
 
 	render() {
 		const components = {
-			one: StepOne
+			one: StepOne,
+			two: StepTwo
 		};
 
-		const Component = components[ this.props.step ];
+		const Component = components[ this.props.step ? this.props.step : 'one' ];
 
 		return (
-			<Main className="step-one__content">
+			<Main>
 				<Component />
 			</Main>
 		);

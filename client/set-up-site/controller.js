@@ -5,7 +5,7 @@ import SetUpSite from './set-up-site';
 // Internal dependencies
 import { renderWithReduxStore } from 'lib/react-helpers';
 
-export const start = ( context ) => {
+export const setUp = ( context ) => {
 	renderWithReduxStore(
 		<SetUpSite step={ context.params.step } />,
 		'primary',

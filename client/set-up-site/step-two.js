@@ -7,9 +7,9 @@ class StepOne extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Step One</h1>
+				<h1>Step Two</h1>
 
-				<a href="/set-up-site/two">Next</a>
+				<a href="/set-up-site/one">Back</a>
 			</div>
 		);
 	}

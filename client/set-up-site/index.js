@@ -2,8 +2,8 @@
 import page from 'page';
 
 // Internal dependencies
-import { start } from './controller';
+import { setUp } from './controller';
 
 export default () => {
-	page( '/set-up-site/:step?', start );
+	page( '/set-up-site/:step?', setUp );
 };
