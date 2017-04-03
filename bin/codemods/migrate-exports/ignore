@@ -1,0 +1,2 @@
+# Ignore files that are generated programmatically
+client/components/phone-input/data.js

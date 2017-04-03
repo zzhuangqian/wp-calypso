@@ -1,0 +1,8 @@
+#!/bin/sh
+
+BIN_DIR=node_modules/jscodeshift/bin
+CODE_DIR=client/components/my-sites/upgrades/checkout-thank-you
+TRANSFORM_DIR=bin/codemods/migrate-to-localize-hoc
+
+cd ../../..
+$BIN_DIR/jscodeshift.sh $CODE_DIR --extensions js,jsx --transform $TRANSFORM_DIR/transform.js
