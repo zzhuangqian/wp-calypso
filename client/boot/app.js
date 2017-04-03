@@ -8,39 +8,52 @@ if ( process.env.NODE_ENV === 'development' ) {
  * External dependencies
  */
 import debugFactory from 'debug';
-import { invoke } from 'lodash';
+import { invoke, over } from 'lodash';
 import page from 'page';
 
 /**
  * Internal dependencies
  */
 import config from 'config';
-import {
-	configureReduxStore,
-	locales,
-	setupMiddlewares,
-	utils
-} from './common';
+import * as common from './common';
 import createReduxStoreFromPersistedInitialState from 'state/initial-state';
 import detectHistoryNavigation from 'lib/detect-history-navigation';
 import userFactory from 'lib/user';
 
 const debug = debugFactory( 'calypso' );
 
+/**
+ * Creates a function which when called with arguments
+ *
+ *     ( methodPath, arg1, arg2 )
+ *
+ * will attempt to call
+ *
+ * 		context[ methodPath ]( arg1, arg2 )
+ *
+ * for every `context` in `contexts`. Note that `methodPath` can represent a
+ * nested method, e.g. `methods.myMethod`. The function returns an array
+ * holding each invocation's result.
+ *
+ * @param {array} contexts collection of objects holding named methods
+ * @return {function} custom invoker function; see above
+ */
+const invokeOver = ( contexts ) =>
+	over( contexts.map( ( context ) =>
+		( ...args ) => invoke( context, ...args )
+	) );
+
 const boot = currentUser => {
 	debug( "Starting Calypso. Let's do this." );
 
 	const project = require( `./project/${ config( 'project' ) }` );
+	const invokeBoot = invokeOver( [ common, project ] );
 
-	locales( currentUser );
-	invoke( project, 'locales', currentUser );
-	utils();
-	invoke( project, 'utils' );
+	invokeBoot( 'locales', currentUser );
+	invokeBoot( 'utils' );
 	createReduxStoreFromPersistedInitialState( reduxStore => {
-		configureReduxStore( currentUser, reduxStore );
-		invoke( project, 'configureReduxStore', currentUser, reduxStore );
-		setupMiddlewares( currentUser, reduxStore );
-		invoke( project, 'setupMiddlewares', currentUser, reduxStore );
+		invokeBoot( 'configureReduxStore', currentUser, reduxStore );
+		invokeBoot( 'setupMiddlewares', currentUser, reduxStore );
 		detectHistoryNavigation.start();
 		page.start();
 	} );
