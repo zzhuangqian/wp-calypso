@@ -329,4 +329,12 @@ sections.push( {
 	secondary: true
 } );
 
+sections.push( {
+	name: 'set-up-site',
+	paths: [ '/set-up-site' ],
+	module: 'set-up-site',
+	secondary: true,
+	enableLoggedOut: true,
+} );
+
 module.exports = sections;
