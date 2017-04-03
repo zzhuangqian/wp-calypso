@@ -20,7 +20,7 @@ class SetUpSite extends React.Component {
 		const Component = components[ this.props.step ? this.props.step : 'one' ];
 
 		return (
-			<Main>
+			<Main className="set-up-site">
 				<Component />
 			</Main>
 		);

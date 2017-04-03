@@ -2,6 +2,7 @@
 import React from 'react';
 
 // Internal dependencies
+import CompactCard from 'components/card/compact';
 
 class StepOne extends React.Component {
 	render() {
@@ -9,7 +10,11 @@ class StepOne extends React.Component {
 			<div>
 				<h1>Step One</h1>
 
-				<a href="/set-up-site/two">Next</a>
+				<div>
+					<CompactCard href="/set-up-site/two">Business</CompactCard>
+					<CompactCard>Leisure</CompactCard>
+					<CompactCard>Others</CompactCard>
+				</div>
 			</div>
 		);
 	}
