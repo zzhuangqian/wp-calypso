@@ -566,7 +566,7 @@ export class MySitesSidebar extends Component {
 		return (
 			<Button borderless
 				className="my-sites-sidebar__add-new-site"
-				href={ config( 'signup_url' ) + '?ref=calypso-selector' }
+				href={ '/set-up-site' }
 				onClick={ this.focusContent }
 			>
 				<Gridicon icon="add-outline" /> { this.props.translate( 'Add New Site' ) }

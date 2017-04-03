@@ -1,5 +1,6 @@
 // External dependencies
 import React from 'react';
+import ReactDom from 'react-dom';
 import SetUpSite from './set-up-site';
 
 // Internal dependencies
@@ -11,4 +12,6 @@ export const setUp = ( context ) => {
 		'primary',
 		context.store
 	);
+
+	ReactDom.unmountComponentAtNode( document.getElementById( 'secondary' ) );
 };

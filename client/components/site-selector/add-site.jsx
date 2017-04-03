@@ -74,7 +74,7 @@ class SiteSelectorAddSite extends Component {
 		const { translate } = this.props;
 		return (
 			<span className="site-selector__add-new-site">
-				<Button borderless href={ this.getAddNewSiteUrl() } onClick={ this.recordAddNewSite }>
+				<Button borderless href={ '/set-up-site' } onClick={ this.recordAddNewSite }>
 					<Gridicon icon="add-outline" /> { translate( 'Add New Site' ) }
 				</Button>
 			</span>
