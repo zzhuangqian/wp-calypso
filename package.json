@@ -150,7 +150,7 @@
     "test-client:watch": "nodemon -e js,jsx --exec npm run test-client",
     "test-server:watch": "nodemon -e js,jsx --exec npm run test-server",
     "test-test:watch": "nodemon -e js,jsx --exec npm run test-test",
-    "lint": "bin/run-lint .",
+    "lint": "./node_modules/.bin/eslint-eslines .",
     "css-lint": "stylelint 'client/**/*.scss' --syntax scss"
   },
   "devDependencies": {
@@ -169,6 +169,7 @@
     "eslines": "0.0.12",
     "eslint": "3.8.1",
     "eslint-config-wpcalypso": "0.6.0",
+    "eslint-eslines": "0.0.1",
     "eslint-plugin-react": "6.4.1",
     "eslint-plugin-wpcalypso": "3.0.2",
     "glob": "7.0.3",

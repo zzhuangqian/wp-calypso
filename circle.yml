@@ -16,7 +16,7 @@ test:
       : parallel: true
   override:
     - make config-defaults-lint
-    - bin/run-lint :
+    - ./node_modules/.bin/eslint-eslines :
         parallel: true
         files:
           - client/**/*.js
