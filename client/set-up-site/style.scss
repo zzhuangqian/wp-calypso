@@ -3,7 +3,7 @@
 }
 
 .set-up-site__heading {
-	font-size: 24px;
+	font-size: 26px;
 }
 
 .set-up-site__site-types {
@@ -21,6 +21,12 @@
 
 .set-up-site__suggestion {
 	cursor: pointer;
+	margin-left: 1px;
+	margin-right: 1px;
+
+	:first-of-type {
+		margin-top: 1px;
+	}
 }
 
 .set-up-site__suggestion:hover {
@@ -91,6 +97,10 @@
 	h2 {
 		font-size: 18px;
 	}
+}
+
+.set-up-site__search {
+	margin-top: 3px !important;
 }
 
 .set-up-site__icon {

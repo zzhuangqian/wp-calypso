@@ -56,6 +56,7 @@ class StepTwo extends React.Component {
 
 				<input
 					autoFocus
+					className="set-up-site__search"
 					type="text"
 					value={ this.state.inputValue }
 					onChange={ this.handleChange } />
