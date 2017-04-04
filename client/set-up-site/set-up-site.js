@@ -6,6 +6,7 @@ import Button from 'components/button';
 import Main from 'components/main';
 import StepOne from './step-one';
 import StepTwo from './step-two';
+import StepThree from './step-three';
 
 class SetUpSite extends React.Component {
 	constructor( props ) {
@@ -15,7 +16,8 @@ class SetUpSite extends React.Component {
 	render() {
 		const components = {
 			one: StepOne,
-			two: StepTwo
+			two: StepTwo,
+			three: StepThree,
 		};
 
 		const Component = components[ this.props.step ? this.props.step : 'one' ];

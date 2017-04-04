@@ -120,3 +120,22 @@
 	margin-top: 20px;
 	text-align: center;
 }
+
+.sup {
+	text-align: center;
+
+	h1 {
+		font-size: 28px;
+	}
+
+	h2 {
+		font-size: 22px;
+	}
+
+	div {
+		background: url(/calypso/images/setup-connecting.svg) no-repeat center center;
+		width: 383px;
+		height: 220px;
+		margin: 0 auto;
+	}
+}

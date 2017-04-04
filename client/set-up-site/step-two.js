@@ -89,7 +89,7 @@ class StepOne extends React.Component {
 								</div>
 							</div>
 							<div>
-								<Button primary>This is it!</Button>
+								<Button primary href="/set-up-site/three">This is it!</Button>
 								<p>You can edit this information later if you want.</p>
 								<p>Not the right business? <a href="#" onClick={ this.handleClickReset.bind( this ) }>Try another search</a>.</p>
 							</div>
