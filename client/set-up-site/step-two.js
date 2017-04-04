@@ -9,7 +9,7 @@ import Card from 'components/card';
 import CompactCard from 'components/card/compact';
 import Gridicon from 'gridicons';
 
-class StepOne extends React.Component {
+class StepTwo extends React.Component {
 	constructor( props ) {
 		super( props );
 
@@ -54,10 +54,17 @@ class StepOne extends React.Component {
 
 				<strong>Find your business:</strong>
 
-				<input type="text" value={ this.state.inputValue } onChange={ this.handleChange } />
+				<input
+					autoFocus
+					type="text"
+					value={ this.state.inputValue }
+					onChange={ this.handleChange } />
 
-				{ ! this.state.confirm && this.state.results.map( result => (
-					<CompactCard className="set-up-site__suggestion" onClick={ this.handleClickSuggestion.bind( this, result.description ) }>
+				{ ! this.state.confirm && this.state.results.map( ( result, index ) => (
+					<CompactCard
+						key={ result.id }
+						className="set-up-site__suggestion"
+						onClick={ this.handleClickSuggestion.bind( this, result.description ) }>
 						<div className="set-up-site__main-text">{ result.structured_formatting.main_text }</div>
 						<div className="set-up-site__secondary-text">{ result.structured_formatting.secondary_text }</div>
 					</CompactCard>
@@ -103,4 +110,4 @@ class StepOne extends React.Component {
 	}
 }
 
-export default StepOne;
+export default StepTwo;
