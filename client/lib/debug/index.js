@@ -8,10 +8,10 @@ import debug from 'debug';
  */
 import config from 'config';
 
-export default ( args ) => {
+export default ( ...args ) => {
 	if ( config( 'env_id' ) === 'production' ) {
 		return () => {};
 	}
 
-	return debug( args );
+	return debug( ...args );
 };
