@@ -10,6 +10,8 @@ import page from 'page';
 import { navigation, siteSelection } from 'my-sites/controller';
 import { renderWithReduxStore } from 'lib/react-helpers';
 import Settings from './settings';
+import { register } from '../woocommerce/pluggables';
+import ProductFormProductAddons from './product-form';
 
 const Controller = {
 	settings: function( context ) {
@@ -21,8 +23,8 @@ const Controller = {
 	}
 };
 
-// TODO - we need a way to push/expose our pluggable section providing objects
-
 export default function() {
 	page( '/store/:site?/product-add-ons', siteSelection, navigation, Controller.settings );
 }
+
+register( 'product-form', ProductFormProductAddons );

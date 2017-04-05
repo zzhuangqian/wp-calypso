@@ -1,16 +1,30 @@
 /**
  * External dependencies
  */
+import React from 'react';
 
 /**
  * Internal dependencies
  */
 
-const sections = [];
+const _pluggables = [];
 
-// We need a means to add an object with a render method,
-// a selector,
+const Pluggables = {
+	register: function( key, component ) {
+		_pluggables.push( {
+			key: key,
+			component: component
+		} );
+	},
 
-export default function getPluggableSections( context ) {
-	return sections.filter( context );
-}
+	render: function( /* key */ ) {
+		// TODO filter on key, handle empty key
+		return _pluggables.map( function( pluggable, idx ) {
+			return React.createElement( pluggable.component, {
+				key: idx,
+			} );
+		} );
+	}
+};
+
+module.exports = Pluggables;

@@ -12,6 +12,7 @@ import FormToggle from 'components/forms/form-toggle';
 import Main from 'components/main';
 import ProductVariationTypesForm from '../product-variation-types-form';
 import SectionHeader from 'components/section-header';
+import Pluggables from '../../pluggables';
 
 export default class ProductForm extends Component {
 
@@ -48,17 +49,11 @@ export default class ProductForm extends Component {
 				}
 			}
 		);
-		const pluggablesSections = this.props.pluggables.map( function( pluggable ) {
-			return React.createElement( window.extensionComponents[ pluggable.componentClass ], {
-				data: pluggable.data,
-				key: pluggable.id,
-				children: [ 'boo' ],
-			} );
-		} );
+		const pluggablesSection = Pluggables.render( 'product-form' );
 		return (
 			<Main className="product-form">
 				<SectionHeader label="Add/Edit Product" />
-				{ pluggablesSections }
+				{ pluggablesSection }
 				<FoldableCard
 					icon=""
 					expanded={ true }
