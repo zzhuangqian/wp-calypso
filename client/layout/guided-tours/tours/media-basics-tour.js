@@ -3,9 +3,7 @@
  */
 import React from 'react';
 import { translate } from 'i18n-calypso';
-import {
-    overEvery as and,
-} from 'lodash';
+import { overEvery as and } from 'lodash';
 import Gridicon from 'gridicons';
 
 /**
@@ -42,11 +40,17 @@ export const MediaBasicsTour = makeTour(
             placement="below"
             >
             <p>
-                Welcome to the Media Libary! Click 'Add New' to add media to your site.
+                { translate(
+                    "Welcome to the Media Libary!  You can add media by clicking the {{icon/}} {{strong}}Add New{{/strong}} button.", {
+                            components: { icon: <Gridicon icon="gridicons-add-image" />,
+                            strong: <strong />
+                             }
+                    }
+                ) }
             </p>
             <ButtonRow>
-                <Next step="drag-and-drop">Continue</Next>
-                <Quit>Quit</Quit>
+                <Next step="drag-and-drop">{ translate( "Continue" ) }</Next>
+                <Quit>{ translate( "Quit" ) }</Quit>
             </ButtonRow>
         </Step>
 
@@ -55,15 +59,15 @@ export const MediaBasicsTour = makeTour(
             placement="right"
             >
             <p>
-                You can also drag-and-drop new media directly into your library.
+                { translate( "You can also drag-and-drop new media directly into your library as shown here." ) }
             </p>
             <img src="https://cldup.com/AnA1V5AnoE.gif"
             style={ { marginBottom: '10px', border: '3px solid #00AADC', borderRadius: '4px' } }
             />
 
             <ButtonRow>
-                <Next step="select-image">Continue</Next>
-                <Quit>Quit</Quit>
+                <Next step="select-image">{ translate( "Continue" ) }</Next>
+                <Quit>{ translate( "Quit" ) }</Quit>
             </ButtonRow>
         </Step>
 
@@ -72,10 +76,11 @@ export const MediaBasicsTour = makeTour(
             placement="below"
             arrow="top-left"
             target=".media-library__list-item"
+            style={ { marginTop: '-10px' } }
             >
 
             <Continue click step="click-to-edit" target=".media-library__list-item-figure">
-                Click this image in your media library to continue.
+                 {translate( "Click this image in your media library to continue." ) }
             </Continue>
         </Step>
         
@@ -84,9 +89,10 @@ export const MediaBasicsTour = makeTour(
             arrow="top-left"
             //when={ and( isImageSelected ) }
             target=".editor-media-modal__secondary-action"
+            style={ { marginLeft: '-8px' } }
             >
             <Continue click step="launch-modal" target=".editor-media-modal__secondary-action">
-                Click the Edit button that appears when an item is selected.
+                 {translate( "Click the Edit button to edit your selected image." ) }
             </Continue>
         </Step>
         
@@ -95,23 +101,32 @@ export const MediaBasicsTour = makeTour(
             arrow="right-top"
             target=".editor-media-modal-detail__sidebar"
             >
-            <p>You can edit the title, add a caption, find the media URL, and see other details about your media.
+            <p>{ translate( "You can edit the title, add a caption, find the media URL, and see other details." ) }
             </p>
             <ButtonRow>
-                <Next step="edit-image">Continue</Next>
-                <Quit>Quit</Quit>
+                <Next step="edit-image">{ translate( "Continue" ) }</Next>
+                <Quit>{ translate( "Quit" ) }</Quit>
             </ButtonRow>
         </Step>
 
         <Step name="edit-image"
-            placement="beside"
-            arrow="left-top"
+            placement="below"
+            arrow="top-left"
             target=".editor-media-modal-detail__edit"
             >
-            <p>You can click the Edit Image button to crop, rotate, and perform other basic edits to your images.
+            <p>
+                { translate(
+                    "You can click the {{icon/}} {{strong}}Edit Image{{/strong}} button to crop, rotate, and perform basic edits to your images." , {
+                            components: { 
+                            icon: <Gridicon icon="gridicons-pencil" /> ,
+                            strong: <strong />
+
+                        }
+                    }
+                ) }
             </p>
             <ButtonRow>
-                <Quit>Got it, I'm ready to explore</Quit>
+                <Quit primary>{ translate( "Got it, I'm ready to explore!" ) }</Quit>
             </ButtonRow>
         </Step>
     </Tour>
