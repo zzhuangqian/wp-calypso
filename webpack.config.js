@@ -201,11 +201,6 @@ if ( calypsoEnv === 'development' ) {
 	webpackConfig.devtool = false;
 }
 
-webpackConfig.plugins.push( new webpack.NormalModuleReplacementPlugin(
-	/^debug$/,
-	path.join( __dirname, 'client', 'lib', 'debug' )
-) );
-
 if ( config.isEnabled( 'webpack/persistent-caching' ) ) {
 	webpackConfig.recordsPath = path.join( __dirname, '.webpack-cache', 'client-records.json' );
 	webpackConfig.plugins.unshift( new HardSourceWebpackPlugin( { cacheDirectory: path.join( __dirname, '.webpack-cache', 'client' ) } ) );
