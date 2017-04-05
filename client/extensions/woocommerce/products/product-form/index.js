@@ -8,8 +8,10 @@ import i18n from 'i18n-calypso';
  * Internal dependencies
  */
 import FoldableCard from 'components/foldable-card';
-import ProductVariationTypesForm from '../product-variation-types-form';
 import FormToggle from 'components/forms/form-toggle';
+import Main from 'components/main';
+import ProductVariationTypesForm from '../product-variation-types-form';
+import SectionHeader from 'components/section-header';
 
 export default class ProductForm extends Component {
 
@@ -46,20 +48,31 @@ export default class ProductForm extends Component {
 				}
 			}
 		);
+		const pluggablesSections = this.props.pluggables.map( function( pluggable ) {
+			return React.createElement( window.extensionComponents[ pluggable.componentClass ], {
+				data: pluggable.data,
+				key: pluggable.id,
+				children: [ 'boo' ],
+			} );
+		} );
 		return (
-			<FoldableCard
-				icon=""
-				expanded={ true }
-				className="product-variations"
-				header={ ( <FormToggle onChange={ this.handleToggle } checked={ this.state.isVariation }>
-				{variationToggleDescription}
-				</FormToggle>
-				) }
-			>
-				{ this.state.isVariation && (
-					<ProductVariationTypesForm />
-				) }
-			</FoldableCard>
+			<Main className="product-form">
+				<SectionHeader label="Add/Edit Product" />
+				{ pluggablesSections }
+				<FoldableCard
+					icon=""
+					expanded={ true }
+					className="product-form__product-variations"
+					header={ ( <FormToggle onChange={ this.handleToggle } checked={ this.state.isVariation }>
+					{variationToggleDescription}
+					</FormToggle>
+					) }
+				>
+					{ this.state.isVariation && (
+						<ProductVariationTypesForm />
+					) }
+				</FoldableCard>
+			</Main>
 		);
 	}
 

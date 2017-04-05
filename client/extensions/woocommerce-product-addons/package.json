@@ -1,0 +1,14 @@
+{
+	"name": "woocommerce-product-addons",
+	"author": "Automattic",
+	"description": "WooCommerce Store Product Add-Ons",
+	"version": "0.0.1",
+	"env_id": [ "development", "wpcalypso" ],
+	"section": {
+		"name": "woocommerce-product-addons",
+		"paths": [ "/store" ],
+		"module": "woocommerce-product-addons",
+		"group": "sites",
+		"secondary": true
+	}
+}
