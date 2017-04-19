@@ -10,19 +10,18 @@
 /**
  * External dependencies
  */
-var tinymce = require( 'tinymce/tinymce' ),
-	debounce = require( 'lodash/debounce' ),
-	ReactDom = require( 'react-dom' ),
-	React = require( 'react'),
-	i18n = require( 'i18n-calypso' );
+import tinymce from 'tinymce/tinymce';
+import debounce from 'lodash/debounce';
+import ReactDom from 'react-dom';
+import React from 'react';
+import i18n from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
-var views = require( './views' ),
-	sites = require( 'lib/sites-list' )();
-
+import views from './views';
 import { renderWithReduxStore } from 'lib/react-helpers';
+import { getSelectedSite } from 'state/ui/selectors';
 
 /**
  * WordPress View plugin.
@@ -91,14 +90,17 @@ function wpview( editor ) {
 
 			type = $view.attr( 'data-wpview-type' );
 
+			const store = editor.getParam( 'redux_store' );
+			const state = store.getState();
+
 			renderWithReduxStore(
 				React.createElement( views.components[ type ], {
 					content: getText( view ),
-					siteId: sites.getSelectedSite() ? sites.getSelectedSite().ID : null,
+					siteId: getSelectedSite( state ) ? getSelectedSite( state ).ID : null,
 					onResize: debounce( triggerNodeChanged, 500 )
 				} ),
 				$view.find( '.wpview-body' )[0],
-				editor.getParam( 'redux_store' )
+				store,
 			);
 
 			$view.attr( 'data-wpview-rendered', '' );
@@ -874,6 +876,6 @@ function wpview( editor ) {
 	} );
 }
 
-module.exports = function() {
+export default function() {
 	tinymce.PluginManager.add( 'wpcom/view', wpview );
-};
+}
