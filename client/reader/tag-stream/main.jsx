@@ -14,7 +14,6 @@ import EmptyContent from './empty';
 import TagStreamHeader from './header';
 import { recordAction, recordGaEvent, recordTrack } from 'reader/stats';
 import HeaderBack from 'reader/header-back';
-import { getReaderFollowedTags, getReaderTags } from 'state/selectors';
 import { requestFollowTag, requestUnfollowTag } from 'state/reader/tags/items/actions';
 import QueryReaderFollowedTags from 'components/data/query-reader-followed-tags';
 import QueryReaderTag from 'components/data/query-reader-tag';
@@ -131,10 +130,7 @@ class TagStream extends React.Component {
 }
 
 export default connect(
-	state => ( {
-		followedTags: getReaderFollowedTags( state ),
-		tags: getReaderTags( state ),
-	} ),
+	null,
 	{
 		followTag: requestFollowTag,
 		unfollowTag: requestUnfollowTag,
