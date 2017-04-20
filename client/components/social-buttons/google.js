@@ -68,7 +68,12 @@ export default class GoogleLoginButton extends Component {
 
 		// Handle click async if the library is not loaded yet
 		// the popup might be blocked by the browser in that case
-		this.initialize().then( gapi => gapi.auth2.getAuthInstance().signIn().then( responseHandler ) );
+		this.initialize()
+			.then( gapi => gapi.auth2.getAuthInstance().signIn().then( responseHandler ) )
+			.catch( error => {
+				/* eslint-disable no-console */
+				console.error( 'Unable to complete signIn() for google: ', error, error.stack );
+			} );
 	}
 
 	render() {
