@@ -23,6 +23,7 @@ export default class GoogleLoginButton extends Component {
 
 		this.initialized = null;
 		this.handleClick = this.handleClick.bind( this );
+		this.state = { apiReady: false };
 	}
 
 	componentWillMount() {
@@ -51,7 +52,10 @@ export default class GoogleLoginButton extends Component {
 					scope: this.props.scope,
 					fetch_basic_profile: this.props.fetchBasicProfile,
 				} )
-				.then( () => gapi ) // don't try to return gapi.auth2.getAuthInstance() here, it has a `then` method
+				.then( () => {
+					this.setState( { apiReady: true } );
+					return gapi;
+				} ) // don't try to return gapi.auth2.getAuthInstance() here, it has a `then` method
 			).catch( error => {
 				this.initialized = null;
 
@@ -63,6 +67,10 @@ export default class GoogleLoginButton extends Component {
 
 	handleClick( event ) {
 		event.preventDefault();
+
+		if ( ! this.state.apiReady ) {
+			return;
+		}
 
 		const { responseHandler } = this.props;
 
@@ -78,12 +86,12 @@ export default class GoogleLoginButton extends Component {
 
 	render() {
 		return (
-			<button className="button" onClick={ this.handleClick }>
+			<button className="button" onClick={ this.handleClick } disabled={ ! this.state.apiReady }>
 				<span>
 					<SocialLogo className="social-buttons__logo" icon="google" size={ 24 } />
 
 					<span className="social-buttons__service-name">
-						Google
+						{ this.state.apiReady ? 'Google' : 'Loading…' }
 					</span>
 				</span>
 			</button>
