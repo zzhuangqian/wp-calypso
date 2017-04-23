@@ -17,7 +17,8 @@ import SidebarNavigation from 'my-sites/sidebar-navigation';
 import StatsNavigation from '../stats-navigation';
 import ActivityLogDate from '../activity-log-date';
 import QueryActivityLog from 'components/data/query-activity-log';
-import { getActivityLog, isFetchingActivityLog } from 'state/activity-log/selectors';
+import { getActivityLog, isFetchingActivityLog, isRestoring, isAnythingRestoring } from 'state/activity-log/selectors';
+import { requestRestore } from 'state/activity-log/actions';
 import ActivityLogBanner from '../activity-log-banner';
 
 class ActivityLog extends Component {
@@ -123,7 +124,15 @@ class ActivityLog extends Component {
 					( log ) => new Date( log.timestamp ).toDateString()
 				),
 				( daily_logs, timestamp ) => {
-					return <ActivityLogDate logs={ daily_logs } key= { 'activity-log-' + timestamp } />;
+					return (
+						<ActivityLogDate
+							key={ 'activity-log-' + timestamp }
+							logs={ daily_logs }
+							siteId={ site.ID }
+							requestRestore={ this.props.requestRestore }
+							isRestoring={ this.props.isRestoring }
+						/>
+					);
 				} );
 
 		return (
@@ -131,7 +140,7 @@ class ActivityLog extends Component {
 				<StatsFirstView />
 				<SidebarNavigation />
 				<StatsNavigation section="activity" site={ site } />
-				<ActivityLogBanner logs={ logs } />
+				<ActivityLogBanner logs={ logs } isRestoring={ this.props.isAnythingRestoring } />
 				<section className="activity-log__wrapper">
 					{ logsGroupsedByDate }
 				</section>
@@ -147,7 +156,12 @@ export default connect(
 		return {
 			slug: getSiteSlug( state, siteId ),
 			activityLog: getActivityLog( state, siteId ),
-			fetchingLog: isFetchingActivityLog( state, siteId )
+			fetchingLog: isFetchingActivityLog( state, siteId ),
+			isRestoring: timestamp => isRestoring( state, siteId, timestamp ),
+			isAnythingRestoring: isAnythingRestoring( state, siteId )
 		};
+	},
+	{
+		requestRestore
 	}
 )( localize( ActivityLog ) );

@@ -103,21 +103,21 @@ class ActivityLogItem extends Component {
 		);
 	}
 
-	toggleEllipsis = ( toggleVisibility, event ) => {
+	handleRestore = event => {
+		this.props.requestRestore( this.props.siteId, this.props.timestamp );
 		event.stopPropagation();
 	};
 
 	getAction() {
 		const {
-			onClick,
 			translate,
 			actionText
 		} = this.props;
 
 		return ( actionText &&
 			<div className="activity-log-item__action">
-				<EllipsisMenu position="bottom right" onToggle={ this.toggleEllipsis }>
-					<PopoverMenuItem onClick={ onClick } icon="undo">{ actionText }</PopoverMenuItem>
+				<EllipsisMenu position="bottom right">
+					<PopoverMenuItem onClick={ this.handleRestore } icon="undo">{ actionText }</PopoverMenuItem>
 					<PopoverMenuItem icon="pencil">Option B</PopoverMenuItem>
 					<PopoverMenuSeparator />
 					<PopoverMenuItem icon="help">{ translate( 'More Info' ) }</PopoverMenuItem>
@@ -131,7 +131,7 @@ class ActivityLogItem extends Component {
 			description
 		} = this.props;
 
-		return( description &&
+		return ( description &&
 			<div>{ description }</div>
 		);
 	}
