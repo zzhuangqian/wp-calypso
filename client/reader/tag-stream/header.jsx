@@ -11,7 +11,7 @@ import Gridicon from 'gridicons';
 /**
  * Internal dependencies
  */
-import FollowButton from 'blocks/follow-button/button';
+import FollowButton from 'reader/follow-button';
 import QueryReaderTagImages from 'components/data/query-reader-tag-images';
 import { getTagImages } from 'state/reader/tags/images/selectors';
 import resizeImageUrl from 'lib/resize-image-url';
@@ -30,7 +30,7 @@ class TagStreamHeader extends React.Component {
 		following: React.PropTypes.bool,
 		onFollowToggle: React.PropTypes.func,
 		tagImages: React.PropTypes.array,
-		showBack: React.PropTypes.bool
+		showBack: React.PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -83,6 +83,7 @@ class TagStreamHeader extends React.Component {
 				{ showFollow &&
 					<div className="tag-stream__header-follow">
 						<FollowButton
+							isButtonOnly={ true }
 							followLabel={ translate( 'Follow Tag' ) }
 							followingLabel={ translate( 'Following Tag' ) }
 							iconSize={ 24 }
