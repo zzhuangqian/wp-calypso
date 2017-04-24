@@ -12,6 +12,7 @@ DomainContactForm
 * State
 * Zip code
 
+It also supports optional fields, depeding on the TLD 
 
 Some of these fields use [masking](https://en.wikipedia.org/wiki/Input_mask), i.e. rules that govern what a user is allowed to enter in a text box.
 
