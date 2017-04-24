@@ -27,7 +27,7 @@ class ActivityLogItem extends Component {
 		user: PropTypes.object,
 		onClick: PropTypes.func,
 		actionText: PropTypes.string,
-		timestamp: PropTypes.string,
+		timestamp: PropTypes.number,
 		description: PropTypes.string
 	};
 
