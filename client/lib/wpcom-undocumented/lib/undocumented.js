@@ -2045,6 +2045,15 @@ Undocumented.prototype.getHelpLinks = function( searchQuery, fn ) {
 	}, fn );
 };
 
+Undocumented.prototype.getQandA = function( searchQuery, fn ) {
+	debug( 'help-contact-qanda/ searchQuery' );
+
+	return this.wpcom.req.get( '/help/qanda', {
+		query: searchQuery,
+		blog: config( 'happychat_support_blog' ) || 'en.support.wordpress.com',
+	}, fn );
+};
+
 Undocumented.prototype.cancelPurchase = function( purchaseId, fn ) {
 	debug( 'upgrades/{purchaseId}/disable-auto-renew' );
 
