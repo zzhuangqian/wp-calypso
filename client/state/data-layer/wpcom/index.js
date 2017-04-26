@@ -3,6 +3,7 @@
  */
 import { mergeHandlers } from 'state/data-layer/utils';
 import accountRecovery from './account-recovery';
+import logstash from './logstash';
 import me from './me';
 import plans from './plans';
 import posts from './posts';
@@ -14,6 +15,7 @@ import videos from './videos';
 
 export const handlers = mergeHandlers(
 	accountRecovery,
+	logstash,
 	me,
 	plans,
 	posts,
