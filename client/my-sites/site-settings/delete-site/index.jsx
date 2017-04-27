@@ -23,7 +23,8 @@ import DeleteSiteWarningDialog from 'my-sites/site-settings/delete-site-warning-
 import Dialog from 'components/dialog';
 import { getSitePurchases, hasLoadedSitePurchasesFromServer } from 'state/purchases/selectors';
 import { getSelectedSiteId, getSelectedSiteSlug } from 'state/ui/selectors';
-import { getSite, getSiteDomain, getSiteOption, isDeletingSite } from 'state/sites/selectors';
+import { getSite, getSiteDomain, getSiteOption } from 'state/sites/selectors';
+import { isDeletingSite } from 'state/selectors';
 import Notice from 'components/notice';
 import QuerySitePurchases from 'components/data/query-site-purchases';
 import { deleteSite } from 'state/sites/actions';
