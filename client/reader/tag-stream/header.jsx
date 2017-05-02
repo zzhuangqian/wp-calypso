@@ -24,7 +24,6 @@ const TAG_HEADER_HEIGHT = 140;
 class TagStreamHeader extends React.Component {
 	static propTypes = {
 		isPlaceholder: React.PropTypes.bool,
-		encodedTagSlug: React.PropTypes.string,
 		showFollow: React.PropTypes.bool,
 		following: React.PropTypes.bool,
 		onFollowToggle: React.PropTypes.func,
