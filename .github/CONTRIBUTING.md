@@ -5,6 +5,7 @@ Hi! Thank you for your interest in contributing to Calypso, we really appreciate
 There are many ways to contribute – reporting bugs, feature suggestions, fixing bugs, submitting pull requests for enhancements.
 With over 10,000 PRs we have merged all sorts of different contributions from within Automattic and from the community, all working together to make Calypso a better experience for everyone.
 
+
 ## Reporting Bugs, Asking Questions, Sending Suggestions
 
 Just [file a GitHub issue](https://github.com/Automattic/wp-calypso/issues/), that’s all. If you want to prefix the title with a “Question:”, “Bug:”, or the general area of the application, that would be helpful, but by no means mandatory. If you have write access, add the appropriate labels.
@@ -14,6 +15,7 @@ If you’re filing a bug, specific steps to reproduce are helpful. Please includ
 Here is a [handy link for submitting a new bug](https://github.com/Automattic/wp-calypso/issues/new?labels%5B%5D=%5BType%5D%20Bug).
 
 Feel free to share your unique context to help us understand your perspective. You can add context tags such as: `#journey` `#anecdote` `#narrative` `#context` `#empathy` `#perspective` `#reallife` `#dogfooding` `#livesharing` `#flowsharing` `#anxiety` `#anxiety-flow` `#stresscase` `#painpoint`. We'd also love to know how you found the bug: `#dogfooding`, `#manual-testing`, `#automated-testing`, or `#user-report` if applicable.
+
 
 ## Installing Calypso Locally
 
@@ -34,7 +36,9 @@ Running `make run` will build all the code and continuously watch the front-end 
 
 See [Development Workflow](../docs/development-workflow.md) for details on how to run tests, control what debug messages to receive, and where to look for errors and warnings.
 
+
 ## Pull Requests
+
 
 ### Code Reviews
 
@@ -51,6 +55,7 @@ Then, you may ask that person to review your code by mentioning his/her GitHub u
 ```
 
 *Everyone* is encouraged to review PRs and add feedback and ask questions, even people who are new to Calypso. Also, don’t just review PRs about what you’re working on. Reading other people’s code is a great way to learn new techniques, and seeing code outside of your own feature helps you to see patterns across the project. It’s also helpful to see the feedback other contributors are getting on their PRs.
+
 
 ### Coding Standards & Guidelines
 
@@ -100,16 +105,15 @@ If you feel yourself waiting for someone to review a PR, don’t hesitate to per
 
 We encourage you to ask for help at any point. We want your first experience with Calypso to be a good one, so don’t be shy. If you’re wondering why something is the way it is, or how a decision was made, you can tag issues with **<span class="label type-question">[Type] Question</span>** or prefix them with “Question:”.
 
-## Jetpack Versions Compatibility
 
-While developing Calypso, we support the current Jetpack Version and the previous one.
+## Jetpack Version Compatibility
 
-Calypso efforts will be focused on trying to achieve the best experience for users of the two latest versions.
+Calypso aims to fully support the current Jetpack release, and the one (major) prior. So for example if the current version is 4.9.1, then we support version 4.8 (and any point-releases; 4.8.1, 4.8.2, etc) through 4.9.1.
 
-This means that we will eventually cut out sections in Calypso that are meant to configure the features in Jetpack for old releases and start prompting the user to upgrade their site's Jetpack plugin.
-This allows us to be on the cutting edge of user support for users that want to manage their sites from Calypso frequently.
+This means that we eventually close off sections/versions of Calypso that would interact with an old version of Jetpack, and prompt the user to upgrade to the latest version for a full experience.
 
-So, as an example, if current Jetpack Release was 4.9, we will make our biggest efforts in tuning Calypso for optimal performance and innovative features targeting Jetpack 4.9 and Jetpack 4.8. Meaning that older versions may be left behind as we introduce features and API changes in the Jetpack Plugin.
+This allows us to iterate and improve Calypso to provide the best experience over time, without being tied to previous decisions/approaches.
+
 
 ## License
 
