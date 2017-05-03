@@ -23,6 +23,7 @@ class GoogleLoginButton extends Component {
 		super( props );
 
 		this.initialized = null;
+		this.googleAuth = null;
 		this.handleClick = this.handleClick.bind( this );
 	}
 
@@ -36,7 +37,7 @@ class GoogleLoginButton extends Component {
 		}
 
 		return new Promise( resolve => {
-			loadScript( 'https://apis.google.com/js/api.js', () => resolve( window.gapi ) );
+			loadScript( 'https://apis.google.com/js/platform.js', () => resolve( window.gapi ) );
 		} );
 	}
 
@@ -46,17 +47,16 @@ class GoogleLoginButton extends Component {
 		}
 
 		this.initialized = this.loadDependency()
-			.then( gapi => new Promise( resolve => gapi.load( 'client:auth2', resolve ) ).then( () => gapi ) )
-			.then( gapi => gapi.client.init( {
-				client_id: this.props.clientId,
-				scope: this.props.scope,
-				fetch_basic_profile: this.props.fetchBasicProfile,
-			} )
-			.then( () => gapi ) // don't try to return gapi.auth2.getAuthInstance() here, it has a `then` method
-			).catch( error => {
+			.then( gapi => new Promise( resolve => gapi.load( 'auth2', resolve ) ).then( () => gapi ) )
+			.then( gapi => {
+				this.googleAuth = gapi.auth2.init( {
+					client_id: this.props.clientId,
+					scope: this.props.scope,
+					fetch_basic_profile: this.props.fetchBasicProfile,
+				} );
+			} ) // don't try to return gapi.auth2.getAuthInstance() here, it has a `then` method
+			.catch( () => {
 				this.initialized = null;
-
-				return Promise.reject( error );
 			} );
 
 		return this.initialized;
@@ -69,7 +69,7 @@ class GoogleLoginButton extends Component {
 
 		// Handle click async if the library is not loaded yet
 		// the popup might be blocked by the browser in that case
-		this.initialize().then( gapi => gapi.auth2.getAuthInstance().signIn().then( responseHandler ) );
+		this.initialize().then( () => this.googleAuth.signIn().then( responseHandler ) );
 	}
 
 	render() {
