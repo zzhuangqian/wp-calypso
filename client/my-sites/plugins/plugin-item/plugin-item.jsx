@@ -171,12 +171,23 @@ module.exports = React.createClass( {
 					text={ this.translate( 'Updated' ) } />
 			);
 		}
+
+		const updated_versions = this.props.plugin.sites.map( site => {
+			if ( site.plugin.update && site.plugin.update.new_version ) {
+				return site.plugin.update.new_version;
+			}
+			return false;
+		} ).filter( version => version );
+
 		return (
 			<Notice isCompact
 				icon="sync"
 				status="is-warning"
 				inline={ true }
-				text={ this.translate( 'A newer version is available' ) } />
+				text={ this.translate(
+							'Version %(newPluginVersion)s is available',
+							{ args: { newPluginVersion: updated_versions[ 0 ] } }
+						) } />
 		);
 	},
 
