@@ -129,8 +129,10 @@ class TagStream extends React.Component {
 	}
 }
 
-export default connect(
-	null,
+export default needs(
+	[
+		readerTags( { tag: { slug: 'encodedTagSlug' } } ),
+	],
 	{
 		followTag: requestFollowTag,
 		unfollowTag: requestUnfollowTag,
