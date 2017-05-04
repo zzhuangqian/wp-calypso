@@ -448,10 +448,11 @@ const PluginMeta = React.createClass( {
 							</div>
 							{ ! isEmpty( actionLinks ) &&
 								<div className="plugin-meta__action-links">
-									{ Object.keys( actionLinks ).map( linkTitle => (
+									{ Object.keys( actionLinks ).map( ( linkTitle, index ) => (
 										<Button compact icon
 											href={ actionLinks[ linkTitle ] }
 											target="_blank"
+											key={ 'action-link-' + index }
 											rel="noopener noreferrer">
 												{ linkTitle } <Gridicon icon="external" />
 										</Button>
