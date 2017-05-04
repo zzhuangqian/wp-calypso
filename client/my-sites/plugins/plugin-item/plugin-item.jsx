@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import uniqBy from 'lodash/uniqBy';
-import i18n from 'i18n-calypso';
+import { localize, moment } from 'i18n-calypso';
 import isEqual from 'lodash/isEqual';
 
 /**
@@ -34,7 +34,7 @@ function checkPropsChange( nextProps, propArr ) {
 	return false;
 }
 
-module.exports = React.createClass( {
+const PluginItem = React.createClass( {
 
 	displayName: 'PluginItem',
 
@@ -101,7 +101,7 @@ module.exports = React.createClass( {
 	},
 
 	ago( date ) {
-		return i18n.moment.utc( date, 'YYYY-MM-DD hh:mma' ).fromNow();
+		return moment.utc( date, 'YYYY-MM-DD hh:mma' ).fromNow();
 	},
 
 	doing() {
@@ -119,38 +119,44 @@ module.exports = React.createClass( {
 		switch ( log && log.action ) {
 			case 'UPDATE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Updating', { context: 'plugin' } )
-					: i18n.translate( 'Updating on %(count)s site', 'Updating on %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Updating', { context: 'plugin' } )
+					: this.props.translate( 'Updating on %(count)s site', 'Updating on %(count)s sites', translationArgs ) );
 				break;
 
 			case 'ACTIVATE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Activating', { context: 'plugin' } )
-					: i18n.translate( 'Activating on %(count)s site', 'Activating on %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Activating', { context: 'plugin' } )
+					: this.props.translate( 'Activating on %(count)s site', 'Activating on %(count)s sites', translationArgs ) );
 				break;
 
 			case 'DEACTIVATE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Deactivating', { context: 'plugin' } )
-					: i18n.translate( 'Deactivating on %(count)s site', 'Deactivating on %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Deactivating', { context: 'plugin' } )
+					: this.props.translate( 'Deactivating on %(count)s site', 'Deactivating on %(count)s sites', translationArgs ) );
 				break;
 
 			case 'ENABLE_AUTOUPDATE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Enabling autoupdates' )
-					: i18n.translate( 'Enabling autoupdates on %(count)s site', 'Enabling autoupdates on %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Enabling autoupdates' )
+					: this.props.translate(
+						'Enabling autoupdates on %(count)s site', 'Enabling autoupdates on %(count)s sites',
+						translationArgs
+					) );
 				break;
 
 			case 'DISABLE_AUTOUPDATE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Disabling autoupdates' )
-					: i18n.translate( 'Disabling autoupdates on %(count)s site', 'Disabling autoupdates on %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Disabling autoupdates' )
+					: this.props.translate(
+						'Disabling autoupdates on %(count)s site', 'Disabling autoupdates on %(count)s sites',
+						translationArgs
+					) );
 
 				break;
 			case 'REMOVE_PLUGIN':
 				message = ( this.props.selectedSite
-					? i18n.translate( 'Removing' )
-					: i18n.translate( 'Removing from %(count)s site', 'Removing from %(count)s sites', translationArgs ) );
+					? this.props.translate( 'Removing' )
+					: this.props.translate( 'Removing from %(count)s site', 'Removing from %(count)s sites', translationArgs ) );
 		}
 		return message;
 	},
@@ -168,7 +174,7 @@ module.exports = React.createClass( {
 					icon="checkmark"
 					status="is-success"
 					inline={ true }
-					text={ this.translate( 'Updated' ) } />
+					text={ this.props.translate( 'Updated' ) } />
 			);
 		}
 
@@ -184,7 +190,7 @@ module.exports = React.createClass( {
 				icon="sync"
 				status="is-warning"
 				inline={ true }
-				text={ this.translate(
+				text={ this.props.translate(
 							'Version %(newPluginVersion)s is available',
 							{ args: { newPluginVersion: updated_versions[ 0 ] } }
 						) } />
@@ -203,7 +209,10 @@ module.exports = React.createClass( {
 		if ( this.props.isAutoManaged ) {
 			return (
 				<div className="plugin-item__last_updated">
-					{ this.translate( '%(pluginName)s is automatically managed on this site', { args: { pluginName: pluginData.name } } ) }
+					{ this.props.translate(
+						'%(pluginName)s is automatically managed on this site',
+						{ args: { pluginName: pluginData.name } }
+					) }
 				</div>
 			);
 		}
@@ -215,7 +224,7 @@ module.exports = React.createClass( {
 		if ( pluginData.last_updated ) {
 			return (
 				<div className="plugin-item__last_updated">
-					{ this.translate( 'Last updated %(ago)s', { args: { ago: this.ago( pluginData.last_updated ) } } ) }
+					{ this.props.translate( 'Last updated %(ago)s', { args: { ago: this.ago( pluginData.last_updated ) } } ) }
 				</div>
 			);
 		}
@@ -228,7 +237,7 @@ module.exports = React.createClass( {
 	},
 
 	getNoManageWarning() {
-		return <Notice text={ i18n.translate( 'Jetpack Manage is disabled for all the sites where this plugin is installed' ) }
+		return <Notice text={ this.props.translate( 'Jetpack Manage is disabled for all the sites where this plugin is installed' ) }
 			status="is-error"
 			showDismiss={ false } />;
 	},
@@ -260,7 +269,7 @@ module.exports = React.createClass( {
 
 	renderSiteCount() {
 		return (
-			<div className="plugin-item__count">{ this.translate( 'Sites {{count/}}',
+			<div className="plugin-item__count">{ this.props.translate( 'Sites {{count/}}',
 				{
 					components: {
 						count: <Count count={ this.props.sites.length } />
@@ -377,3 +386,5 @@ module.exports = React.createClass( {
 	}
 
 } );
+
+export default localize( PluginItem );
