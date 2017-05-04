@@ -62,14 +62,14 @@ module.exports = React.createClass( {
 	},
 
 	getDefaultProps() {
-		return  {
+		return {
 			allowedActions: {
 				activation: true,
 				autoupdate: true,
 			},
 			isAutoManaged: false,
 			hasUpdate: () => false,
-		}
+		};
 	},
 
 	shouldComponentUpdate( nextProps, nextState ) {
@@ -159,7 +159,7 @@ module.exports = React.createClass( {
 		const recentlyUpdated = this.props.sites.some( function( site ) {
 			return site.plugin &&
 				site.plugin.update &&
-				site.plugin.update.recentlyUpdated
+				site.plugin.update.recentlyUpdated;
 		} );
 
 		if ( recentlyUpdated ) {
@@ -185,7 +185,7 @@ module.exports = React.createClass( {
 			const message = this.doing();
 			if ( message ) {
 				return (
-					<Notice isCompact status="is-info" text={ message } inline={ true }/>
+					<Notice isCompact status="is-info" text={ message } inline={ true } />
 				);
 			}
 		}
@@ -325,7 +325,7 @@ module.exports = React.createClass( {
 					<CompactCard className={ pluginItemClasses }
 						onClick={ this.clickNoManageItem }>
 						<span className="plugin-item__disabled">
-							<PluginIcon image={ plugin.icon }/>
+							<PluginIcon image={ plugin.icon } />
 							{ pluginTitle }
 							{ this.pluginMeta( plugin ) }
 						</span>
@@ -353,7 +353,7 @@ module.exports = React.createClass( {
 								readOnly={ true } />
 					}
 					<a href={ this.props.pluginLink } onClick={ this.onItemClick } className="plugin-item__link">
-						<PluginIcon image={ plugin.icon }/>
+						<PluginIcon image={ plugin.icon } />
 						{ pluginTitle }
 						{ this.pluginMeta( plugin ) }
 					</a>
