@@ -13,6 +13,20 @@
 	@import 'components/extended-header/style';
 	@import 'components/form-dimensions-input/style';
 	@import 'app/settings/shipping/style';
+
+	.products__header {
+		width: 100%;
+	}
+
+	.products__header-right {
+		position: absolute;
+		top: 16px;
+		right: 24px;
+
+		.button {
+			margin-left: 8px;
+		}
+	}
 }
 
 .store-sidebar__sidebar {
