@@ -4,12 +4,14 @@
 import error from './error-reducer';
 import productCategories from './product-categories/reducer';
 import shippingZones from './shipping-zones/reducer';
+import products from './products/reducer';
 
 const initialState = {};
 
 const handlers = {
 	...productCategories,
 	...shippingZones,
+	...products,
 	...error,
 };
 
