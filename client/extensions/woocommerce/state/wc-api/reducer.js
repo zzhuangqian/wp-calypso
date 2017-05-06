@@ -3,6 +3,7 @@
  */
 import error from './error-reducer';
 import productCategories from './product-categories/reducer';
+import products from './products/reducer';
 import {
 	SERIALIZE,
 	DESERIALIZE,
@@ -12,6 +13,7 @@ const initialState = {};
 
 const handlers = {
 	...productCategories,
+	...products,
 	...error,
 };
 
