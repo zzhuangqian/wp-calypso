@@ -28,6 +28,7 @@ const DAY_IN_HOURS = 24;
 const HOUR_IN_MS = 3600000;
 export const SERIALIZE_THROTTLE = 5000;
 export const MAX_AGE = 7 * DAY_IN_HOURS * HOUR_IN_MS;
+export const MAX_THEMES_AGE = 1 * DAY_IN_HOURS * HOUR_IN_MS;
 
 function getInitialServerState() {
 	// Bootstrapped state from a server-render
@@ -57,7 +58,11 @@ function loadInitialState( initialState ) {
 	if ( initialState._timestamp && initialState._timestamp + MAX_AGE < Date.now() ) {
 		debug( 'stored state is too old, building redux store from scratch' );
 		initialState = {};
+	} else if ( initialState._timestamp && initialState._timestamp + MAX_THEMES_AGE < Date.now() ) {
+		debug( 'stored state is too old for themes, building themes redux tree from scratch' );
+		initialState.themes = {};
 	}
+
 	const localforageState = deserialize( initialState );
 	const serverState = getInitialServerState();
 	const mergedState = Object.assign( {}, localforageState, serverState );
