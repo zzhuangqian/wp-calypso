@@ -148,6 +148,12 @@ const RegisterDomainStep = React.createClass( {
 		};
 	},
 
+	getNewRailcarSeed() {
+		return Math.floor( ( 1 + Math.random() ) * 0x10000000 )
+			.toString( 16 )
+			.substring( 1 );
+	},
+
 	componentWillReceiveProps( nextProps ) {
 		// Reset state on site change
 		if ( nextProps.selectedSite && nextProps.selectedSite.slug !== ( this.props.selectedSite || {} ).slug ) {
@@ -189,7 +195,7 @@ const RegisterDomainStep = React.createClass( {
 				delete state.lastSurveyVertical;
 			}
 
-			this.setState( state );
+			this.setState( { railcarSeed: this.getNewRailcarSeed(), ...state } );
 		}
 	},
 
@@ -302,7 +308,8 @@ const RegisterDomainStep = React.createClass( {
 
 		this.setState( {
 			lastDomainSearched: domain,
-			searchResults: []
+			searchResults: [],
+			railcarSeed: this.getNewRailcarSeed(),
 		} );
 
 		async.parallel(
@@ -510,6 +517,8 @@ const RegisterDomainStep = React.createClass( {
 				selectedSite={ this.props.selectedSite }
 				offerMappingOption={ this.props.offerMappingOption }
 				placeholderQuantity={ SUGGESTION_QUANTITY }
+				railcarSeed={ this.state.railcarSeed }
+				fetchAlgo={ searchVendor }
 				cart={ this.props.cart } />
 		);
 	},

@@ -38,7 +38,9 @@ var DomainSearchResults = React.createClass( {
 		offerMappingOption: React.PropTypes.bool,
 		onClickResult: React.PropTypes.func.isRequired,
 		onAddMapping: React.PropTypes.func,
-		onClickMapping: React.PropTypes.func
+		onClickMapping: React.PropTypes.func,
+		railcarSeed: React.PropTypes.string,
+		fetchAlgo: React.PropTypes.string
 	},
 
 	renderDomainAvailability: function() {
@@ -129,7 +131,7 @@ var DomainSearchResults = React.createClass( {
 			mappingOffer;
 
 		if ( this.props.suggestions.length ) {
-			suggestionElements = this.props.suggestions.map( function( suggestion ) {
+			suggestionElements = this.props.suggestions.map( function( suggestion, i ) {
 				return (
 					<DomainRegistrationSuggestion
 						suggestion={ suggestion }
@@ -137,6 +139,10 @@ var DomainSearchResults = React.createClass( {
 						cart={ this.props.cart }
 						selectedSite={ this.props.selectedSite }
 						domainsWithPlansOnly={ this.props.domainsWithPlansOnly }
+						railcarId={ `${ this.props.railcarSeed }-registration-suggestion-${ i }` }
+						uiPosition={ i }
+						fetchAlgo={ this.props.fetchAlgo }
+						query={ this.props.lastDomainSearched }
 						onButtonClick={ this.props.onClickResult.bind( null, suggestion ) } />
 				);
 			}, this );
