@@ -20,7 +20,7 @@ import { addTracking, trackClick } from './helpers';
 import DocumentHead from 'components/data/document-head';
 import { prependFilterKeys, getSortedFilterTerms, stripFilters, getSubjects } from './theme-filters.js';
 import buildUrl from 'lib/mixins/url-search/build-url';
-import { isJetpackSite, getSiteSlug } from 'state/sites/selectors';
+import { getSiteSlug } from 'state/sites/selectors';
 import { getCurrentUserId } from 'state/current-user/selectors';
 import ThemePreview from './theme-preview';
 import config from 'config';
@@ -258,7 +258,7 @@ const mapStateToProps = ( state, { siteId, filter, tier, vertical } ) => ( {
 	atEnabled: isATEnabled( getSelectedSite( state ) ),
 	isLoggedIn: !! getCurrentUserId( state ),
 	siteSlug: getSiteSlug( state, siteId ),
-	isJetpack: isJetpackSite( state, siteId ),
+	isJetpack: false,
 	description: getThemeShowcaseDescription( state, { filter, tier, vertical } ),
 	title: getThemeShowcaseTitle( state, { filter, tier, vertical } ),
 } );
