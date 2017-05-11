@@ -14,11 +14,11 @@
 	@import 'components/form-dimensions-input/style';
 	@import 'app/settings/shipping/style';
 
-	.products__header {
+	.components__action-header {
 		width: 100%;
 	}
 
-	.products__header-right {
+	.components__action-header-actions {
 		position: absolute;
 		top: 16px;
 		right: 24px;
