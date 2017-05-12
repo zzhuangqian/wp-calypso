@@ -71,9 +71,15 @@ const dnsTemplates = {
 	MICROSOFT_OFFICE365: 'microsoft-office365',
 };
 
+const nameServerHosts = {
+	NAMECHEAP: 'NameCheap',
+	GODADDY: 'GoDaddy'
+};
+
 export default {
 	dnsTemplates,
 	domainAvailability,
+	nameServerHosts,
 	registrar,
 	tlds,
 	type,
