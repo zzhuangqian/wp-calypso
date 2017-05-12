@@ -2,11 +2,16 @@
  * External dependencies
  */
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 /**
  * Internal dependencies
  */
+import { getCurrentUser } from 'state/current-user/selectors';
+import { getPrimarySiteId } from 'state/selectors';
+import { getSelectedSiteId } from 'state/ui/selectors';
+import { getSite } from 'state/sites/selectors';
 import Sidebar from 'layout/sidebar';
 import SidebarButton from 'layout/sidebar/button';
 import SidebarItem from 'layout/sidebar/item';
@@ -14,7 +19,7 @@ import SidebarMenu from 'layout/sidebar/menu';
 import SidebarSeparator from 'layout/sidebar/separator';
 import StoreGroundControl from './store-ground-control';
 
-export default class StoreSidebar extends Component {
+class StoreSidebar extends Component {
 	static propTypes = {
 		path: PropTypes.string.isRequired,
 		sidebarItems: PropTypes.arrayOf( PropTypes.shape( {
@@ -118,3 +123,17 @@ export default class StoreSidebar extends Component {
 		);
 	}
 }
+
+function mapStateToProps( state ) {
+	const currentUser = getCurrentUser( state );
+	const selectedSiteId = getSelectedSiteId( state );
+	const isSingleSite = !! selectedSiteId || currentUser.site_count === 1;
+	const siteId = selectedSiteId || ( isSingleSite && getPrimarySiteId( state ) ) || null;
+	const site = getSite( state, siteId );
+
+	return {
+		site
+	};
+}
+
+export default connect( mapStateToProps )( StoreSidebar );
