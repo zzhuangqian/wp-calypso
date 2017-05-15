@@ -367,7 +367,13 @@ class PostShare extends Component {
 		const { hasFetchedConnections, siteSlug, translate } = this.props;
 
 		if ( ! hasFetchedConnections ) {
-			return null;
+			return (
+				<div className="post-share__main is-loading">
+					<div className="post-share__title is-placeholder">
+						{ this.props.translate( 'Loading…' ) }
+					</div>
+				</div>
+			);
 		}
 
 		if ( ! this.hasConnections() ) {

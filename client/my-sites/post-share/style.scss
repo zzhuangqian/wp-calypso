@@ -487,3 +487,17 @@ $section-border: solid 1px transparentize( lighten( $gray, 20% ), .5 );
 		color: $gray-dark;
 	}
 }
+
+.post-share__main {
+	&.is-loading {
+		padding: 0 24px;
+		height: 51px;
+	}
+
+	.post-share__title.is-placeholder {
+		@include placeholder;
+		height: 18px;
+		margin: 16px 0;
+		min-width: 200px;
+	}
+}
