@@ -31,7 +31,7 @@ class VideoEditorExample extends Component {
 						media={ this.state.media }
 						onUpdatePoster={ this.handleUpdatePoster }
 					/>
-					<div style={ { 'font-size': '10px', 'text-align': 'center' } }>
+					<div style={ { fontSize: '10px', textAlign: 'center' } }>
 						Free B-Roll provided by <a href="http://Videezy.com">Videezy.com</a>
 					</div>
 				</div>
