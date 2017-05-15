@@ -12,13 +12,15 @@ import Gridicon from 'gridicons';
 import Site from 'blocks/site';
 
 const StoreGroundControl = ( { site, translate } ) => {
-	const backLink = '/stats/day/' + site.slug;
+	const disabled = ! site;
+	const backLink = disabled ? '' : '/stats/day/' + site.slug;
 
 	return (
 		<div className="store-sidebar__ground-control">
 			<Button
 				borderless
 				className="store-sidebar__ground-control-back"
+				disabled={ disabled }
 				href={ backLink }
 				aria-label={ translate( 'Go back' ) }
 			>
@@ -27,7 +29,7 @@ const StoreGroundControl = ( { site, translate } ) => {
 			<div className="store-sidebar__ground-control-site">
 				<Site
 					compact
-					site={ site }
+					site={ disabled ? null : site }
 					indicator={ false }
 					homeLink
 					externalLink
@@ -39,7 +41,7 @@ const StoreGroundControl = ( { site, translate } ) => {
 
 StoreGroundControl.propTypes = {
 	site: React.PropTypes.shape( {
-		slug: React.PropTypes.string.isRequired,
+		slug: React.PropTypes.string,
 	} ),
 };
 

@@ -2,6 +2,7 @@
  * External dependencies
  */
 import config from 'config';
+import { connect } from 'react-redux';
 import page from 'page';
 import React from 'react';
 import { translate } from 'i18n-calypso';
@@ -9,6 +10,10 @@ import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
+import { getCurrentUser } from 'state/current-user/selectors';
+import { getPrimarySiteId } from 'state/selectors';
+import { getSelectedSiteId } from 'state/ui/selectors';
+import { getSite } from 'state/sites/selectors';
 import { navigation, siteSelection } from 'my-sites/controller';
 import { renderWithReduxStore } from 'lib/react-helpers';
 import ProductCreate from './app/products/product-create';
@@ -150,10 +155,22 @@ function addStorePage( storePage, storeNavigation ) {
 	} );
 }
 
+function mapStateToProps( state ) {
+	const currentUser = getCurrentUser( state );
+	const selectedSiteId = getSelectedSiteId( state );
+	const isSingleSite = !! selectedSiteId || currentUser.site_count === 1;
+	const siteId = selectedSiteId || ( isSingleSite && getPrimarySiteId( state ) ) || null;
+	const site = getSite( state, siteId );
+
+	return {
+		site
+	};
+}
+
 function createStoreNavigation( context, next ) {
 	renderWithReduxStore(
 		React.createElement(
-			StoreSidebar, {
+			connect( mapStateToProps )( StoreSidebar ), {
 				path: context.path,
 				sidebarItems: getStoreSidebarItems(),
 				sidebarItemButtons: getStoreSidebarItemButtons(),
