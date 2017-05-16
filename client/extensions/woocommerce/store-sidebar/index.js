@@ -83,8 +83,8 @@ export default class StoreSidebar extends Component {
 			return (
 				<SidebarItem
 					className={ this.itemLinkClass( itemLink, item.slug ) }
-					disabled={ disabled }
 					icon={ item.icon }
+					isPlaceholder={ disabled }
 					key={ index }
 					label={ item.label }
 					link={ itemLink }

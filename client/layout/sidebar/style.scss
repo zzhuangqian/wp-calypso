@@ -438,14 +438,26 @@ form.sidebar__button {
 	}
 }
 
-.sidebar__item.disabled {
-	cursor: default;
-	@include placeholder(23%);
-	pointer-events: none;
+.sidebar__item {
+	&.is-placeholder {
+		cursor: default;
+		pointer-events: none;
 
-	a {
-		&:after {
-			display: none;
+		.gridicon, span, .sidebar__button {
+			animation: loading-fade 1.6s ease-in-out infinite;
+			background-color: lighten( $gray, 25% );
+			color: transparent;
+		}
+
+		.gridicon {
+			fill: transparent;
+			stroke: transparent;
+		}
+
+		a {
+			&:after {
+				display: none;
+			}
 		}
 	}
 }

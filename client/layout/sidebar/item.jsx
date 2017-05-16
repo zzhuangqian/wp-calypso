@@ -17,7 +17,7 @@ export default React.createClass( {
 	propTypes: {
 		label: React.PropTypes.string.isRequired,
 		className: React.PropTypes.string,
-		disabled: React.PropTypes.bool,
+		isPlaceholder: React.PropTypes.bool,
 		link: React.PropTypes.string.isRequired,
 		onNavigate: React.PropTypes.func,
 		icon: React.PropTypes.string,
@@ -39,7 +39,7 @@ export default React.createClass( {
 	render() {
 		const isExternalLink = isExternal( this.props.link );
 		const classes = classnames( 'sidebar__item', this.props.className, {
-			disabled: this.props.disabled,
+			'is-placeholder': this.props.isPlaceholder,
 			selected: this.props.selected
 		} );
 
