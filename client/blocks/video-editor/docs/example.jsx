@@ -19,8 +19,8 @@ class VideoEditorExample extends Component {
 		};
 	}
 
-	handleUpdatePoster = ( { poster } ) => {
-		this.setState( { poster } );
+	handleUpdatePoster = ( { posterUrl } ) => {
+		this.setState( { posterUrl } );
 	}
 
 	render() {
@@ -42,8 +42,8 @@ class VideoEditorExample extends Component {
 					width: '50%'
 				} }>
 					<h4>Changes to the poster above are shown below</h4>
-					{ this.state.poster &&
-						<img src={ this.state.poster } />
+					{ this.state.posterUrl &&
+						<img src={ this.state.posterUrl } />
 					}
 				</div>
 			</div>
