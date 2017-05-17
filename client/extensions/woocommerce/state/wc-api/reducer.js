@@ -1,7 +1,6 @@
 /**
  * Internal dependencies
  */
-import error from './error-reducer';
 import productCategories from './product-categories/reducer';
 import {
 	SERIALIZE,
@@ -12,7 +11,6 @@ const initialState = {};
 
 const handlers = {
 	...productCategories,
-	...error,
 };
 
 export default function( state = initialState, action ) {
