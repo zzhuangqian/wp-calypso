@@ -2,13 +2,14 @@
  * Internal dependencies
  */
 import wp from 'lib/wp';
+
 import { error } from '../actions';
 import {
 	WOOCOMMERCE_API_CREATE_PRODUCT,
 	WOOCOMMERCE_API_CREATE_PRODUCT_SUCCESS,
 } from '../../action-types';
 
-export function createProduct( siteId, product ) {
+export function createProduct( siteId, product, successAction = null, failureAction = null ) {
 	return ( dispatch ) => {
 		const createAction = {
 			type: WOOCOMMERCE_API_CREATE_PRODUCT,
@@ -39,9 +40,15 @@ export function createProduct( siteId, product ) {
 		return wp.req.post( jetpackProps, httpProps )
 			.then( ( { data } ) => {
 				dispatch( createProductSuccess( siteId, data ) );
+				if ( successAction ) {
+					dispatch( successAction );
+				}
 			} )
 			.catch( err => {
 				dispatch( error( siteId, createAction, err ) );
+				if ( failureAction ) {
+					dispatch( failureAction );
+				}
 			} );
 	};
 }
