@@ -30,8 +30,7 @@ import ReaderSubscriptionListItemPlaceholder
  * @param {String} url - the url to format
  * @returns {String} - the formatted url.  e.g. "https://www.wordpress.com/" --> "wordpress.com"
  */
-const formatUrlForDisplay = url =>
-	untrailingslashit( url.replace( /^https?:\/\/(www\.)?/, '' ) );
+const formatUrlForDisplay = url => untrailingslashit( url.replace( /^https?:\/\/(www\.)?/, '' ) );
 
 function ReaderSubscriptionListItem( {
 	url,
@@ -43,6 +42,7 @@ function ReaderSubscriptionListItem( {
 	translate,
 	followSource,
 	showEmailSettings,
+	isFollowing,
 } ) {
 	const siteTitle = getSiteName( { feed, site } );
 	const siteAuthor = site && site.owner;
@@ -53,7 +53,6 @@ function ReaderSubscriptionListItem( {
 	const streamUrl = getStreamUrl( feedId, siteId );
 	const feedUrl = url || getFeedUrl( { feed, site } );
 	const siteUrl = getSiteUrl( { feed, site } );
-	const isFollowing = ( site && site.is_following ) || ( feed && feed.is_following );
 	const isMultiAuthor = get( site, 'is_multi_author', false );
 	const preferGravatar = ! isMultiAuthor;
 

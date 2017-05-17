@@ -4,6 +4,7 @@
 import React, { PropTypes } from 'react';
 import { localize } from 'i18n-calypso';
 import { noop } from 'lodash';
+import { connect } from 'react-redux';
 
 /**
  * Internal Dependencies
@@ -11,6 +12,7 @@ import { noop } from 'lodash';
 import connectSite from 'lib/reader-connect-site';
 import userSettings from 'lib/user-settings';
 import SubscriptionListItem from 'blocks/reader-subscription-list-item';
+import { isFollowing as isFollowingSelector } from 'state/selectors';
 
 class ConnectedSubscriptionListItem extends React.Component {
 	static propTypes = {
@@ -21,6 +23,7 @@ class ConnectedSubscriptionListItem extends React.Component {
 		siteId: PropTypes.number,
 		onLoad: PropTypes.func,
 		showEmailSettings: PropTypes.bool,
+		isFollowing: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -39,7 +42,16 @@ class ConnectedSubscriptionListItem extends React.Component {
 	}
 
 	render() {
-		const { feed, site, translate, url, feedId, siteId, showEmailSettings } = this.props;
+		const {
+			feed,
+			site,
+			translate,
+			url,
+			feedId,
+			siteId,
+			showEmailSettings,
+			isFollowing,
+		} = this.props;
 		const isEmailBlocked = userSettings.getSetting( 'subscription_delivery_email_blocked' );
 
 		return (
@@ -51,9 +63,12 @@ class ConnectedSubscriptionListItem extends React.Component {
 				feed={ feed }
 				url={ url }
 				showEmailSettings={ showEmailSettings && ! isEmailBlocked }
+				isFollowing={ isFollowing }
 			/>
 		);
 	}
 }
 
-export default localize( connectSite( ConnectedSubscriptionListItem ) );
+export default connect( ( state, ownProps ) => ( {
+	isFollowing: isFollowingSelector( state, { feedId: ownProps.feedId, blogId: ownProps.siteId } ),
+} ) )( localize( connectSite( ConnectedSubscriptionListItem ) ) );
