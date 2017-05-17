@@ -66,8 +66,8 @@ class ProductCreate extends React.Component {
 	}
 
 	onSave = () => {
-		const { siteId, product } = this.props;
-		this.props.createProduct( siteId, product );
+		const { siteId, product, variations } = this.props;
+		this.props.createProduct( siteId, product, variations );
 	}
 
 	render() {

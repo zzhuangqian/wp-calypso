@@ -3,12 +3,13 @@
  */
 import wp from 'lib/wp';
 import { error } from '../actions';
+import { batchVariations } from './variations/actions';
 import {
 	WOOCOMMERCE_API_CREATE_PRODUCT,
 	WOOCOMMERCE_API_CREATE_PRODUCT_SUCCESS,
 } from '../../action-types';
 
-export function createProduct( siteId, product ) {
+export function createProduct( siteId, product, variations ) {
 	return ( dispatch ) => {
 		const createAction = {
 			type: WOOCOMMERCE_API_CREATE_PRODUCT,
@@ -39,6 +40,8 @@ export function createProduct( siteId, product ) {
 		return wp.req.post( jetpackProps, httpProps )
 			.then( ( { data } ) => {
 				dispatch( createProductSuccess( siteId, data ) );
+				// TODO only if variations are passed and type is variable?
+				dispatch( batchVariations( siteId, data, variations ) );
 			} )
 			.catch( err => {
 				dispatch( error( siteId, createAction, err ) );
@@ -75,4 +78,3 @@ function isValidProduct( product ) {
 		product.type && ( 'string' === typeof product.type )
 	);
 }
-
