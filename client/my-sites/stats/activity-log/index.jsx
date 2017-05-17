@@ -117,7 +117,7 @@ class ActivityLog extends Component {
 	}
 
 	render() {
-		const { site, activityLog } = this.props;
+		const { activityLog, siteId, slug } = this.props;
 		const logs = ( activityLog && activityLog.data ? activityLog.data : [] );
 		const logsGroupsedByDate = map(
 				groupBy(
@@ -129,7 +129,7 @@ class ActivityLog extends Component {
 						<ActivityLogDate
 							key={ 'activity-log-' + timestamp }
 							logs={ daily_logs }
-							siteId={ site.ID }
+							siteId={ siteId }
 							requestRestore={ this.props.requestRestore }
 							isRestoring={ this.props.isRestoring }
 						/>
@@ -140,9 +140,9 @@ class ActivityLog extends Component {
 			<Main wideLayout={ true }>
 				<StatsFirstView />
 				<SidebarNavigation />
-				<StatsNavigation section="activity" site={ site } />
+				<StatsNavigation section="activity" slug={ slug } />
 				<ActivityLogToggle
-					siteId={ site.ID }
+					siteId={ siteId }
 					activateRewind={ this.props.activateRewind }
 					deactivateRewind={ this.props.deactivateRewind }
 					isActivatingRewind={ this.props.isActivatingRewind }
@@ -152,7 +152,7 @@ class ActivityLog extends Component {
 				<section className="activity-log__wrapper">
 					{ logsGroupsedByDate }
 				</section>
-				<QueryActivityLog siteId={ site.ID } />
+				<QueryActivityLog siteId={ siteId } />
 			</Main>
 		);
 	}

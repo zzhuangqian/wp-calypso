@@ -382,20 +382,22 @@ module.exports = {
 	},
 
 	activity_log: function( context ) {
-		const siteId = context.params.site_id;
-		const ActivityComponent = require( 'my-sites/stats/activity-log' );
-
-		let site = sites.getSite( siteId );
-		if ( ! site ) {
-			site = sites.getSite( parseInt( siteId, 10 ) );
+		let siteId = context.params.site_id;
+		const site = getSite( context.store.getState(), siteId );
+		siteId = site ? ( site.ID || 0 ) : 0;
+		if ( 0 === siteId ) {
+			window.location = '/stats';
 		}
 
+		const props = {
+			path: context.path,
+			siteId,
+			context
+		};
 		renderWithReduxStore(
-				React.createElement( ActivityComponent, {
-					site: site
-				} ),
-				document.getElementById( 'primary' ),
-				context.store
-			);
+			<AsyncLoad placeholder={ <StatsPagePlaceholder /> } require="my-sites/stats/activity-log" { ...props } />,
+			document.getElementById( 'primary' ),
+			context.store
+		);
 	}
 };
