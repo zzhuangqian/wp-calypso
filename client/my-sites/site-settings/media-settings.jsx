@@ -33,6 +33,7 @@ import { getSelectedSiteId } from 'state/ui/selectors';
 import { getSitePlanSlug } from 'state/sites/selectors';
 import { updateSettings } from 'state/jetpack/settings/actions';
 import QueryJetpackConnection from 'components/data/query-jetpack-connection';
+import PlanStorage from 'blocks/plan-storage';
 
 class MediaSettings extends Component {
 	static propTypes = {
@@ -41,6 +42,7 @@ class MediaSettings extends Component {
 		handleAutosavingToggle: PropTypes.func.isRequired,
 		isRequestingSettings: PropTypes.bool,
 		isSavingSettings: PropTypes.bool,
+		isVideoPressActive: PropTypes.bool,
 		isVideoPressAvailable: PropTypes.bool,
 		onChangeField: PropTypes.func.isRequired,
 		siteId: PropTypes.number.isRequired,
@@ -71,7 +73,15 @@ class MediaSettings extends Component {
 					label={ translate( 'Enable fast, ad-free video hosting' ) }
 					disabled={ isRequestingOrSaving }
 				/>
+				{ this.props.isVideoPressActive && this.renderVideoStorageIndicator() }
 			</FormFieldset>
+		);
+	}
+
+	renderVideoStorageIndicator() {
+		const { siteId } = this.props;
+		return (
+			<PlanStorage siteId={ siteId } />
 		);
 	}
 
@@ -191,6 +201,7 @@ export default connect(
 
 		return {
 			carouselActive: !! isJetpackModuleActive( state, selectedSiteId, 'carousel' ),
+			isVideoPressActive: isJetpackModuleActive( state, selectedSiteId, 'videopress' ),
 			isVideoPressAvailable,
 			photonModuleUnavailable: siteInDevMode && moduleUnavailableInDevMode,
 			selectedSiteId,
