@@ -13,7 +13,9 @@ import {
 	WOOCOMMERCE_EDIT_PRODUCT_APIPLAN_STEP_END,
 } from '../../../action-types';
 
-export function createApiPlanForEdits( productEdits, variationEdits = null, productCategoryEdits = null ) {
+// TODO: Eventually think about edits that could belong to multiple sites
+// (e.g. moving a product from one site to another)
+export function createApiPlanForEdits( siteId, productEdits /*, variationEdits = null, productCategoryEdits = null*/ ) {
 	// TODO: categories.creates
 	// TODO: categories.updates
 	// TODO: categories.deletes
@@ -22,7 +24,7 @@ export function createApiPlanForEdits( productEdits, variationEdits = null, prod
 	const productCreateSteps = productCreateEdits.map( product => {
 		return {
 			name: translate( 'Creating %(product)s', { args: { product: product.name } } ),
-			operation: { name: 'createProduct', id: product.id },
+			operation: { name: 'createProduct', siteId, id: product.id },
 		};
 	} );
 	// TODO: product.updates

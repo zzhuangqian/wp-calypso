@@ -24,11 +24,11 @@ describe( 'createApiPlanForEdits', () => {
 		const expectedPlan = [
 			{
 				name: 'Creating New Product',
-				operation: { name: 'createProduct', id: { index: 0 } },
+				operation: { name: 'createProduct', siteId: 1337, id: { index: 0 } },
 			},
 		];
 
-		const action = createApiPlanForEdits( productEdits, null, null );
+		const action = createApiPlanForEdits( 1337, productEdits, null, null );
 		expect( action ).to.exist;
 		expect( action.type ).to.equal( WOOCOMMERCE_EDIT_PRODUCT_APIPLAN_CREATE );
 		expect( action.payload ).to.eql( expectedPlan );
