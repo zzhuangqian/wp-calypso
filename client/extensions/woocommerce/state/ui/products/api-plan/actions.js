@@ -1,3 +1,7 @@
+/**
+ * External dependencies
+ */
+import { translate } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -9,26 +13,30 @@ import {
 	WOOCOMMERCE_EDIT_PRODUCT_APIPLAN_STEP_END,
 } from '../../../action-types';
 
-/* TODO: Create the plan based on our current edits.
-export function createApiPlanForEdits( productCategoryEdit, productEdits, variationEdits ) {
-	const plan = [];
+export function createApiPlanForEdits( productEdits, variationEdits = null, productCategoryEdits = null ) {
+	// TODO: categories.creates
+	// TODO: categories.updates
+	// TODO: categories.deletes
 
-	// TODO: sequentially go through edit state and create steps.
-	...categories.creates
-	...categories.updates
-	...categories.deletes
+	const productCreateEdits = productEdits.creates || [];
+	const productCreateSteps = productCreateEdits.map( product => {
+		return {
+			name: translate( 'Creating %(product)s', { args: { product: product.name } } ),
+			operation: { name: 'createProduct', id: product.id },
+		};
+	} );
+	// TODO: product.updates
+	// TODO: product.deletes
 
-	...product.creates
-	...product.updates
-	...product.deletes
+	// TODO: variation.creates
+	// TODO: variation.updates
+	// TODO: variation.deletes
 
-	...variation.creates
-	...variation.updates
-	...variation.deletes
-
+	const plan = [
+		...productCreateSteps,
+	];
 	return createApiPlan( plan );
 }
-*/
 
 /* TODO: Figure out the next step and start it.
 export function continueApiPlan( plan ) {
