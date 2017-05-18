@@ -80,9 +80,9 @@ class MediaSettings extends Component {
 
 	renderVideoStorageIndicator() {
 		const { siteId } = this.props;
-		return (
+		return <div className="site-settings__videopress-storage">
 			<PlanStorage siteId={ siteId } />
-		);
+		</div>;
 	}
 
 	renderVideoUpgradeNudge() {
