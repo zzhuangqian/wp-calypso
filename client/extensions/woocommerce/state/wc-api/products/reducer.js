@@ -36,4 +36,3 @@ function createProductSuccess( siteData, action ) {
 	return siteData;
 }
 
-
