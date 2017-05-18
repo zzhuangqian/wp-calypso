@@ -171,7 +171,8 @@ export default function transformer( file, api, options ) {
 					null,
 					[ j.identifier( 'e' ) ],
 					j.blockStatement( [
-						j.template.statement`this.setState( { [ e.currentTarget.dataset.name ]: e.currentTarget.${ valuePropName } } )`
+						j.template.statement`const { name, ${ valuePropName } } = e.currentTarget;\n`,
+						j.template.statement`this.setState( { [ name ]: ${ valuePropName } } );`,
 					] )
 				)
 			);
