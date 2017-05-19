@@ -10,7 +10,7 @@ import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import { getCurrentUser } from 'state/current-user/selectors';
+import { getCurrentUserSiteCount } from 'state/current-user/selectors';
 import { getPrimarySiteId } from 'state/selectors';
 import { getSelectedSiteId } from 'state/ui/selectors';
 import { getSite } from 'state/sites/selectors';
@@ -156,10 +156,10 @@ function addStorePage( storePage, storeNavigation ) {
 }
 
 function mapStateToProps( state ) {
-	const currentUser = getCurrentUser( state );
-	const selectedSiteId = getSelectedSiteId( state );
-	const isSingleSite = !! selectedSiteId || currentUser.site_count === 1;
-	const siteId = selectedSiteId || ( isSingleSite && getPrimarySiteId( state ) ) || null;
+	let siteId = getSelectedSiteId( state );
+	if ( ! siteId && ( 1 === getCurrentUserSiteCount( state ) ) ) {
+		siteId = getPrimarySiteId( state );
+	}
 	const site = getSite( state, siteId );
 
 	return {
