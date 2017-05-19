@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { Component, PropTypes } from 'react';
+import { includes } from 'lodash';
 import { localize } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
  */
 import Banner from 'components/banner';
 import Card from 'components/card';
+import filesize from 'filesize';
 import JetpackModuleToggle from 'my-sites/site-settings/jetpack-module-toggle';
 import FormFieldset from 'components/forms/form-fieldset';
 import FormSelect from 'components/forms/form-select';
@@ -29,11 +31,16 @@ import {
 	isJetpackModuleUnavailableInDevelopmentMode,
 	isJetpackSiteInDevelopmentMode
 } from 'state/selectors';
+import { getMediaStorage } from 'state/sites/media-storage/selectors';
 import { getSelectedSiteId } from 'state/ui/selectors';
-import { getSitePlanSlug } from 'state/sites/selectors';
+import {
+	getSitePlanSlug,
+	getSiteSlug,
+} from 'state/sites/selectors';
 import { updateSettings } from 'state/jetpack/settings/actions';
+import QueryMediaStorage from 'components/data/query-media-storage';
 import QueryJetpackConnection from 'components/data/query-jetpack-connection';
-import PlanStorage from 'blocks/plan-storage';
+import PlanStorageBar from 'blocks/plan-storage/bar';
 
 class MediaSettings extends Component {
 	static propTypes = {
@@ -44,8 +51,19 @@ class MediaSettings extends Component {
 		isSavingSettings: PropTypes.bool,
 		isVideoPressActive: PropTypes.bool,
 		isVideoPressAvailable: PropTypes.bool,
+		mediaStorage: PropTypes.shape( {
+			max_storage_bytes: PropTypes.number.isRequired,
+			storage_used_bytes: PropTypes.number.isRequired,
+		} ).isRequired,
 		onChangeField: PropTypes.func.isRequired,
 		siteId: PropTypes.number.isRequired,
+	};
+
+	static defaultProps = {
+		mediaStorage: {
+			max_storage_bytes: -1,
+			storage_used_bytes: -1,
+		},
 	};
 
 	renderVideoSettings() {
@@ -79,10 +97,43 @@ class MediaSettings extends Component {
 	}
 
 	renderVideoStorageIndicator() {
-		const { siteId } = this.props;
-		return <div className="site-settings__videopress-storage">
-			<PlanStorage siteId={ siteId } />
-		</div>;
+		const {
+			mediaStorage,
+			siteId,
+			sitePlanSlug,
+			siteSlug,
+			translate,
+		} = this.props;
+
+		// The API may use -1 for both values to indicate special cases
+		const isStorageDataValid = mediaStorage.storage_used_bytes > -1;
+		const isStorageUnlimited = mediaStorage.max_storage_bytes > -1;
+
+		const renderedStorageInfo = isStorageDataValid && (
+			isStorageUnlimited
+				? (
+					<PlanStorageBar
+						siteSlug={ siteSlug }
+						sitePlanSlug={ sitePlanSlug }
+						mediaStorage={ mediaStorage }
+					/>
+				) : (
+					<p className="site-settings__videopress-storage-used form-setting-explanation">{
+						translate( '%(size)s uploaded, unlimited storage available', {
+							args: {
+								size: filesize( mediaStorage. storage_used_bytes ),
+							}
+						} )
+					}</p>
+				)
+		);
+
+		return (
+			<div className="site-settings__videopress-storage">
+				<QueryMediaStorage siteId={ siteId } />
+				{ renderedStorageInfo }
+			</div>
+		);
 	}
 
 	renderVideoUpgradeNudge() {
@@ -114,6 +165,7 @@ class MediaSettings extends Component {
 			siteId,
 			translate
 		} = this.props;
+
 		const labelClassName = isSavingSettings || ! carouselActive ? 'is-disabled' : null;
 		const isRequestingOrSaving = isRequestingSettings || isSavingSettings;
 
@@ -192,19 +244,22 @@ export default connect(
 		const sitePlanSlug = getSitePlanSlug( state, selectedSiteId );
 		const moduleUnavailableInDevMode = isJetpackModuleUnavailableInDevelopmentMode( state, selectedSiteId, 'photon' );
 
-		const isVideoPressAvailable = [
+		const isVideoPressAvailable = includes( [
 			PLAN_JETPACK_BUSINESS,
 			PLAN_JETPACK_BUSINESS_MONTHLY,
 			PLAN_JETPACK_PREMIUM,
 			PLAN_JETPACK_PREMIUM_MONTHLY,
-		].includes( sitePlanSlug );
+		], sitePlanSlug );
 
 		return {
 			carouselActive: !! isJetpackModuleActive( state, selectedSiteId, 'carousel' ),
 			isVideoPressActive: isJetpackModuleActive( state, selectedSiteId, 'videopress' ),
 			isVideoPressAvailable,
+			mediaStorage: getMediaStorage( state, selectedSiteId ),
 			photonModuleUnavailable: siteInDevMode && moduleUnavailableInDevMode,
 			selectedSiteId,
+			sitePlanSlug,
+			siteSlug: getSiteSlug( state, selectedSiteId ),
 		};
 	},
 	{
