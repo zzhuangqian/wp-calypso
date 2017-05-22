@@ -13,6 +13,8 @@ import { getPostImage, getExcerptForPost } from './utils';
 import FacebookSharePreview from 'components/share/facebook-share-preview';
 import GooglePlusSharePreview from 'components/share/google-plus-share-preview';
 import TwitterSharePreview from 'components/share/twitter-share-preview';
+import Notice from 'components/notice';
+import NoticeAction from 'components/notice/notice-action';
 import VerticalMenu from 'components/vertical-menu';
 import { SocialItem } from 'components/vertical-menu/items';
 import { getSitePost } from 'state/posts/selectors';
@@ -27,6 +29,7 @@ class SharingPreviewPane extends PureComponent {
 		siteId: PropTypes.number,
 		postId: PropTypes.number,
 		services: PropTypes.array,
+		serviceLabels: PropTypes.object,
 		message: PropTypes.string,
 		// connected properties
 		site: PropTypes.object,
@@ -39,7 +42,12 @@ class SharingPreviewPane extends PureComponent {
 			'facebook',
 			'google_plus',
 			'twitter',
-		]
+		],
+		serviceLabels: {
+			facebook: 'Facebook',
+			twitter: 'Twitter',
+			google_plus: 'Google+',
+		}
 	};
 
 	state = {
@@ -50,12 +58,26 @@ class SharingPreviewPane extends PureComponent {
 		this.setState( { selectedService } );
 	};
 
+	renderUnconnected( service ) {
+		const { translate, site, serviceLabels } = this.props;
+		const serviceLabel = serviceLabels[ service ];
+		return (
+			<Notice
+				status="is-info"
+				showDismiss={ false }
+				text={ translate( 'Connect to %s to see the preview', { args: serviceLabel } ) }
+			>
+				<NoticeAction href={ `/sharing/${ site.slug }` } >{ translate( 'Settings' ) }</NoticeAction>
+			</Notice>
+		);
+	}
+
 	renderPreview() {
 		const { post, message, connections } = this.props;
 		const { selectedService } = this.state;
 		const connection = find( connections, { service: selectedService } );
 		if ( ! connection ) {
-			return null;
+			return this.renderUnconnected( selectedService );
 		}
 
 		const articleUrl = get( post, 'URL', '' );
