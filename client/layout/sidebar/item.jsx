@@ -37,29 +37,31 @@ export default React.createClass( {
 	},
 
 	render() {
-		const isExternalLink = isExternal( this.props.link );
-		const classes = classnames( 'sidebar__item', this.props.className, {
-			'is-placeholder': this.props.isPlaceholder,
-			selected: this.props.selected
+		const { className, children, icon, isPlaceholder, label, link,
+			onNavigate, postType, selected, tipTarget } = this.props;
+		const isExternalLink = isExternal( link );
+		const classes = classnames( 'sidebar__item', className, {
+			'is-placeholder': isPlaceholder,
+			selected,
 		} );
 
 		return (
 			<li
 				className={ classes }
-				data-tip-target={ this.props.tipTarget }
-				data-post-type={ this.props.postType }
+				data-tip-target={ tipTarget }
+				data-post-type={ postType }
 			>
 				<a
-					onClick={ this.props.onNavigate }
-					href={ this.props.link }
+					onClick={ onNavigate }
+					href={ link }
 					target={ isExternalLink ? '_blank' : null }
 					onMouseEnter={ this.preload }
 				>
-					<Gridicon icon={ this.props.icon } size={ 24 } />
-					<span className="menu-link-text">{ this.props.label }</span>
+					<Gridicon icon={ icon } size={ 24 } />
+					<span className="menu-link-text">{ label }</span>
 					{ isExternalLink ? <Gridicon icon="external" size={ 24 } /> : null }
 				</a>
-				{ this.props.children }
+				{ children }
 			</li>
 		);
 	}

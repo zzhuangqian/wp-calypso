@@ -55,7 +55,7 @@ export function getCurrentUserSiteCount( state ) {
 		return null;
 	}
 
-	return user.site_count || null;
+	return user.site_count || 0;
 }
 
 /**
