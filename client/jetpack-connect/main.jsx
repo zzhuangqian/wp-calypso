@@ -382,8 +382,6 @@ class JetpackConnectMain extends Component {
 					<StepHeader
 						headerText={ this.getTexts().headerTitle }
 						subHeaderText={ this.getTexts().headerSubtitle }
-						step={ 1 }
-						steps={ 3 }
 					/>
 
 					{ this.renderSiteInput( status ) }
@@ -423,8 +421,6 @@ class JetpackConnectMain extends Component {
 					<StepHeader
 						headerText={ instructionsData.headerTitle }
 						subHeaderText={ instructionsData.headerSubtitle }
-						step={ 1 }
-						steps={ instructionsData.steps.length }
 					/>
 					<div className="jetpack-connect__install-steps">
 						{

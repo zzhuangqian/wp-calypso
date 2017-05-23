@@ -55,8 +55,7 @@ class JetpackPlansGrid extends Component {
 			<StepHeader
 				headerText={ headerText }
 				subHeaderText={ subheaderText }
-				step={ 1 }
-				steps={ 3 } />
+			/>
 		);
 	}
 
