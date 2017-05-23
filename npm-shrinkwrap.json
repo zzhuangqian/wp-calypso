@@ -3826,7 +3826,9 @@
       "dev": true
     },
     "notifications-panel": {
-      "version": "1.1.12"
+      "version": "1.1.12",
+      "from": "git://github.com/automattic/notifications-panel.git#8e136ebe5941d0e82a90f73642c1f15802f165a6",
+      "resolved": "git://github.com/automattic/notifications-panel.git#8e136ebe5941d0e82a90f73642c1f15802f165a6"
     },
     "npm-path": {
       "version": "1.1.0",
@@ -5409,6 +5411,16 @@
     },
     "token-stream": {
       "version": "0.0.1"
+    },
+    "touch": {
+      "version": "1.0.0",
+      "dev": true,
+      "dependencies": {
+        "nopt": {
+          "version": "1.0.10",
+          "dev": true
+        }
+      }
     },
     "tough-cookie": {
       "version": "2.3.2"
