@@ -15,7 +15,7 @@ import {
 	JETPACK_CONNECT_AUTHORIZE,
 	JETPACK_CONNECT_AUTHORIZE_LOGIN_COMPLETE,
 	JETPACK_CONNECT_AUTHORIZE_RECEIVE,
-	JETPACK_CONNECT_AUTHORIZE_RECEIVE_SITE_LIST,
+	JETPACK_CONNECT_AUTHORIZE_FINISH,
 	JETPACK_CONNECT_CREATE_ACCOUNT,
 	JETPACK_CONNECT_CREATE_ACCOUNT_RECEIVE,
 	JETPACK_CONNECT_REDIRECT,
@@ -151,7 +151,7 @@ export function jetpackConnectAuthorize( state = {}, action ) {
 						authorizeSuccess: true,
 						autoAuthorize: false,
 						plansUrl: plans_url,
-						siteReceived: false
+						finishedSuccessfully: false
 					}
 				);
 			}
@@ -167,13 +167,13 @@ export function jetpackConnectAuthorize( state = {}, action ) {
 			);
 		case JETPACK_CONNECT_AUTHORIZE_LOGIN_COMPLETE:
 			return Object.assign( {}, state, { authorizationCode: action.data.code } );
-		case JETPACK_CONNECT_AUTHORIZE_RECEIVE_SITE_LIST:
+		case JETPACK_CONNECT_AUTHORIZE_FINISH:
 			const updateQueryObject = omit( state.queryObject, '_wp_nonce', 'secret', 'scope' );
 			return Object.assign(
 				{},
 				omit( state, 'queryObject' ),
 				{
-					siteReceived: true,
+					finishedSuccessfully: true,
 					isAuthorizing: false,
 					queryObject: updateQueryObject
 				}

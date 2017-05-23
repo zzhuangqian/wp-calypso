@@ -155,23 +155,28 @@ const getSiteIdFromQueryObject = function( state ) {
 	return null;
 };
 
+const jetpackConnectFinishedSuccessfully = function( state ) {
+	return get( state, 'jetpackConnect.finishedSuccessfully', null );
+};
+
 export default {
 	getConnectingSite,
+	getAuthAttempts,
 	getAuthorizationData,
 	getAuthorizationRemoteQueryData,
 	getAuthorizationRemoteSite,
+	getFlowType,
+	getGlobalSelectedPlan,
+	getJetpackPlanSelected,
+	getJetpackSiteByUrl,
 	getSessions,
+	getSiteIdFromQueryObject,
+	getSiteSelectedPlan,
 	getSSO,
+	hasExpiredSecretError,
+	hasXmlrpcError,
 	isCalypsoStartedConnection,
 	isRedirectingToWpAdmin,
 	isRemoteSiteOnSitesList,
-	getFlowType,
-	getJetpackSiteByUrl,
-	hasXmlrpcError,
-	hasExpiredSecretError,
-	getJetpackPlanSelected,
-	getSiteSelectedPlan,
-	getGlobalSelectedPlan,
-	getAuthAttempts,
-	getSiteIdFromQueryObject
+	jetpackConnectFinishedSuccessfully,
 };

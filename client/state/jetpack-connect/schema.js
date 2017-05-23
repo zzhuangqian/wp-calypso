@@ -51,7 +51,7 @@ export const jetpackConnectAuthorizeSchema = {
 					additionalProperties: false
 				},
 				timestamp: { type: 'number' },
-				siteReceived: { type: 'boolean' }
+				finishedSuccessfully: { type: 'boolean' }
 			},
 			additionalProperties: false
 		}
