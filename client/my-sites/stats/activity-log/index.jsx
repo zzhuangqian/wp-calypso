@@ -18,7 +18,15 @@ import StatsNavigation from '../stats-navigation';
 import ActivityLogDate from '../activity-log-date';
 import QueryActivityLog from 'components/data/query-activity-log';
 import QueryRewindStatus from 'components/data/query-rewind-status';
-import { getActivityLog, isFetchingActivityLog, isRestoring, isAnythingRestoring, isActivatingRewind, isDeactivatingRewind } from 'state/activity-log/selectors';
+import {
+	isRewindActive,
+	getActivityLog,
+	isFetchingActivityLog,
+	isRestoring,
+	isAnythingRestoring,
+	isActivatingRewind,
+	isDeactivatingRewind
+} from 'state/activity-log/selectors';
 import { requestRestore, activateRewind, deactivateRewind } from 'state/activity-log/actions';
 import ActivityLogBanner from '../activity-log-banner';
 import ActivityLogToggle from '../activity-log-toggle';
@@ -144,17 +152,22 @@ class ActivityLog extends Component {
 				<StatsNavigation section="activity" slug={ slug } />
 				<ActivityLogToggle
 					siteId={ siteId }
+					isActive={ this.props.isRewindActive }
 					activateRewind={ this.props.activateRewind }
 					deactivateRewind={ this.props.deactivateRewind }
 					isActivatingRewind={ this.props.isActivatingRewind }
 					isDeactivatingRewind={ this.props.isDeactivatingRewind }
 				/>
-				<ActivityLogBanner logs={ logs } isRestoring={ this.props.isAnythingRestoring } />
-				<section className="activity-log__wrapper">
-					{ logsGroupsedByDate }
-				</section>
-				<QueryActivityLog siteId={ siteId } />
-				<QueryRewindStatus siteId={ siteId } />
+				{ this.props.isRewindActive && (
+					<div>
+						<ActivityLogBanner logs={ logs } isRestoring={ this.props.isAnythingRestoring } />
+						<section className="activity-log__wrapper">
+							{ logsGroupsedByDate }
+						</section>
+						<QueryActivityLog siteId={ siteId } />
+						<QueryRewindStatus siteId={ siteId } />
+					</div>
+				) }
 			</Main>
 		);
 	}
@@ -164,6 +177,7 @@ export default connect(
 	( state ) => {
 		const siteId = getSelectedSiteId( state );
 		return {
+			isRewindActive: isRewindActive( state, siteId ),
 			slug: getSiteSlug( state, siteId ),
 			activityLog: getActivityLog( state, siteId ),
 			fetchingLog: isFetchingActivityLog( state, siteId ),
