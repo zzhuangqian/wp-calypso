@@ -245,7 +245,7 @@ export default {
 			basePath = route.sectionify( context.path ),
 			analyticsBasePath = basePath + '/:site';
 
-		if ( ! isJetpack ) {
+		if ( siteId && ! isJetpack ) {
 			return;
 		}
 
