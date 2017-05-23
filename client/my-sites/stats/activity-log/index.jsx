@@ -141,6 +141,7 @@ class ActivityLog extends Component {
 							siteId={ siteId }
 							requestRestore={ this.props.requestRestore }
 							isRestoring={ this.props.isRestoring }
+							isRewindEnabled={ this.props.isRewindActive }
 						/>
 					);
 				} );
@@ -158,16 +159,12 @@ class ActivityLog extends Component {
 					isActivatingRewind={ this.props.isActivatingRewind }
 					isDeactivatingRewind={ this.props.isDeactivatingRewind }
 				/>
-				{ this.props.isRewindActive && (
-					<div>
-						<ActivityLogBanner logs={ logs } isRestoring={ this.props.isAnythingRestoring } />
-						<section className="activity-log__wrapper">
-							{ logsGroupsedByDate }
-						</section>
-						<QueryActivityLog siteId={ siteId } />
-						<QueryRewindStatus siteId={ siteId } />
-					</div>
-				) }
+				<ActivityLogBanner logs={ logs } isRestoring={ this.props.isAnythingRestoring } />
+				<section className="activity-log__wrapper">
+					{ logsGroupsedByDate }
+				</section>
+				<QueryActivityLog siteId={ siteId } />
+				<QueryRewindStatus siteId={ siteId } />
 			</Main>
 		);
 	}
