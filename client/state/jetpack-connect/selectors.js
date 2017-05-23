@@ -156,7 +156,7 @@ const getSiteIdFromQueryObject = function( state ) {
 };
 
 const jetpackConnectFinishedSuccessfully = function( state ) {
-	return get( state, 'jetpackConnect.finishedSuccessfully', null );
+	return get( getAuthorizationData( state ), 'finishedSuccessfully', null );
 };
 
 export default {

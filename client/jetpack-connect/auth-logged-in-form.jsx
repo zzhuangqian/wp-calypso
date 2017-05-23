@@ -63,7 +63,7 @@ class LoggedInForm extends Component {
 				redirect_after_auth: PropTypes.string.isRequired,
 				site: PropTypes.string.isRequired,
 			} ).isRequired,
-			siteReceived: PropTypes.bool,
+			finishedSuccessfully: PropTypes.bool,
 		} ).isRequired,
 		recordTracksEvent: PropTypes.func.isRequired,
 		requestHasExpiredSecretError: PropTypes.func.isRequired,
@@ -97,7 +97,7 @@ class LoggedInForm extends Component {
 
 	componentWillReceiveProps( props ) {
 		const {
-			siteReceived,
+			finishedSuccessfully,
 			queryObject,
 			isRedirectingToWpAdmin,
 			authorizeSuccess,
@@ -109,7 +109,7 @@ class LoggedInForm extends Component {
 			if ( ! isRedirectingToWpAdmin && authorizeSuccess ) {
 				return this.props.goBackToWpAdmin( queryObject.redirect_after_auth );
 			}
-		} else if ( siteReceived ) {
+		} else if ( finishedSuccessfully ) {
 			return this.redirect();
 		} else if ( props.isAlreadyOnSitesList && queryObject.already_authorized ) {
 			return this.redirect();
@@ -417,8 +417,8 @@ class LoggedInForm extends Component {
 	}
 
 	isWaitingForConfirmation() {
-		const { isAuthorizing, authorizeSuccess, siteReceived } = this.props.jetpackConnectAuthorize;
-		return ! ( isAuthorizing || authorizeSuccess || siteReceived );
+		const { isAuthorizing, authorizeSuccess, finishedSuccessfully } = this.props.jetpackConnectAuthorize;
+		return ! ( isAuthorizing || authorizeSuccess || finishedSuccessfully );
 	}
 
 	getRedirectionTarget() {
@@ -474,12 +474,12 @@ class LoggedInForm extends Component {
 	}
 
 	renderStateAction() {
-		const { authorizeSuccess, siteReceived } = this.props.jetpackConnectAuthorize;
+		const { authorizeSuccess, finishedSuccessfully } = this.props.jetpackConnectAuthorize;
 		if (
 			this.props.isFetchingAuthorizationSite ||
 			this.isAuthorizing() ||
 			this.retryingAuth ||
-			( authorizeSuccess && ! siteReceived )
+			( authorizeSuccess && ! finishedSuccessfully )
 		) {
 			return (
 				<div className="jetpack-connect__logged-in-form-loading">

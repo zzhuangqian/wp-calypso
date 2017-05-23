@@ -28,7 +28,8 @@ import {
 	isRemoteSiteOnSitesList,
 	getGlobalSelectedPlan,
 	getAuthAttempts,
-	getSiteIdFromQueryObject
+	getSiteIdFromQueryObject,
+	jetpackConnectFinishedSuccessfully,
 } from 'state/jetpack-connect/selectors';
 import { getCurrentUser } from 'state/current-user/selectors';
 import { recordTracksEvent } from 'state/analytics/actions';
@@ -139,6 +140,7 @@ class JetpackConnectAuthorizeForm extends Component {
 
 export default connect(
 	state => {
+		const finishedSuccessfully = jetpackConnectFinishedSuccessfully( state );
 		const remoteSiteUrl = getAuthorizationRemoteSite( state );
 		const siteSlug = urlToSlug( remoteSiteUrl );
 		const requestHasExpiredSecretError = () => hasExpiredSecretError( state );
@@ -149,7 +151,8 @@ export default connect(
 		return {
 			authAttempts: getAuthAttempts( state, siteSlug ),
 			calypsoStartedConnection: isCalypsoStartedConnection( state, remoteSiteUrl ),
-			isAlreadyOnSitesList: isRemoteSiteOnSitesList( state ),
+			finishedSuccessfully,
+			isAlreadyOnSitesList: isRemoteSiteOnSitesList( state ) || finishedSuccessfully,
 			isFetchingAuthorizationSite: isRequestingSite( state, siteId ),
 			isFetchingSites: isRequestingSites( state ),
 			jetpackConnectAuthorize: getAuthorizationData( state ),
