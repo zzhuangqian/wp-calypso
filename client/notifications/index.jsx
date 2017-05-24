@@ -157,7 +157,7 @@ export class Notifications extends Component {
 		const customMiddleware = {
 			OPEN_POST: [ ( store, { siteId, postId } ) => {
 				this.props.checkToggle();
-				page( `/post/${ siteId }/${ postId }` );
+				page( `/read/blogs/${ siteId }/posts/${ postId }` );
 			}],
 			VIEW_SETTINGS: [ () => {
 				this.props.checkToggle();
