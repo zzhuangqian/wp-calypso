@@ -69,17 +69,19 @@ class SetupTask extends Component {
 				<div className="dashboard__setup-task-status">
 					{ checked ? <Gridicon icon="checkmark" size={ 36 } /> : null }
 				</div>
-				<div className="dashboard__setup-task-label">
-					<h2>
-						{ label }
-					</h2>
-					<p>
-						{ explanation } { docLink }
-					</p>
-				</div>
-				<div className="dashboard__setup-task-actions">
-					{ this.renderTaskPrimaryActions( actions ) }
-					{ this.renderTaskSecondaryActions( actions ) }
+				<div className="dashboard__setup-task-label-and-actions">
+					<div className="dashboard__setup-task-label">
+						<h2>
+							{ label }
+						</h2>
+						<p>
+							{ explanation } { docLink }
+						</p>
+					</div>
+					<div className="dashboard__setup-task-actions">
+						{ this.renderTaskPrimaryActions( actions ) }
+						{ this.renderTaskSecondaryActions( actions ) }
+					</div>
 				</div>
 			</div>
 		);
