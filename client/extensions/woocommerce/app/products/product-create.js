@@ -56,7 +56,7 @@ class ProductCreate extends React.Component {
 	}
 
 	render() {
-		const { product, className, variations, productCategories } = this.props;
+		const { product, className, variations, productCategories, siteId } = this.props;
 
 		return (
 			<Main className={ className }>
@@ -67,6 +67,7 @@ class ProductCreate extends React.Component {
 					editProduct={ this.props.editProduct }
 					editProductAttribute={ this.props.editProductAttribute }
 					editProductVariation={ this.props.editProductVariation }
+					siteId={ siteId }
 				/>
 			</Main>
 		);

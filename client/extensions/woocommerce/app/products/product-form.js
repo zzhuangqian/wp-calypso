@@ -26,10 +26,11 @@ export default class ProductForm extends Component {
 		editProduct: PropTypes.func.isRequired,
 		editProductAttribute: PropTypes.func.isRequired,
 		editProductVariation: PropTypes.func.isRequired,
+		siteId: PropTypes.number,
 	};
 
 	render() {
-		const { product, productCategories, variations } = this.props;
+		const { product, productCategories, variations, siteId } = this.props;
 		const { editProduct, editProductVariation, editProductAttribute } = this.props;
 
 		return (
@@ -37,6 +38,7 @@ export default class ProductForm extends Component {
 				<ProductFormDetailsCard
 					product={ product }
 					editProduct={ editProduct }
+					siteId={ siteId }
 				/>
 				<ProductFormAdditionalDetailsCard
 					product={ product }
