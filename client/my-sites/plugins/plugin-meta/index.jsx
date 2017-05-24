@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import i18n from 'i18n-calypso';
 import some from 'lodash/some';
 import get from 'lodash/get';
-import { includes } from 'lodash';
+import { findIndex, has, includes } from 'lodash';
 import { isEmpty } from 'lodash';
 import Gridicon from 'gridicons';
 import { localize } from 'i18n-calypso';
+import sectionsModule from 'sections';
 
 /**
  * Internal dependencies
@@ -41,6 +42,7 @@ import {
 	isEnterprise
 } from 'lib/products-values';
 import { getSelectedSiteId, getSelectedSite } from 'state/ui/selectors';
+import { getSiteSlug } from 'state/sites/selectors';
 import { isAutomatedTransferActive, isSiteAutomatedTransfer } from 'state/selectors';
 import QueryEligibility from 'components/data/query-atat-eligibility';
 import { isATEnabled } from 'lib/automated-transfer';
@@ -424,17 +426,37 @@ const PluginMeta = React.createClass( {
 		analytics.ga.recordEvent( 'Plugins', 'Clicked Update All Sites Plugin', 'Plugin Name', this.props.pluginSlug );
 	},
 
+	getExtensionPath( plugin ) {
+		const pluginSlug = get( plugin, 'slug' );
+		const sections = sectionsModule.get();
+		const index = findIndex( sections, { name: pluginSlug } );
+
+		if ( ( index === -1 ) || ! includes( sections[ index ].envId, config( 'env_id' ) ) ) {
+			return '';
+		}
+
+		return get( sections[ index ], 'paths', [] )[ 0 ];
+	},
+
 	render() {
 		const cardClasses = classNames( 'plugin-meta__information', {
 			'has-button': this.hasOrgInstallButton(),
 			'has-site': !! this.props.selectedSite,
 			'is-placeholder': !! this.props.isPlaceholder
 		} );
+		let target = '_blank';
 
 		const plugin = this.props.selectedSite && this.props.sites[ 0 ] ? this.props.sites[ 0 ].plugin : this.props.plugin;
 		let actionLinks = get( plugin, 'action_links' );
 		if ( get( plugin, 'active' ) && isEmpty( actionLinks ) ) {
 			actionLinks = this.getDefaultActionLinks( plugin );
+		}
+
+		const path = this.getExtensionPath( plugin );
+
+		if ( path && has( actionLinks, 'Settings' ) ) {
+			actionLinks.Settings = `${ path }/${ this.props.slug }`;
+			target = '_self';
 		}
 
 		return (
@@ -456,7 +478,7 @@ const PluginMeta = React.createClass( {
 									{ Object.keys( actionLinks ).map( linkTitle => (
 										<Button compact icon
 											href={ actionLinks[ linkTitle ] }
-											target="_blank"
+											target={ target }
 											rel="noopener noreferrer">
 												{ linkTitle } <Gridicon icon="external" />
 										</Button>
@@ -516,6 +538,7 @@ const mapStateToProps = state => {
 		atEnabled: isATEnabled( selectedSite ),
 		isTransferring: isAutomatedTransferActive( state, siteId ),
 		automatedTransferSite: isSiteAutomatedTransfer( state, siteId ),
+		slug: getSiteSlug( state, siteId ),
 	};
 };
 
