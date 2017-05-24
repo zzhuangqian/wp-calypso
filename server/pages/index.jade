@@ -128,6 +128,8 @@ html(lang=lang, dir=isRTL ? 'rtl' : 'ltr', class=isFluidWidth ? 'is-fluid-width'
 			script(type='text/javascript')!= config
 		if i18nLocaleScript
 			script(src=i18nLocaleScript)
+		if momentLocale
+			script(type='text/javascript')!='var momentLocale = ' + sanitize.jsonStringifyForHtml( momentLocale )
 		if 'development' === env || isDebug
 			script(src=urls[ 'manifest' ])
 			script(src=urls[ 'vendor' ])

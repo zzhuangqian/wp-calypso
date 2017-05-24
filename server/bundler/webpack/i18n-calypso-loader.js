@@ -5,14 +5,11 @@ module.exports = function( content ) {
 		return content.replace(
 			'	moment.locale( localeSlug );',
 			`	// Block injected at build time via i18n-calypso-loader Webpack loader
-	if ( localeSlug === 'en' ) {
-		// Moment ships with the English locale by default, no need to load anything in that case
-		moment.locale( localeSlug );
-	} else {
-		require( 'bundle?name=moment-locale-[name]!moment/locale/' + localeSlug )( function() {
-			moment.locale( localeSlug );
-		} );
-	}` );
+	if ( window.momentLocale && window.momentLocale[ localeSlug ] ) {
+		moment.updateLocale( localeSlug, window.momentLocale[ localeSlug ] );
+	}
+	moment.locale( localeSlug );`
+		);
 	}
 
 	return content;

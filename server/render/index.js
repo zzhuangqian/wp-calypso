@@ -6,6 +6,7 @@ import superagent from 'superagent';
 import Lru from 'lru';
 import { isEmpty, pick } from 'lodash';
 import debugFactory from 'debug';
+import moment from 'moment';
 
 /**
  * Internal dependencies
@@ -77,8 +78,17 @@ export function serverRender( req, res ) {
 	const context = req.context;
 	let title, metas = [], links = [];
 
+	// Enforcing a different locale, because in development it is always en
+	context.lang = 'ru';
+	moment.locale( context.lang );
+
 	if ( context.lang !== config( 'i18n_default_locale_slug' ) ) {
 		context.i18nLocaleScript = '//widgets.wp.com/languages/calypso/' + context.lang + '.js';
+
+		const localeConfig = moment.localeData()._config;
+		// Removing RegExp to make it work
+		delete localeConfig.dayOfMonthOrdinalParse;
+		context.momentLocale = { [ context.lang ]: localeConfig };
 	}
 
 	if ( config.isEnabled( 'server-side-rendering' ) && context.layout && ! context.user && isEmpty( context.query ) ) {
