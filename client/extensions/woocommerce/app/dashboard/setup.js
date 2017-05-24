@@ -175,7 +175,7 @@ class Setup extends Component {
 		const { onFinished, translate } = this.props;
 
 		return (
-			<div>
+			<div className="card dashboard__setup-wrapper">
 				<SetupHeader
 					imageSource={ '/calypso/images/extensions/woocommerce/woocommerce-setup.svg' }
 					title={ translate( 'Howdy! Let\'s set up your store & start selling' ) }

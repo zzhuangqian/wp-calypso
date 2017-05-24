@@ -7,8 +7,8 @@ const SetupHeader = ( { imageSource, imageWidth, subtitle, title } ) => {
 	return (
 		<div className="dashboard__setup-header">
 			{ imageSource ? <img src={ imageSource } width={ imageWidth } className="dashboard__setup-header-image" /> : null }
-			{ <h2 className="dashboard__setup-header-title">{ title }</h2> }
-			{ subtitle ? <h3 className="dashboard__setup-header-subtitle">{ subtitle }</h3> : null }
+			{ <h2 className="dashboard__setup-header-title form-section-heading">{ title }</h2> }
+			{ subtitle ? <p className="dashboard__setup-header-subtitle">{ subtitle }</p> : null }
 		</div>
 	);
 };

@@ -1,47 +1,69 @@
+.dashboard__setup-wrapper {
+	@include breakpoint( ">960px" ) {
+		padding: 32px;
+	}
+}
+
 .dashboard__setup-header {
-	background-color: $white;
-	border: 1px solid $gray;
-	padding: 48px;
 	text-align: center;
+	padding-top: 16px;
 
 	img {
-		margin-bottom: 26px;
+		max-width: 160px;
+		margin-bottom: 12px;
 	}
 
-	h2 {
-		color: $gray-text;
-		font-size: 28px;
+	.dashboard__setup-header-title {
+		margin: 0 auto 12px;
+		max-width: 450px;
 	}
 
-	h3 {
+	.dashboard__setup-header-subtitle {
 		color: $gray;
-		font-size: 18px;
+		margin: 0 auto 32px;
+		max-width: 450px;
 	}
 }
 
 .dashboard__setup-task {
 	align-items: center;
-	background-color: $white;
-	border: 1px solid $gray;
-	border-top: none;
 	display: flex;
-	padding: 24px;
+	padding: 24px 0;
+	border-top: 1px solid lighten( $gray, 30% );
 
 	.dashboard__setup-task-status {
-		border: 1px solid $gray;
-		height: 48px;
+		background:  lighten( $gray, 30% );
+		height: 24px;
 		text-align: center;
-		width: 48px;
-		min-width: 48px;
+		width: 24px;
+		flex-shrink: 0;
+		border-radius: 100%;
+
+		@include breakpoint( ">960px" ) {
+			height: 48px;
+			width: 48px;
+		}
 
 		.gridicon {
-			margin-top: 6px;
+			height: 18px;
+			width: 18px;
+			padding: 3px;
+
+			@include breakpoint( ">960px" ) {
+				padding: 6px;
+				height: 36px;
+				width: 36px;
+			}
 		}
 	}
 
 	.dashboard__setup-task-label {
 		flex-grow: 1;
-		margin-left: 32px;
+		margin-left: 24px;
+
+		@include breakpoint( ">660px" ) {
+			margin-left: 32px;
+		}
 
 		h2 {
 			color: $gray-text;
@@ -63,22 +85,29 @@
 		.dashboard__setup-task-primary-actions {
 			display: flex;
 			justify-content: flex-end;
+			flex-wrap: wrap;
+			width: 130px;
+
+			@include breakpoint( ">660px" ) {
+				flex-wrap: nowrap;
+				width: 200px;
+			}
 
 			.button {
-				margin-left: 8px;
 				white-space: nowrap;
+				margin: 2px 0 2px 8px;
 			}
 		}
 
 		.dashboard__setup-task-secondary-actions {
 			display: flex;
 			justify-content: flex-end;
+			text-align: right;
 
 			a {
 				cursor: pointer;
-				font-size: 14px;
+				font-size: 12px;
 				margin-left: 8px;
-				white-space: nowrap;
 			}
 		}
 	}
@@ -86,10 +115,9 @@
 
 .dashboard__setup-footer {
 	align-items: center;
-	background-color: $white;
-	border: 1px solid $gray;
 	border-top: none;
 	display: flex;
 	justify-content: center;
-	padding: 48px;
+	border-top: 1px solid lighten( $gray, 30% );
+	padding-top: 24px;
 }
