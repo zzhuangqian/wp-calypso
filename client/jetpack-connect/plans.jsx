@@ -25,7 +25,7 @@ import { selectPlanInAdvance, goBackToWpAdmin, completeFlow } from 'state/jetpac
 import QueryPlans from 'components/data/query-plans';
 import QuerySitePlans from 'components/data/query-site-plans';
 import { isRequestingPlans, getPlanBySlug } from 'state/plans/selectors';
-import { getSelectedSite } from 'state/ui/selectors';
+import { getSelectedSite, getSelectedSiteSlug } from 'state/ui/selectors';
 import { canCurrentUser } from 'state/selectors';
 import {
 	getFlowType,
@@ -203,7 +203,7 @@ class Plans extends Component {
 	}
 
 	selectPlan( cartItem ) {
-		const checkoutPath = `/checkout/${ this.props.selectedSite.slug }`;
+		const checkoutPath = `/checkout/${ this.props.selectedSiteSlug }`;
 		// clears whatever we had stored in local cache
 		this.props.selectPlanInAdvance( null, this.props.selectedSiteSlug );
 
@@ -292,7 +292,7 @@ export default connect(
 	state => {
 		const user = getCurrentUser( state );
 		const selectedSite = getSelectedSite( state );
-		const selectedSiteSlug = selectedSite ? selectedSite.slug : '*';
+		const selectedSiteSlug = getSelectedSiteSlug( state ) || '*';
 
 		const selectedPlan = getSiteSelectedPlan( state, selectedSiteSlug ) || getGlobalSelectedPlan( state );
 		const searchPlanBySlug = ( planSlug ) => {
