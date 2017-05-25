@@ -36,12 +36,14 @@ class SetupTask extends Component {
 			<div className="dashboard__setup-task-primary-actions">
 				{
 					primaryActions.map( ( action, index ) => {
+						// Only the last primary action gets to be a primary button
+						const primary = ( index === primaryActions.length - 1 ) && ! taskCompleted;
 						const target = '/' === action.path.substring( 0, 1 ) ? '_self' : '_blank';
 						return (
 							<Button
 								href={ action.path }
 								key={ index }
-								primary={ ! taskCompleted }
+								primary={ primary }
 								target={ target }>
 								{ action.label }
 							</Button>
