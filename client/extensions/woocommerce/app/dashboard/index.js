@@ -55,9 +55,7 @@ class Dashboard extends Component {
 
 		return (
 			<Main className={ classNames( 'dashboard', this.props.className ) }>
-				{
-					storeSetupCompleted ? this.renderStoreManagement() : this.renderStoreSetup()
-				}
+				{ storeSetupCompleted ? this.renderStoreManagement() : this.renderStoreSetup() }
 			</Main>
 		);
 	}
@@ -69,7 +67,7 @@ function mapStateToProps( state ) {
 
 	return {
 		selectedSite: getSelectedSite( state ),
-		storeSetupCompleted: false
+		storeSetupCompleted: false,
 	};
 }
 

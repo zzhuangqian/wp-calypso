@@ -1,21 +1,21 @@
 /**
  * External dependencies
  */
-import React, { Component, PropTypes } from 'react';
+import Gridicon from 'gridicons';
 import { localize } from 'i18n-calypso';
+import React, { Component, PropTypes } from 'react';
 
 /**
  * Internal dependencies
  */
 import Button from 'components/button';
-import Gridicon from 'gridicons';
 
 // TODO add doc url and documentation link
 
 class SetupTask extends Component {
 	static propTypes = {
 		actions: PropTypes.arrayOf( PropTypes.shape( {
-			isSecondary: PropTypes.string.bool,
+			isSecondary: PropTypes.bool,
 			label: PropTypes.string.isRequired,
 			onClick: PropTypes.func,
 			path: PropTypes.string,

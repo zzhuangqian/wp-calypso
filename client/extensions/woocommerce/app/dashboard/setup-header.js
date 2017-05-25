@@ -1,23 +1,23 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const SetupHeader = ( { imageSource, imageWidth, subtitle, title } ) => {
 	return (
 		<div className="dashboard__setup-header">
-			{ imageSource ? <img src={ imageSource } width={ imageWidth } className="dashboard__setup-header-image" /> : null }
+			{ imageSource && ( <img src={ imageSource } width={ imageWidth } className="dashboard__setup-header-image" /> ) }
 			{ <h2 className="dashboard__setup-header-title form-section-heading">{ title }</h2> }
-			{ subtitle ? <p className="dashboard__setup-header-subtitle">{ subtitle }</p> : null }
+			{ subtitle && ( <p className="dashboard__setup-header-subtitle">{ subtitle }</p> ) }
 		</div>
 	);
 };
 
 SetupHeader.propTypes = {
-	imageSource: React.PropTypes.string,
-	imageWidth: React.PropTypes.number,
-	title: React.PropTypes.string.isRequired,
-	subtitle: React.PropTypes.string,
+	imageSource: PropTypes.string,
+	imageWidth: PropTypes.number,
+	title: PropTypes.string.isRequired,
+	subtitle: PropTypes.string,
 };
 
 export default SetupHeader;
