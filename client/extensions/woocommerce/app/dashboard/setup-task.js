@@ -37,7 +37,7 @@ class SetupTask extends Component {
 				{
 					primaryActions.map( ( action, index ) => {
 						return (
-							<Button compact href={ action.path } key={ index }>{ action.label }</Button>
+							<Button primary href={ action.path } key={ index } >{ action.label }</Button>
 						);
 					} )
 				}
