@@ -29,7 +29,7 @@ const StoreGroundControl = ( { site, translate } ) => {
 			<div className="store-sidebar__ground-control-site">
 				<Site
 					compact
-					site={ isPlaceholder ? null : site }
+					site={ site }
 					indicator={ false }
 					homeLink
 					externalLink
