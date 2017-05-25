@@ -10,10 +10,7 @@ import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import { getCurrentUserSiteCount } from 'state/current-user/selectors';
-import { getPrimarySiteId } from 'state/selectors';
-import { getSelectedSiteId } from 'state/ui/selectors';
-import { getSite } from 'state/sites/selectors';
+import { getSelectedSiteIdWithFallback } from './state/sites/selectors';
 import { navigation, siteSelection } from 'my-sites/controller';
 import { renderWithReduxStore } from 'lib/react-helpers';
 import ProductCreate from './app/products/product-create';
@@ -156,14 +153,8 @@ function addStorePage( storePage, storeNavigation ) {
 }
 
 function mapStateToProps( state ) {
-	let siteId = getSelectedSiteId( state );
-	if ( ! siteId && ( 1 === getCurrentUserSiteCount( state ) ) ) {
-		siteId = getPrimarySiteId( state );
-	}
-	const site = getSite( state, siteId );
-
 	return {
-		site
+		site: getSelectedSiteIdWithFallback( state )
 	};
 }
 
