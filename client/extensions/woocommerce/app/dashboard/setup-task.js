@@ -36,8 +36,9 @@ class SetupTask extends Component {
 			<div className="dashboard__setup-task-primary-actions">
 				{
 					primaryActions.map( ( action, index ) => {
+						const target = '/' === action.path.substring( 0, 1 ) ? '_self' : '_blank';
 						return (
-							<Button primary href={ action.path } key={ index } >{ action.label }</Button>
+							<Button primary href={ action.path } key={ index } target={ target }>{ action.label }</Button>
 						);
 					} )
 				}
