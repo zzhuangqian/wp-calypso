@@ -4,6 +4,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { localize } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -35,10 +36,16 @@ class Dashboard extends Component {
 	}
 
 	renderStoreManagement = () => {
+		const { translate } = this.props;
+
 		return (
 			<Card>
-				<p>This is the start of something great!</p>
-				<p>This will be the home for your WooCommerce Store integration with WordPress.com.</p>
+				<p>
+					{ translate( 'This is the start of something great!' ) }
+				</p>
+				<p>
+					{ translate( 'This will be the home for your WooCommerce Store integration with WordPress.com.' ) }
+				</p>
 			</Card>
 		);
 	}
@@ -66,4 +73,4 @@ function mapStateToProps( state ) {
 	};
 }
 
-export default connect( mapStateToProps )( Dashboard );
+export default connect( mapStateToProps )( localize( Dashboard ) );
