@@ -35,44 +35,6 @@
 	}
 }
 
-.products__product-form-images-placeholder {
-	background: $gray-light;
-	height: 200px;
-	position: relative;
-	margin-bottom: 16px;
-	border: 1px dashed $gray;
-	border-radius: 5px;
-	@include breakpoint( ">960px" ) {
-		margin-bottom: 0;
-	}
-
-	.products__product-form-images-picker {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		text-align: center;
-		cursor: pointer;
-	}
-}
-
-.products__product-form-images-picker.compact {
-	background: $gray-light;
-	height: 50px;
-	width: 50px;
-	position: relative;
-	margin-bottom: 16px;
-	border: 1px dashed $gray;
-	border-radius: 5px;
-	cursor: pointer;
-
-	.file-picker {
-		display: block;
-		text-align: center;
-		padding-top: 12px;
-	}
-}
-
 .products__product-form-images {
 	.products__product-form-images-item {
 		position: relative;
