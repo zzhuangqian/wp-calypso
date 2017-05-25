@@ -381,7 +381,7 @@ module.exports = {
 		}
 	},
 
-	activity_log: function( context ) {
+	activityLog: function( context ) {
 		let siteId = context.params.site_id;
 		const site = getSite( context.store.getState(), siteId );
 		siteId = site ? ( site.ID || 0 ) : 0;
