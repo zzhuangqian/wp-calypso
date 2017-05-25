@@ -32,7 +32,6 @@ const Caching = ( {
 	translate,
 } ) => {
 	const htaccess_ro = notices && notices.htaccess_ro;
-	const mod_rewrite_rules = notices && notices.mod_rewrite_rules;
 
 	return (
 		<div>
@@ -50,12 +49,6 @@ const Caching = ( {
 			</SectionHeader>
 			<Card>
 				<form>
-					{ mod_rewrite_rules && mod_rewrite_rules.message &&
-					<Notice
-						showDismiss={ false }
-						status={ mod_rewrite_rules.type ? `is-${ mod_rewrite_rules.type }` : 'is-info' }
-						text={ mod_rewrite_rules.message } />
-					}
 					{ htaccess_ro && htaccess_ro.message &&
 					<Notice
 						showDismiss={ false }
