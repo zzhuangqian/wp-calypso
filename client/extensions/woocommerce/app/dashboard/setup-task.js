@@ -30,7 +30,7 @@ class SetupTask extends Component {
 		isSecondary: false,
 	}
 
-	renderTaskPrimaryActions = ( actions ) => {
+	renderTaskPrimaryActions = ( actions, taskCompleted ) => {
 		const primaryActions = actions.filter( action => ! action.isSecondary );
 		return (
 			<div className="dashboard__setup-task-primary-actions">
@@ -38,7 +38,13 @@ class SetupTask extends Component {
 					primaryActions.map( ( action, index ) => {
 						const target = '/' === action.path.substring( 0, 1 ) ? '_self' : '_blank';
 						return (
-							<Button primary href={ action.path } key={ index } target={ target }>{ action.label }</Button>
+							<Button
+								href={ action.path }
+								key={ index }
+								primary={ ! taskCompleted }
+								target={ target }>
+								{ action.label }
+							</Button>
 						);
 					} )
 				}
@@ -80,7 +86,7 @@ class SetupTask extends Component {
 						</p>
 					</div>
 					<div className="dashboard__setup-task-actions">
-						{ this.renderTaskPrimaryActions( actions ) }
+						{ this.renderTaskPrimaryActions( actions, checked ) }
 						{ this.renderTaskSecondaryActions( actions ) }
 					</div>
 				</div>

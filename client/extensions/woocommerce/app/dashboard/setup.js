@@ -7,6 +7,7 @@ import { localize } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
+import { getLink } from '../../lib/nav-utils';
 import SetupFooter from './setup-footer';
 import SetupHeader from './setup-header';
 import SetupTask from './setup-task';
@@ -38,12 +39,6 @@ class Setup extends Component {
 		showTaxesTask: true,
 	}
 
-	itemLink = ( path ) => {
-		const { site } = this.props;
-		const link = path.replace( ':site', site.slug );
-		return link;
-	}
-
 	onClickNoShip = ( event ) => {
 		event.preventDefault();
 		this.setState( {
@@ -62,6 +57,7 @@ class Setup extends Component {
 
 	getSetupTasks = () => {
 		const {
+			site,
 			storeHasBeenCustomized,
 			storeHasProducts,
 			storePaymentsAreSetUp,
@@ -80,12 +76,12 @@ class Setup extends Component {
 				actions: [
 					{
 						label: translate( 'Import' ),
-						path: this.itemLink( '/store/products/:site/import' ),
+						path: getLink( '/store/products/:site/import', site ),
 						slug: 'add-products-import',
 					},
 					{
 						label: 'Add a product',
-						path: this.itemLink( '/store/products/:site/add' ),
+						path: getLink( '/store/products/:site/add', site ),
 					}
 				]
 			},
@@ -98,7 +94,7 @@ class Setup extends Component {
 				actions: [
 					{
 						label: translate( 'Set up shipping' ),
-						path: this.itemLink( '/store/settings/:site/shipping' ),
+						path: getLink( '/store/settings/:site/shipping', site ),
 					},
 					{
 						label: translate( 'I won\'t be shipping' ),
@@ -116,7 +112,7 @@ class Setup extends Component {
 				actions: [
 					{
 						label: translate( 'Set up payments' ),
-						path: this.itemLink( '/store/settings/:site/payments' ),
+						path: getLink( '/store/settings/:site/payments', site ),
 					}
 				]
 			},
@@ -129,7 +125,7 @@ class Setup extends Component {
 				actions: [
 					{
 						label: translate( 'Set up taxes' ),
-						path: this.itemLink( '/store/settings/:site/tax' ),
+						path: getLink( '/store/settings/:site/tax', site ),
 					},
 					{
 						label: translate( 'I\'m not charging sales tax' ),
@@ -147,7 +143,7 @@ class Setup extends Component {
 				actions: [
 					{
 						label: translate( 'Customize' ),
-						path: this.itemLink( 'https://:site/wp-admin/customize.php?return=%2Fwp-admin%2F' ),
+						path: getLink( 'https://:site/wp-admin/customize.php?return=%2Fwp-admin%2F', site ),
 					}
 				]
 			}

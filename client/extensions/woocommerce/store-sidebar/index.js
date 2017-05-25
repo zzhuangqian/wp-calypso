@@ -7,6 +7,7 @@ import React, { Component, PropTypes } from 'react';
 /**
  * Internal dependencies
  */
+import { getLink } from '../lib/nav-utils';
 import Sidebar from 'layout/sidebar';
 import SidebarButton from 'layout/sidebar/button';
 import SidebarItem from 'layout/sidebar/item';
@@ -35,11 +36,6 @@ export default class StoreSidebar extends Component {
 
 	onNavigate = () => {
 		window.scrollTo( 0, 0 );
-	}
-
-	itemLink = ( path ) => {
-		const link = path.replace( ':site', this.props.site.slug );
-		return link;
 	}
 
 	itemLinkClass = ( path, existingClasses ) => {
@@ -72,10 +68,10 @@ export default class StoreSidebar extends Component {
 
 	renderSidebarMenuItems = ( items, buttons ) => {
 		return items.map( function( item, index ) {
-			const itemLink = this.itemLink( item.path );
+			const itemLink = getLink( item.path, this.props.site );
 			const itemButton = buttons.filter( button => button.parentSlug === item.slug ).map( button => {
 				return (
-					<SidebarButton href={ this.itemLink( button.path ) } key={ button.slug } >
+					<SidebarButton href={ getLink( button.path, this.props.site ) } key={ button.slug } >
 						{ button.label }
 					</SidebarButton>
 				);
