@@ -14,8 +14,8 @@ import SetupTask from './setup-task';
 class Setup extends Component {
 	static propTypes = {
 		onFinished: PropTypes.func,
-		site: React.PropTypes.shape( {
-			slug: React.PropTypes.string.isRequired,
+		site: PropTypes.shape( {
+			slug: PropTypes.string.isRequired,
 		} ),
 		storeHasBeenCustomized: PropTypes.bool,
 		storeHasProducts: PropTypes.bool,
@@ -181,9 +181,7 @@ class Setup extends Component {
 					title={ translate( 'Howdy! Let\'s set up your store & start selling' ) }
 					subtitle={ translate( 'Below you will find the essential tasks to complete before making your store live.' ) }
 				/>
-				{
-					this.getSetupTasks().map( this.renderSetupTask )
-				}
+				{ this.getSetupTasks().map( this.renderSetupTask ) }
 				<SetupFooter
 					onClick={ onFinished }
 					label={ translate( 'I\'m finished setting up' ) }
