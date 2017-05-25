@@ -1,8 +1,8 @@
 /**
  * External dependencies
  */
-import React, { Component, PropTypes } from 'react';
 import { localize } from 'i18n-calypso';
+import React, { Component, PropTypes } from 'react';
 
 /**
  * Internal dependencies
@@ -169,6 +169,8 @@ class Setup extends Component {
 
 	render = () => {
 		const { onFinished, translate } = this.props;
+		const tasks = this.getSetupTasks();
+		const allTasksCompleted = tasks.every( task => task.checked );
 
 		return (
 			<div className="card dashboard__setup-wrapper">
@@ -177,10 +179,11 @@ class Setup extends Component {
 					title={ translate( 'Howdy! Let\'s set up your store & start selling' ) }
 					subtitle={ translate( 'Below you will find the essential tasks to complete before making your store live.' ) }
 				/>
-				{ this.getSetupTasks().map( this.renderSetupTask ) }
+				{ tasks.map( this.renderSetupTask ) }
 				<SetupFooter
 					onClick={ onFinished }
 					label={ translate( 'I\'m finished setting up' ) }
+					primary={ allTasksCompleted }
 				/>
 			</div>
 		);
