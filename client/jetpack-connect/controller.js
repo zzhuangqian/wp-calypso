@@ -99,6 +99,19 @@ export default {
 		const { type = false } = options;
 		const analyticsPageTitle = get( type, analyticsPageTitleByType, 'Jetpack Connect' );
 
+		let jpc_from = 'direct';
+		switch ( type ) {
+			case 'install':
+				jpc_from = 'jpdotcom';
+				break;
+			case 'pro':
+			case 'premium':
+			case 'personal':
+				jpc_from = 'ad';
+				break;
+		}
+		analytics.tracks.recordEvent( 'calypso_jpc_url_view', { jpc_from } );
+
 		analytics.pageView.record( pathname, analyticsPageTitle );
 
 		removeSidebar( context );
