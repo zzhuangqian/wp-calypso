@@ -14,6 +14,7 @@ import FormLabel from 'components/forms/form-label';
 import FormRadio from 'components/forms/form-radio';
 import FormSettingExplanation from 'components/forms/form-setting-explanation';
 import FormToggle from 'components/forms/form-toggle/compact';
+import Notice from 'components/notice';
 import SectionHeader from 'components/section-header';
 import WrapSettingsForm from './wrap-settings-form';
 
@@ -27,8 +28,12 @@ const Caching = ( {
 	handleSubmitForm,
 	isRequesting,
 	isSaving,
+	notices,
 	translate,
 } ) => {
+	const htaccess_ro = notices && notices.htaccess_ro;
+	const mod_rewrite_rules = notices && notices.mod_rewrite_rules;
+
 	return (
 		<div>
 			<SectionHeader label={ translate( 'Caching' ) }>
@@ -45,6 +50,18 @@ const Caching = ( {
 			</SectionHeader>
 			<Card>
 				<form>
+					{ mod_rewrite_rules && mod_rewrite_rules.message &&
+					<Notice
+						showDismiss={ false }
+						status={ mod_rewrite_rules.type ? `is-${ mod_rewrite_rules.type }` : 'is-info' }
+						text={ mod_rewrite_rules.message } />
+					}
+					{ htaccess_ro && htaccess_ro.message &&
+					<Notice
+						showDismiss={ false }
+						status={ htaccess_ro.type ? `is-${ htaccess_ro.type }` : 'is-info' }
+						text={ htaccess_ro.message } />
+					}
 					<FormFieldset>
 						<FormToggle
 							checked={ !! is_cache_enabled }
