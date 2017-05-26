@@ -2,11 +2,13 @@
  * External dependencies
  */
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 
 /**
  * Internal dependencies
  */
+import { getSelectedSiteIdWithFallback } from '../state/sites/selectors';
 import Sidebar from 'layout/sidebar';
 import SidebarButton from 'layout/sidebar/button';
 import SidebarItem from 'layout/sidebar/item';
@@ -14,7 +16,7 @@ import SidebarMenu from 'layout/sidebar/menu';
 import SidebarSeparator from 'layout/sidebar/separator';
 import StoreGroundControl from './store-ground-control';
 
-export default class StoreSidebar extends Component {
+class StoreSidebar extends Component {
 	static propTypes = {
 		path: PropTypes.string.isRequired,
 		sidebarItems: PropTypes.arrayOf( PropTypes.shape( {
@@ -114,3 +116,11 @@ export default class StoreSidebar extends Component {
 		);
 	}
 }
+
+function mapStateToProps( state ) {
+	return {
+		site: getSelectedSiteIdWithFallback( state )
+	};
+}
+
+export default connect( mapStateToProps )( StoreSidebar );

@@ -2,7 +2,6 @@
  * External dependencies
  */
 import config from 'config';
-import { connect } from 'react-redux';
 import page from 'page';
 import React from 'react';
 import { translate } from 'i18n-calypso';
@@ -10,7 +9,6 @@ import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import { getSelectedSiteIdWithFallback } from './state/sites/selectors';
 import { navigation, siteSelection } from 'my-sites/controller';
 import { renderWithReduxStore } from 'lib/react-helpers';
 import ProductCreate from './app/products/product-create';
@@ -152,21 +150,13 @@ function addStorePage( storePage, storeNavigation ) {
 	} );
 }
 
-function mapStateToProps( state ) {
-	return {
-		site: getSelectedSiteIdWithFallback( state )
-	};
-}
-
 function createStoreNavigation( context, next ) {
 	renderWithReduxStore(
-		React.createElement(
-			connect( mapStateToProps )( StoreSidebar ), {
-				path: context.path,
-				sidebarItems: getStoreSidebarItems(),
-				sidebarItemButtons: getStoreSidebarItemButtons(),
-			}
-		),
+		React.createElement( StoreSidebar, {
+			path: context.path,
+			sidebarItems: getStoreSidebarItems(),
+			sidebarItemButtons: getStoreSidebarItemButtons(),
+		} ),
 		document.getElementById( 'secondary' ),
 		context.store
 	);
