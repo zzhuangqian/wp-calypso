@@ -1,32 +1,19 @@
 /**
  * External dependencies
  */
-import React from 'react';
-import { find } from 'lodash';
+import React, { PropTypes, PureComponent, Component } from 'react';
+import { find, noop } from 'lodash';
 
 /**
  * Module variables
  */
-// TODO: remove and extend from PureComponent after porting the component to ES6
-const PureRenderMixin = require( 'react-pure-render/mixin' );
 
-const LegendItem = React.createClass( {
-	displayName: 'ModuleChartLegendItem',
-
-	mixins: [ PureRenderMixin ],
-
-	propTypes: {
-		checked: React.PropTypes.bool.isRequired,
-		label: React.PropTypes.oneOfType( [ React.PropTypes.object, React.PropTypes.string ] ),
-		attr: React.PropTypes.string.isRequired,
-		changeHandler: React.PropTypes.func.isRequired
-	},
-
-	clickHandler: function() {
+class LegendItem extends PureComponent {
+	clickHandler = () => {
 		this.props.changeHandler( this.props.attr );
-	},
+	}
 
-	render: function() {
+	render() {
 		return (
 			<li className="chart__legend-option">
 				<label htmlFor="checkbox" className="chart__legend-label is-selectable" onClick={ this.clickHandler } >
@@ -36,25 +23,21 @@ const LegendItem = React.createClass( {
 			</li>
 		);
 	}
+}
 
-} );
+LegendItem.propTypes = {
+	checked: PropTypes.bool.isRequired,
+	label: PropTypes.oneOfType( [ PropTypes.object, PropTypes.string ] ),
+	attr: PropTypes.string.isRequired,
+	changeHandler: PropTypes.func.isRequired
+};
 
-const Legend = React.createClass( {
-	displayName: 'ModuleChartLegend',
-
-	propTypes: {
-		activeTab: React.PropTypes.object.isRequired,
-		tabs: React.PropTypes.array.isRequired,
-		activeCharts: React.PropTypes.array.isRequired,
-		availableCharts: React.PropTypes.array.isRequired,
-		clickHandler: React.PropTypes.func.isRequired
-	},
-
-	onFilterChange: function( chartItem ) {
+class Legend extends Component {
+	onFilterChange = chartItem => {
 		this.props.clickHandler( chartItem );
-	},
+	}
 
-	render: function() {
+	render() {
 		const legendColors = [ 'chart__legend-color is-dark-blue' ],
 			activeTab = this.props.activeTab;
 
@@ -87,6 +70,21 @@ const Legend = React.createClass( {
 			</div>
 		);
 	}
-} );
+}
 
-module.exports = Legend;
+Legend.propTypes = {
+	activeTab: PropTypes.object.isRequired,
+	tabs: PropTypes.array,
+	activeCharts: PropTypes.array,
+	availableCharts: PropTypes.array,
+	clickHandler: PropTypes.func
+};
+
+Legend.defaultProps = {
+	tabs: [],
+	availableCharts: [],
+	activeCharts: [],
+	clickHandler: noop,
+};
+
+export default Legend;
